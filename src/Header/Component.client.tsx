@@ -1,41 +1,112 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { Menu, X } from 'lucide-react'
 
 import type { Header } from '@/payload-types'
 
-import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
+const NAV_LINKS = [
+  { label: 'About', href: '/about' },
+  { label: 'Events', href: '/events' },
+  { label: 'Nyansa Futures', href: '/nyansa-futures' },
+  { label: 'Articles', href: '/posts' },
+  { label: 'Sponsors', href: '/sponsors' },
+  { label: 'Volunteer', href: '/volunteer' },
+  { label: 'Contact', href: '/contact' },
+]
 
 interface HeaderClientProps {
   data: Header
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
-  const [theme, setTheme] = useState<string | null>(null)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
+export const HeaderClient: React.FC<HeaderClientProps> = () => {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
-    setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setMobileOpen(false)
   }, [pathname])
 
-  useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
-
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-        <HeaderNav data={data} />
+    <header className="bg-background text-foreground sticky top-0 z-50 border-b border-border">
+      <div className="container">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <Link href="/" className="text-xl md:text-2xl font-bold tracking-tight shrink-0">
+            <span className="text-primary">Beyond</span> AI
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-2 text-sm transition-colors ${
+                    isActive
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+          </nav>
+
+          {/* Right side: CTA + mobile toggle */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/events"
+              className="hidden md:inline-flex items-center px-5 py-2.5 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 transition-all"
+            >
+              Register Now
+            </Link>
+
+            {/* Mobile menu toggle */}
+            <button
+              className="lg:hidden p-2 text-muted-foreground hover:text-foreground"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Nav */}
+        {mobileOpen && (
+          <nav className="lg:hidden pb-6 border-t border-border mt-2 pt-4">
+            <div className="flex flex-col gap-1">
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-3 py-2.5 text-sm ${
+                      isActive
+                        ? 'text-primary bg-foreground/5'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              })}
+              <Link
+                href="/events"
+                className="mt-3 mx-3 inline-flex items-center justify-center px-5 py-2.5 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 transition-all"
+              >
+                Register Now
+              </Link>
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   )
