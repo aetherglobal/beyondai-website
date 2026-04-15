@@ -29,6 +29,10 @@ import { slugField } from 'payload'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  labels: {
+    singular: 'Article',
+    plural: 'Articles',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -103,7 +107,29 @@ export const Posts: CollectionConfig<'posts'> = {
           label: 'Content',
         },
         {
+          label: 'Classification',
           fields: [
+            {
+              name: 'articleType',
+              type: 'select',
+              label: 'Article Type',
+              options: [
+                { label: 'Commentary', value: 'commentary' },
+                { label: 'Explainer', value: 'explainer' },
+                { label: 'Event Summary', value: 'event-summary' },
+                { label: 'Research Insight', value: 'research' },
+                { label: 'Policy Discussion', value: 'policy' },
+              ],
+            },
+            {
+              name: 'featured',
+              type: 'checkbox',
+              label: 'Featured Article',
+              defaultValue: false,
+              admin: {
+                description: 'Display this article prominently on the homepage',
+              },
+            },
             {
               name: 'relatedPosts',
               type: 'relationship',
@@ -130,7 +156,6 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'categories',
             },
           ],
-          label: 'Meta',
         },
         {
           name: 'meta',
