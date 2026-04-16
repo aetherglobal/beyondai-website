@@ -24,10 +24,6 @@ const globals: GlobalSlug[] = ['header', 'footer']
 
 const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
 
-// Next.js revalidation errors are normal when seeding the database without a server running
-// i.e. running `yarn seed` locally instead of using the admin UI within an active app
-// The app is not running to revalidate the pages and so the API routes are not available
-// These error messages can be ignored: `Error hitting revalidate route for...`
 export const seed = async ({
   payload,
   req,
@@ -37,13 +33,8 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  // we need to clear the media directory before seeding
-  // as well as the collections and globals
-  // this is because while `yarn seed` drops the database
-  // the custom `/api/seed` endpoint does not
   payload.logger.info(`— Clearing collections and globals...`)
 
-  // clear the database
   await Promise.all(
     globals.map((global) =>
       payload.updateGlobal({
@@ -140,8 +131,6 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding posts...`)
 
-  // Do not create posts with `Promise.all` because we want the posts to be created in order
-  // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
   const post1Doc = await payload.create({
     collection: 'posts',
     depth: 0,
@@ -169,7 +158,6 @@ export const seed = async ({
     data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
   })
 
-  // update each post with related posts
   await payload.update({
     id: post1Doc.id,
     collection: 'posts',

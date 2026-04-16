@@ -1,0 +1,236 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Beyond AI" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Beyond AI" [ref=e6]
+      - navigation [ref=e7]:
+        - link "About" [ref=e8] [cursor=pointer]:
+          - /url: /about
+        - link "Events" [ref=e9] [cursor=pointer]:
+          - /url: /events
+        - link "Nyansa Futures" [ref=e10] [cursor=pointer]:
+          - /url: /nyansa-futures
+        - link "Articles" [ref=e11] [cursor=pointer]:
+          - /url: /posts
+        - link "Sponsors" [ref=e12] [cursor=pointer]:
+          - /url: /sponsors
+        - link "Volunteer" [ref=e13] [cursor=pointer]:
+          - /url: /volunteer
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /contact
+      - link "Register Now" [ref=e16] [cursor=pointer]:
+        - /url: /events
+  - article [ref=e17]:
+    - generic [ref=e18]:
+      - img "Conference room full of people" [ref=e22]
+      - generic [ref=e26]:
+        - paragraph [ref=e27]: Govern / Innovate / Transform
+        - heading "Shaping the Future of AI in Africa" [level=1] [ref=e28]
+        - paragraph [ref=e29]: "May 15 - 2026 (day: 15) in Accra, Ghana"
+        - paragraph [ref=e30]: A civic platform bringing together policymakers, innovators, and citizens to shape responsible AI governance and digital transformation across the continent.
+        - generic [ref=e31]:
+          - link "Register for Next Event" [ref=e32] [cursor=pointer]:
+            - /url: "https://lu.ma/example "
+          - link "Join Newsletter" [ref=e33] [cursor=pointer]:
+            - /url: "#footer-newsletter"
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Next event starts in
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - text: "28"
+              - paragraph [ref=e38]: Day
+            - generic [ref=e39]:
+              - text: "19"
+              - paragraph [ref=e40]: Hours
+            - generic [ref=e41]:
+              - text: "42"
+              - paragraph [ref=e42]: Minutes
+            - generic [ref=e43]:
+              - text: "15"
+              - paragraph [ref=e44]: Seconds
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - heading "Upcoming Events" [level=2] [ref=e48]
+        - link "View All Events" [ref=e49] [cursor=pointer]:
+          - /url: /events
+      - article [ref=e51]:
+        - link "Conference room full of people" [ref=e52] [cursor=pointer]:
+          - /url: /events/ai-watch-forum-governing-generative-ai-in-africa
+          - img "Conference room full of people" [ref=e55]
+        - generic [ref=e56]:
+          - paragraph [ref=e57]: Friday, May 15, 2026 at 6:00 PM
+          - 'heading "AI Watch Forum: Governing Generative AI in Africa" [level=3] [ref=e58]':
+            - 'link "AI Watch Forum: Governing Generative AI in Africa" [ref=e59] [cursor=pointer]':
+              - /url: /events/ai-watch-forum-governing-generative-ai-in-africa
+          - paragraph [ref=e60]: Virtual Event · Accra, Ghana
+          - generic [ref=e61]:
+            - link "View Details" [ref=e62] [cursor=pointer]:
+              - /url: /events/ai-watch-forum-governing-generative-ai-in-africa
+            - link "Register" [ref=e63] [cursor=pointer]:
+              - /url: "https://lu.ma/example "
+    - generic [ref=e64]:
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: "[About]"
+          - heading "Shaping AI Governance in Africa" [level=2] [ref=e69]:
+            - text: Shaping AI
+            - text: Governance in Africa
+        - link "Learn More" [ref=e71] [cursor=pointer]:
+          - /url: /about
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - img [ref=e75]
+          - heading "Our Purpose and Goals" [level=3] [ref=e78]
+          - paragraph [ref=e79]: We started with a simple goal, to bring together Africa's brightest minds. Our purpose is to inspire innovation and spark discussions that push technology forward. Through monthly forums, research publications, and our annual Nyansa Futures conference, we are building a movement for inclusive digital transformation across the continent.
+        - img "Beyond AI conference gathering" [ref=e81]
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - paragraph [ref=e85]: "[Programs]"
+        - heading "What We Do" [level=2] [ref=e86]
+        - paragraph [ref=e87]: Four initiatives driving responsible AI governance, public awareness, and continental dialogue.
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - heading "AI Watch" [level=3] [ref=e90]
+          - paragraph [ref=e91]: Monthly forums bringing together diverse voices to discuss pressing AI governance topics affecting Africa and the world.
+          - generic [ref=e93]: Learn more
+        - generic [ref=e94]:
+          - heading "AI Pulse" [level=3] [ref=e95]
+          - paragraph [ref=e96]: Our newsletter and knowledge platform delivering curated insights, research, and commentary on AI policy and innovation.
+        - generic [ref=e97]:
+          - heading "Beyond the Algorithm" [level=3] [ref=e98]
+          - paragraph [ref=e99]: A storytelling and media initiative exploring how AI impacts everyday lives across African communities.
+        - generic [ref=e100]:
+          - heading "Nyansa Futures" [level=3] [ref=e101]
+          - paragraph [ref=e102]: Our annual flagship conference gathering policymakers, innovators, and academics to shape Africa's AI future.
+          - generic [ref=e104]: Learn more
+    - generic [ref=e106]:
+      - generic [ref=e107]:
+        - heading "Latest Articles" [level=2] [ref=e108]
+        - link "View All Articles" [ref=e109] [cursor=pointer]:
+          - /url: /posts
+      - generic [ref=e110]:
+        - article [ref=e111]:
+          - generic [ref=e112]:
+            - img "Conference room full of people" [ref=e115]
+            - generic [ref=e116]: Ethics
+          - generic [ref=e117]:
+            - 'heading "Building Ethical AI Teams: Diversity as a Technical Requirement" [level=3] [ref=e118]':
+              - 'link "Building Ethical AI Teams: Diversity as a Technical Requirement" [ref=e119] [cursor=pointer]':
+                - /url: /posts/building-ethical-ai-teams-diversity
+            - paragraph [ref=e120]: Why diverse AI development teams produce better, fairer, and more robust systems — and what African tech companies are doing about it.
+            - generic [ref=e121]:
+              - generic [ref=e122]: Michael Kwame Appiah
+              - generic [ref=e123]: "|"
+              - time [ref=e124]: 04/10/2026
+              - generic [ref=e125]: "|"
+              - generic [ref=e126]: 2 min read
+        - article [ref=e127]:
+          - generic [ref=e128]:
+            - img "Conference room full of people" [ref=e131]
+            - generic [ref=e132]: Digital Rights
+          - generic [ref=e133]:
+            - 'heading "Digital Rights in the Age of Facial Recognition: Lessons from Lagos to Nairobi" [level=3] [ref=e134]':
+              - 'link "Digital Rights in the Age of Facial Recognition: Lessons from Lagos to Nairobi" [ref=e135] [cursor=pointer]':
+                - /url: /posts/digital-rights-facial-recognition-lagos-nairobi
+            - paragraph [ref=e136]: As facial recognition technology spreads across African cities, civil society groups are pushing back with innovative legal and technical strategies.
+            - generic [ref=e137]:
+              - generic [ref=e138]: Michael Kwame Appiah
+              - generic [ref=e139]: "|"
+              - time [ref=e140]: 04/09/2026
+              - generic [ref=e141]: "|"
+              - generic [ref=e142]: 2 min read
+        - article [ref=e143]:
+          - generic [ref=e144]:
+            - img "Conference room full of people" [ref=e147]
+            - generic [ref=e148]: Research
+          - generic [ref=e149]:
+            - 'heading "Natural Language Processing for African Languages: Progress and Challenges" [level=3] [ref=e150]':
+              - 'link "Natural Language Processing for African Languages: Progress and Challenges" [ref=e151] [cursor=pointer]':
+                - /url: /posts/nlp-african-languages-progress-challenges
+            - paragraph [ref=e152]: From Masakhane to GhanaNLP, grassroots research communities are building the NLP tools that big tech has ignored for Africa's 2,000+ languages.
+            - generic [ref=e153]:
+              - generic [ref=e154]: Michael Kwame Appiah
+              - generic [ref=e155]: "|"
+              - time [ref=e156]: 03/20/2026
+              - generic [ref=e157]: "|"
+              - generic [ref=e158]: 2 min read
+    - generic [ref=e161]:
+      - generic [ref=e162]:
+        - paragraph [ref=e163]: "[Flagship Conference]"
+        - heading "Nyansa Futures" [level=2] [ref=e164]:
+          - text: Nyansa
+          - text: Futures
+        - paragraph [ref=e165]: Nyansa Futures gathers policymakers, innovators, academics, and civil society to discuss AI governance and digital transformation. A two-day hybrid conference focused on shaping Africa's technological future.
+        - link "Learn More" [ref=e166] [cursor=pointer]:
+          - /url: /nyansa-futures
+      - img "Nyansa Futures conference" [ref=e168]
+    - generic [ref=e170]:
+      - heading "Meet Our Partners" [level=2] [ref=e171]
+      - generic [ref=e172]:
+        - generic "Congo Love" [ref=e173]:
+          - link "Congo Love Logo":
+            - /url: https://congolove.org/congo-love
+            - generic:
+              - generic:
+                - img "Congo Love Logo"
+        - generic "Bilili Creative Lab" [ref=e174]:
+          - link "Bilili Creative Lab Logo":
+            - /url: https://www.bililicreative.org
+            - generic:
+              - generic:
+                - img "Bilili Creative Lab Logo"
+        - generic "Ghana Digital Centers Limited" [ref=e175]:
+          - link "Ghana Digital Centres Limited Logo":
+            - /url: https://www.gdcl.gov.gh
+            - generic:
+              - generic:
+                - img "Ghana Digital Centres Limited Logo"
+        - generic "Aether Strategies" [ref=e176]:
+          - link "Aether Strategies Logo":
+            - /url: https://aetherstrategies.io
+            - generic:
+              - generic:
+                - img "Aether Strategies Logo"
+  - contentinfo [ref=e177]:
+    - generic [ref=e178]:
+      - generic [ref=e179]:
+        - generic [ref=e180]:
+          - link "Beyond AI" [ref=e181] [cursor=pointer]:
+            - /url: /
+            - img "Beyond AI" [ref=e182]
+          - paragraph [ref=e183]: Beyond AI is a civic platform for AI governance and digital transformation in Africa.
+        - generic [ref=e184]:
+          - heading "Quick Links" [level=3] [ref=e185]
+          - navigation [ref=e186]:
+            - link "About" [ref=e187] [cursor=pointer]:
+              - /url: /about
+            - link "Events" [ref=e188] [cursor=pointer]:
+              - /url: /events
+            - link "Articles" [ref=e189] [cursor=pointer]:
+              - /url: /posts
+        - generic [ref=e190]:
+          - heading "Programs" [level=3] [ref=e191]
+          - navigation [ref=e192]:
+            - link "Nyansa Futures" [ref=e193] [cursor=pointer]:
+              - /url: /nyansa-futures
+            - link "Sponsors" [ref=e194] [cursor=pointer]:
+              - /url: /sponsors
+            - link "Become a Sponsor" [ref=e195] [cursor=pointer]:
+              - /url: /become-a-sponsor
+          - heading "Get Involved" [level=3] [ref=e196]
+          - navigation [ref=e197]:
+            - link "Volunteer" [ref=e198] [cursor=pointer]:
+              - /url: /volunteer
+            - link "Contact" [ref=e199] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=e200]:
+          - heading "Newsletter" [level=3] [ref=e201]
+          - paragraph [ref=e202]: Subscribe to AI Pulse
+          - generic [ref=e204]:
+            - textbox "Your email address" [ref=e205]
+            - button "Subscribe" [ref=e206]
+          - heading "Contact" [level=3] [ref=e207]
+      - paragraph [ref=e209]: © 2026 Beyond AI. All rights reserved.
+  - button "Open Next.js Dev Tools" [ref=e215] [cursor=pointer]:
+    - img [ref=e216]

@@ -1,18 +1,20 @@
 import type { Metadata } from 'next/types'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
-import PageClient from './page.client'
-import { CardPostData } from '@/components/Card'
+import { ArticleCard } from '@/components/ArticleCard'
+import type { ArticleCardPost } from '@/components/ArticleCard'
+import Link from 'next/link'
+import { SearchX } from 'lucide-react'
 
 type Args = {
   searchParams: Promise<{
     q: string
   }>
 }
+
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
@@ -27,7 +29,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       categories: true,
       meta: true,
     },
-    // pagination: false reduces overhead if you don't need totalDocs
     pagination: false,
     ...(query
       ? {
@@ -60,29 +61,55 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-24 pb-24">
-      <PageClient />
+    <div className="pt-24 pb-24 bg-white text-black">
       <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
-
-          <div className="max-w-[50rem] mx-auto">
-            <Search />
-          </div>
-        </div>
+        <h1
+          className="font-bold text-center mb-8 lg:mb-12"
+          style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
+        >
+          Search
+        </h1>
+        <Search />
       </div>
 
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
-      ) : (
-        <div className="container">No results found.</div>
-      )}
+      <div className="container">
+        {query && posts.totalDocs > 0 && (
+          <p className="text-gray-500 mb-8">
+            {posts.totalDocs} result{posts.totalDocs !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;
+          </p>
+        )}
+
+        {posts.totalDocs > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {posts.docs.map((result, index) => {
+              if (typeof result === 'object' && result !== null) {
+                return <ArticleCard key={index} post={result as unknown as ArticleCardPost} />
+              }
+              return null
+            })}
+          </div>
+        ) : query ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <SearchX className="w-16 h-16 text-gray-300 mb-6" />
+            <h2 className="text-xl font-bold mb-2 text-black">No articles found</h2>
+            <p className="text-gray-500 mb-6 max-w-md">
+              Try a different search term or browse all articles
+            </p>
+            <Link
+              href="/posts"
+              className="inline-flex items-center px-6 py-2.5 bg-primary text-white font-medium hover:opacity-90 transition-opacity"
+            >
+              Browse All Articles
+            </Link>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Search`,
+    title: 'Search — Beyond AI',
   }
 }

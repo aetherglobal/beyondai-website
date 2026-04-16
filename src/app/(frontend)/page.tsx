@@ -6,13 +6,11 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronsRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { EventCard } from '@/components/EventCard'
-import { ProgramCard } from '@/components/ProgramCard'
 import { SponsorGrid } from '@/components/SponsorGrid'
 import { CountdownTimer } from '@/components/CountdownTimer'
 import { Media } from '@/components/Media'
-import { Card } from '@/components/Card'
+import { ArticleCard } from '@/components/ArticleCard'
 
 import type { Event, Post, Sponsor } from '@/payload-types'
 
@@ -49,8 +47,8 @@ export default async function HomePage() {
   const sponsors = sponsorsResult.docs as Sponsor[]
 
   return (
-    <article className="bg-white text-black space-y-16">
-      <section className="relative bg-background min-h-[90vh] flex items-center overflow-hidden">
+    <article>
+      <section className="relative bg-dark min-h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 hidden lg:block">
           <div className="absolute top-0 right-0 bottom-0 w-[55%]">
             {nextEvent?.heroImage && typeof nextEvent.heroImage !== 'number' ? (
@@ -58,7 +56,7 @@ export default async function HomePage() {
             ) : (
               <div className="w-full h-full bg-card" />
             )}
-            <div className="absolute inset-0 bg-linear-to-r from-background via-background/70 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-r from-dark via-dark/70 to-transparent" />
           </div>
         </div>
 
@@ -146,32 +144,32 @@ export default async function HomePage() {
       </section>
 
       {upcomingEvents.length > 0 && (
-        <section className="py-16">
+        <section className="py-16 bg-white">
           <div className="container">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-semibold">Upcoming Events</h2>
+              <h2 className="text-2xl font-semibold text-gray-900">Upcoming Events</h2>
               <Link
                 href="/events"
-                className="inline-flex items-center px-4 py-2 border border-black text-black text-sm font-medium hover:bg-secondary hover:border-secondary hover:text-white transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary hover:text-primary-foreground transition-colors"
               >
                 View All Events
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+                <EventCard key={event.id} event={event} className="bg-white border-gray-200 text-gray-900 [&_p]:text-gray-600 [&_h3]:text-gray-900" />
               ))}
             </div>
           </div>
         </section>
       )}
 
-      <section>
+      <section className="bg-secondary">
         <div className="container py-16 pb-12">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div>
               <p className="text-sm tracking-widest uppercase text-primary mb-4">[About]</p>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1]">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] text-white">
                 Shaping AI
                 <br />
                 Governance in Africa
@@ -180,7 +178,7 @@ export default async function HomePage() {
             <div className="shrink-0">
               <Link
                 href="/about"
-                className="inline-flex items-center px-4 py-2 border border-black text-black text-sm font-medium hover:bg-secondary hover:border-secondary hover:text-white transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-white text-white text-sm font-medium hover:bg-white/10 transition-colors"
               >
                 Learn More
               </Link>
@@ -193,10 +191,10 @@ export default async function HomePage() {
             <div className="mb-6">
               <ChevronsRight className="w-10 h-10 text-primary" strokeWidth={1} />
             </div>
-            <h3 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4">
+            <h3 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4 text-white">
               Our Purpose and Goals
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-secondary-foreground/70 leading-relaxed">
               We started with a simple goal, to bring together Africa&apos;s brightest minds. Our
               purpose is to inspire innovation and spark discussions that push technology forward.
               Through monthly forums, research publications, and our annual Nyansa Futures
@@ -211,86 +209,93 @@ export default async function HomePage() {
               alt="Beyond AI conference gathering"
               fill
               priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-secondary">
+      <section className="mt-16 py-20 bg-primary">
         <div className="container">
           <div className="mb-12">
-            <p className="text-sm tracking-widest uppercase text-primary mb-4">[Programs]</p>
-            <h2 className="text-4xl text-white sm:text-5xl font-bold uppercase tracking-tight leading-tight mb-4">
+            <p className="text-sm tracking-widest uppercase text-primary-foreground/60 mb-4">[Programs]</p>
+            <h2 className="text-4xl text-primary-foreground sm:text-5xl font-bold uppercase tracking-tight leading-tight mb-4">
               What We Do
             </h2>
-            <p className="text-accent-foreground/60 max-w-xl text-base leading-relaxed">
+            <p className="text-primary-foreground/70 max-w-xl text-base leading-relaxed">
               Four initiatives driving responsible AI governance, public awareness, and continental
               dialogue.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border/20">
-            <ProgramCard
-              title="AI Watch"
-              description="Monthly forums bringing together diverse voices to discuss pressing AI governance topics affecting Africa and the world."
-              href="/events"
-            />
-            <ProgramCard
-              title="AI Pulse"
-              description="Our newsletter and knowledge platform delivering curated insights, research, and commentary on AI policy and innovation."
-              href="/posts"
-            />
-            <ProgramCard
-              title="Beyond the Algorithm"
-              description="A storytelling and media initiative exploring how AI impacts everyday lives across African communities."
-            />
-            <ProgramCard
-              title="Nyansa Futures"
-              description="Our annual flagship conference gathering policymakers, innovators, and academics to shape Africa's AI future."
-              href="/nyansa-futures"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-primary-foreground/10">
+            <div className="group relative p-8 bg-primary-foreground/5 border-l-2 border-transparent hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300">
+              <h3 className="text-xl text-primary-foreground font-bold mb-3 tracking-tight">AI Watch</h3>
+              <p className="text-primary-foreground/70 text-sm leading-relaxed">Monthly forums bringing together diverse voices to discuss pressing AI governance topics affecting Africa and the world.</p>
+              <div className="mt-5 flex items-center gap-1.5 text-primary-foreground text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span>Learn more</span>
+              </div>
+            </div>
+            <div className="group relative p-8 bg-primary-foreground/5 border-l-2 border-transparent hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300">
+              <h3 className="text-xl text-primary-foreground font-bold mb-3 tracking-tight">AI Pulse</h3>
+              <p className="text-primary-foreground/70 text-sm leading-relaxed">Our newsletter and knowledge platform delivering curated insights, research, and commentary on AI policy and innovation.</p>
+            </div>
+            <div className="group relative p-8 bg-primary-foreground/5 border-l-2 border-transparent hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300">
+              <h3 className="text-xl text-primary-foreground font-bold mb-3 tracking-tight">Beyond the Algorithm</h3>
+              <p className="text-primary-foreground/70 text-sm leading-relaxed">A storytelling and media initiative exploring how AI impacts everyday lives across African communities.</p>
+            </div>
+            <div className="group relative p-8 bg-primary-foreground/5 border-l-2 border-transparent hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300">
+              <h3 className="text-xl text-primary-foreground font-bold mb-3 tracking-tight">Nyansa Futures</h3>
+              <p className="text-primary-foreground/70 text-sm leading-relaxed">Our annual flagship conference gathering policymakers, innovators, and academics to shape Africa&apos;s AI future.</p>
+              <div className="mt-5 flex items-center gap-1.5 text-primary-foreground text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span>Learn more</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {latestArticles.length > 0 && (
-        <section className="py-16 bg-card">
+        <section className="py-16 bg-white">
           <div className="container">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-semibold">Latest Articles</h2>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/posts">View All</Link>
-              </Button>
+              <h2 className="text-2xl font-semibold text-gray-900">Latest Articles</h2>
+              <Link
+                href="/posts"
+                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary hover:text-primary-foreground transition-colors"
+              >
+                View All Articles
+              </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {latestArticles.map((article) => (
-                <Card key={article.id} doc={article} relationTo="posts" showCategories />
+                <ArticleCard key={article.id} post={article} />
               ))}
             </div>
           </div>
         </section>
       )}
 
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <p className="text-sm tracking-widest uppercase text-primary mb-4">
                 [Flagship Conference]
               </p>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold uppercase tracking-tight leading-[1.1] mb-6 text-gray-900">
                 Nyansa
                 <br />
-                <span className="text-secondary">Futures</span>
+                <span className="text-primary">Futures</span>
               </h2>
-              <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-lg">
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 max-w-lg">
                 Nyansa Futures gathers policymakers, innovators, academics, and civil society to
                 discuss AI governance and digital transformation. A two-day hybrid conference
                 focused on shaping Africa&apos;s technological future.
               </p>
               <Link
                 href="/nyansa-futures"
-                className="inline-flex items-center px-7 py-3.5 bg-secondary text-secondary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
+                className="inline-flex items-center px-7 py-3.5 bg-primary text-primary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
               >
                 Learn More
               </Link>
@@ -300,6 +305,7 @@ export default async function HomePage() {
                 src="/media/headway-F2KRf_QfCqw-unsplash-1920x1280.jpg"
                 alt="Nyansa Futures conference"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -308,16 +314,15 @@ export default async function HomePage() {
       </section>
 
       {sponsors.length > 0 && (
-        <section className="py-20 mb-16 bg-background">
+        <section className="py-20 bg-secondary">
           <div className="container">
             <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white text-center mb-12">
               Meet Our Partners
             </h2>
-            <SponsorGrid sponsors={sponsors} />
+            <SponsorGrid sponsors={sponsors} className="border-white/20 [&>div]:border-white/20" />
           </div>
         </section>
       )}
-
     </article>
   )
 }
