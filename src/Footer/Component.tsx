@@ -28,15 +28,12 @@ export async function Footer() {
   const siteSettings = (await getCachedGlobal('site-settings', 0)()) as SiteSetting
 
   return (
-    <footer className="mt-auto border-t border-border bg-background text-foreground">
+    <footer className="mt-16 border-t border-border bg-dark text-dark-foreground">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          {/* Brand + Social */}
           <div className="lg:col-span-2">
             <Link className="flex items-center mb-4" href="/">
-              <span className="text-xl font-bold tracking-tight">
-                <span className="text-primary">Beyond</span> AI
-              </span>
+              <img src="/logo.png" alt="Beyond AI" className="h-10 md:h-14 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground max-w-sm">
               {siteSettings?.siteDescription ||
@@ -52,7 +49,6 @@ export async function Footer() {
             />
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">
               Quick Links
@@ -70,7 +66,6 @@ export async function Footer() {
             </nav>
           </div>
 
-          {/* Programs */}
           <div>
             <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">
               Programs
@@ -103,7 +98,6 @@ export async function Footer() {
             </nav>
           </div>
 
-          {/* Newsletter + Contact */}
           <div id="footer-newsletter">
             <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">
               Newsletter

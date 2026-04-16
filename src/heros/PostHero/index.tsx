@@ -5,68 +5,62 @@ import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
+import { getCategoryColor } from '@/utilities/getCategoryColor'
+import { getReadingTime } from '@/utilities/getReadingTime'
+import { cn } from '@/utilities/ui'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
+  const { categories, heroImage, populatedAuthors, publishedAt, title, content } = post
 
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
+  const readingTime = getReadingTime(content as Record<string, unknown> | null)
+
+  const firstCategory =
+    categories && Array.isArray(categories)
+      ? (categories.find((c) => typeof c === 'object') as
+          | { title: string; slug?: string }
+          | undefined)
+      : undefined
+
   return (
-    <div className="relative -mt-[10.4rem] flex items-end">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
-        <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
-          <div className="uppercase text-sm mb-6">
-            {categories?.map((category, index) => {
-              if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
+    <div className="relative -mt-[10.4rem] flex items-end min-h-[80vh] overflow-hidden">
+      <div className="container z-10 relative text-white pb-10 md:pb-14">
+        <div className="max-w-3xl">
+          {firstCategory && (
+            <span
+              className={cn(
+                'inline-block px-3 py-1 text-xs font-medium text-white mb-4',
+                getCategoryColor(firstCategory.slug || ''),
+              )}
+            >
+              {firstCategory.title}
+            </span>
+          )}
 
-                const titleToUse = categoryTitle || 'Untitled category'
+          <h1
+            className="font-bold mb-6 leading-tight"
+            style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+          >
+            {title}
+          </h1>
 
-                const isLast = index === categories.length - 1
-
-                return (
-                  <React.Fragment key={index}>
-                    {titleToUse}
-                    {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
-                  </React.Fragment>
-                )
-              }
-              return null
-            })}
-          </div>
-
-          <div className="">
-            <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl">{title}</h1>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-4 md:gap-16">
-            {hasAuthors && (
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm">Author</p>
-
-                  <p>{formatAuthors(populatedAuthors)}</p>
-                </div>
-              </div>
-            )}
-            {publishedAt && (
-              <div className="flex flex-col gap-1">
-                <p className="text-sm">Date Published</p>
-
-                <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
-              </div>
-            )}
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 text-white/80">
+            {hasAuthors && <span>{formatAuthors(populatedAuthors)}</span>}
+            {publishedAt && <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>}
+            <span>{readingTime} min read</span>
           </div>
         </div>
       </div>
-      <div className="min-h-[80vh] select-none">
+
+      <div className="absolute inset-0 select-none">
         {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
+          <Media fill priority imgClassName="object-cover" resource={heroImage} />
         )}
-        <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-linear-to-t from-black to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent" />
       </div>
     </div>
   )

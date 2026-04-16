@@ -7,6 +7,10 @@
 @source inline("lg:col-span-6");
 @source inline("lg:col-span-8");
 @source inline("lg:col-span-12");
+@source inline("col-span-4");
+@source inline("col-span-6");
+@source inline("col-span-8");
+@source inline("row-span-2");
 
 @theme {
   --breakpoint-sm: 40rem;
@@ -17,8 +21,10 @@
 }
 
 :root {
-  --background: oklch(16.5% 0.028 199.1deg);
-  --foreground: oklch(100% 0 0deg);
+  --background: oklch(100% 0 0deg);
+  --foreground: oklch(16.5% 0.028 199.1deg);
+  --dark: oklch(16.5% 0.028 199.1deg);
+  --dark-foreground: oklch(100% 0 0deg);
   --card: oklch(25.4% 0.041 184.5deg);
   --card-foreground: oklch(100% 0 0deg);
   --popover: oklch(25.4% 0.041 184.5deg);
@@ -42,6 +48,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-dark: var(--dark);
+  --color-dark-foreground: var(--dark-foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -120,6 +128,11 @@
   --tw-prose-headings: var(--foreground);
 }
 
+.bg-white .prose {
+  --tw-prose-body: #1a1a2e;
+  --tw-prose-headings: #0f0f1a;
+}
+
 .prose h1 {
   font-weight: normal;
   margin-bottom: 0.25em;
@@ -143,4 +156,21 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.drop-cap-article > p:first-of-type::first-letter {
+  font-size: 3.5rem;
+  font-weight: 700;
+  float: left;
+  margin-right: 0.75rem;
+  margin-top: 0.25rem;
+  line-height: 1;
 }

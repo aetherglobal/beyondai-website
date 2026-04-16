@@ -30,26 +30,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
   }, [pathname])
 
   return (
-    <header className="bg-background text-foreground sticky top-0 z-50 border-b border-border">
+    <header className="bg-dark text-dark-foreground sticky top-0 z-50 border-b border-border">
       <div className="container">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="text-xl md:text-2xl font-bold tracking-tight shrink-0">
-            <span className="text-primary">Beyond</span> AI
+          <Link href="/" className="shrink-0">
+            <img src="/logo.png" alt="Beyond AI" className="h-10 md:h-14 w-auto" />
           </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+              const isActive =
+                pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`px-3 py-2 text-sm transition-colors ${
-                    isActive
-                      ? 'text-primary'
-                      : 'text-muted-foreground hover:text-foreground'
+                    isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
                   }`}
                 >
                   {link.label}
@@ -58,7 +55,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
             })}
           </nav>
 
-          {/* Right side: CTA + mobile toggle */}
           <div className="flex items-center gap-3">
             <Link
               href="/events"
@@ -67,7 +63,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
               Register Now
             </Link>
 
-            {/* Mobile menu toggle */}
             <button
               className="lg:hidden p-2 text-muted-foreground hover:text-foreground"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -78,12 +73,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         {mobileOpen && (
           <nav className="lg:hidden pb-6 border-t border-border mt-2 pt-4">
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                const isActive =
+                  pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
                 return (
                   <Link
                     key={link.href}
@@ -91,7 +86,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
                     className={`px-3 py-2.5 text-sm ${
                       isActive
                         ? 'text-primary bg-foreground/5'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
+                        : 'text-muted-foreground hover:text-primary hover:bg-foreground/5'
                     }`}
                   >
                     {link.label}

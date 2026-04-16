@@ -55,7 +55,7 @@ export const EventCard: React.FC<{
         <div className="flex gap-3">
           <Link
             href={`/events/${slug}`}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:brightness-110 transition-colors"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium bg-secondary text-secondary-foreground hover:brightness-110 transition-colors"
           >
             View Details
           </Link>
@@ -64,7 +64,7 @@ export const EventCard: React.FC<{
               href={lumaEventUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium border border-primary text-primary hover:bg-primary/10 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium border border-secondary text-secondary hover:bg-secondary/10 transition-colors"
             >
               Register
             </a>

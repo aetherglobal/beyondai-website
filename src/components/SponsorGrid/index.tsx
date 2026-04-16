@@ -11,7 +11,7 @@ export const SponsorGrid: React.FC<{
 
   return (
     <div
-      className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 border border-white/15 ${className || ''}`}
+      className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border border-white/15 ${className || ''}`}
     >
       {sponsors.map((sponsor) => {
         const logo = typeof sponsor.logo !== 'number' ? sponsor.logo : null
@@ -21,7 +21,7 @@ export const SponsorGrid: React.FC<{
           <Media
             resource={logo}
             className="flex items-center justify-center"
-            imgClassName="max-h-12 w-auto object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+            imgClassName="max-h-20 w-auto object-contain hover:opacity-80 transition-opacity"
           />
         )
 

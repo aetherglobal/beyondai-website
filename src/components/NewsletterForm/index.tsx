@@ -63,7 +63,13 @@ export const NewsletterForm: React.FC<{ className?: string; compact?: boolean }>
     return (
       <form onSubmit={handleSubmit} className={className}>
         <div className="flex gap-2">
-          <Input name="email" type="email" placeholder="Your email address" required />
+          <Input
+            name="email"
+            type="email"
+            className="h-10"
+            placeholder="Your email address"
+            required
+          />
           <Button type="submit" disabled={status === 'loading'}>
             {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
           </Button>

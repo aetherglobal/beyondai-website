@@ -25,7 +25,7 @@ export default async function NyansaFuturesPage() {
         {data?.heroImage && typeof data.heroImage !== 'number' ? (
           <>
             <Media resource={data.heroImage} fill imgClassName="object-cover" />
-            <div className="absolute inset-0 bg-linear-to-t from-background via-background/80 to-background/40" />
+            <div className="absolute inset-0 bg-linear-to-t from-dark via-dark/80 to-dark/40" />
           </>
         ) : (
           <div className="absolute inset-0 bg-card" />
@@ -146,7 +146,7 @@ export default async function NyansaFuturesPage() {
               {data.keyThemes.map((item, i) => (
                 <div
                   key={i}
-                  className="group relative p-8 bg-background border-l-2 border-transparent hover:border-primary transition-all duration-300"
+                  className="group relative p-8 bg-dark border-l-2 border-transparent hover:border-primary transition-all duration-300"
                 >
                   <span className="text-4xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors font-mono">
                     {String(i + 1).padStart(2, '0')}

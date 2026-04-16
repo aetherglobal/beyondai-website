@@ -63,13 +63,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     minute: '2-digit',
   })
 
-  const partners = (partnerLogos || []).filter(
-    (s): s is Sponsor => typeof s !== 'number',
-  )
+  const partners = (partnerLogos || []).filter((s): s is Sponsor => typeof s !== 'number')
 
   return (
     <article className="pt-16 pb-24">
-      {/* Hero Image */}
       {heroImage && typeof heroImage !== 'number' && (
         <div className="container py-4">
           <Media resource={heroImage} className="w-full rounded-lg aspect-[21/9] object-cover" />
@@ -78,13 +75,15 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
       <div className="container py-12">
         <div className="max-w-3xl">
-          {/* Title & Meta */}
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">{title}</h1>
           <div className="flex flex-wrap gap-4 text-muted-foreground mb-8">
-            <span>{formattedDate} at {formattedTime}</span>
+            <span>
+              {formattedDate} at {formattedTime}
+            </span>
             {endDate && (
               <span>
-                — {new Date(endDate).toLocaleDateString('en-US', {
+                —{' '}
+                {new Date(endDate).toLocaleDateString('en-US', {
                   month: 'long',
                   day: 'numeric',
                 })}
@@ -94,14 +93,11 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             {isVirtual && <span>· Virtual</span>}
           </div>
 
-          {/* Description */}
           {description && <RichText data={description} className="mb-12" />}
 
-          {/* Registration */}
           <LumaEmbed embedUrl={lumaEmbedUrl} eventUrl={lumaEventUrl} className="mb-12" />
         </div>
 
-        {/* Speakers */}
         {speakers && speakers.length > 0 && (
           <section className="py-8">
             <h2 className="text-2xl font-semibold mb-6">Speakers</h2>
@@ -109,10 +105,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               {speakers.map((speaker, i) => (
                 <div key={i} className="p-4 border border-border rounded-lg">
                   {speaker.photo && typeof speaker.photo !== 'number' && (
-                    <Media
-                      resource={speaker.photo}
-                      className="w-20 h-20 rounded-full object-cover mb-3"
-                    />
+                    <Media resource={speaker.photo} className="w-20 h-20 object-cover mb-3" />
                   )}
                   <h3 className="font-semibold">{speaker.name}</h3>
                   {speaker.title && (
@@ -127,7 +120,6 @@ export default async function EventPage({ params: paramsPromise }: Args) {
           </section>
         )}
 
-        {/* Agenda */}
         {agenda && agenda.length > 0 && (
           <section className="py-8 max-w-3xl">
             <h2 className="text-2xl font-semibold mb-6">Agenda</h2>
@@ -151,7 +143,6 @@ export default async function EventPage({ params: paramsPromise }: Args) {
           </section>
         )}
 
-        {/* Partners */}
         {partners.length > 0 && (
           <section className="py-8">
             <h2 className="text-2xl font-semibold mb-6">Event Partners</h2>

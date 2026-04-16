@@ -39,7 +39,6 @@ export default async function EventsPage() {
         </p>
       </section>
 
-      {/* Upcoming Events */}
       <section className="container py-8">
         <h2 className="text-2xl font-semibold mb-8">Upcoming Events</h2>
         {upcomingEvents.length > 0 ? (
@@ -56,7 +55,6 @@ export default async function EventsPage() {
         )}
       </section>
 
-      {/* Past Events */}
       {pastEvents.length > 0 && (
         <section className="container py-8">
           <h2 className="text-2xl font-semibold mb-8">Past Events</h2>

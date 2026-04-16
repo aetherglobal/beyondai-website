@@ -10,7 +10,7 @@ export const ProgramCard: React.FC<{
 }> = ({ title, description, href, className }) => {
   const content = (
     <div
-      className={`group relative p-8 bg-background/40 border-l-2 border-transparent hover:border-primary hover:bg-background/70 transition-all duration-300 ${className || ''}`}
+      className={`group relative p-8 bg-dark/40 border-l-2 border-transparent hover:border-primary hover:bg-dark/70 transition-all duration-300 ${className || ''}`}
     >
       <h3 className="text-xl text-white font-bold mb-3 tracking-tight">{title}</h3>
       <p className="text-secondary-foreground/70 text-sm leading-relaxed">{description}</p>
