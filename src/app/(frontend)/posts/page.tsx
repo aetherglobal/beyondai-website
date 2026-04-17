@@ -126,6 +126,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
       <div className="container mt-12">
         <LoadMoreButton
+          key={category || 'all'}
           initialPosts={posts.docs}
           totalDocs={posts.totalDocs}
           limit={12}

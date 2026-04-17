@@ -6,7 +6,8 @@ export async function POST(request: Request) {
   try {
     const data = await request.json()
 
-    const { name, email, subject, message } = data
+    const { name, email, subject, message, source, organization, jobTitle, partnershipInterest } =
+      data
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -24,6 +25,10 @@ export async function POST(request: Request) {
         email,
         subject: subject || undefined,
         message,
+        source: source || 'contact-form',
+        organization: organization || undefined,
+        jobTitle: jobTitle || undefined,
+        partnershipInterest: partnershipInterest || undefined,
       },
     })
 

@@ -107,7 +107,7 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
                 className={`px-3 py-1.5 text-sm rounded-none border transition-colors ${
                   selectedAreas.includes(area.value)
                     ? 'bg-primary text-primary-foreground border-primary'
-                    : 'border-border hover:bg-accent'
+                    : 'border-border text-white hover:bg-accent'
                 }`}
               >
                 {area.label}
@@ -117,7 +117,12 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
         </div>
         <div className="md:col-span-2">
           <Label htmlFor="vol-message">Short Message</Label>
-          <Textarea id="vol-message" name="message" placeholder="Tell us a bit about yourself" rows={4} />
+          <Textarea
+            id="vol-message"
+            name="message"
+            placeholder="Tell us a bit about yourself"
+            rows={4}
+          />
         </div>
       </div>
       <Button type="submit" className="mt-4" disabled={status === 'loading'}>

@@ -928,10 +928,16 @@ export interface Volunteer {
  */
 export interface ContactSubmission {
   id: number;
+  source?: ('contact-form' | 'sponsor-inquiry') | null;
   name: string;
   email: string;
   subject?: string | null;
   message: string;
+  organization?: string | null;
+  jobTitle?: string | null;
+  partnershipInterest?:
+    | ('sponsorship' | 'knowledge-partnership' | 'community-partnership' | 'in-kind-support' | 'other')
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1599,10 +1605,14 @@ export interface VolunteersSelect<T extends boolean = true> {
  * via the `definition` "contact-submissions_select".
  */
 export interface ContactSubmissionsSelect<T extends boolean = true> {
+  source?: T;
   name?: T;
   email?: T;
   subject?: T;
   message?: T;
+  organization?: T;
+  jobTitle?: T;
+  partnershipInterest?: T;
   updatedAt?: T;
   createdAt?: T;
 }

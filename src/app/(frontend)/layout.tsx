@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn(sora.variable, spaceMono.variable)} lang="en">
+    <html className={cn(sora.variable, spaceMono.variable)} lang="en" data-scroll-behavior="smooth">
       <head>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
