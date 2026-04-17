@@ -4,7 +4,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ChevronsRight } from 'lucide-react'
 import { EventCard } from '@/components/EventCard'
 import { SponsorGrid } from '@/components/SponsorGrid'
@@ -157,7 +156,7 @@ export default async function HomePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingEvents.map((event) => (
-                <EventCard key={event.id} event={event} className="bg-white border-gray-200 text-gray-900 [&_p]:text-gray-600 [&_h3]:text-gray-900" />
+                <EventCard key={event.id} event={event} />
               ))}
             </div>
           </div>
@@ -203,15 +202,8 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="relative aspect-4/3 lg:aspect-auto lg:min-h-[400px]">
-            <Image
-              src="/media/headway-F2KRf_QfCqw-unsplash-1920x1280.jpg"
-              alt="Beyond AI conference gathering"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
+          <div className="relative aspect-4/3 lg:aspect-auto lg:min-h-[400px] bg-gray-100 flex items-center justify-center">
+            <div className="text-gray-300 text-sm tracking-widest uppercase">Beyond AI</div>
           </div>
         </div>
       </section>
@@ -300,14 +292,8 @@ export default async function HomePage() {
                 Learn More
               </Link>
             </div>
-            <div className="relative aspect-4/3">
-              <Image
-                src="/media/headway-F2KRf_QfCqw-unsplash-1920x1280.jpg"
-                alt="Nyansa Futures conference"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
+            <div className="relative aspect-4/3 bg-gray-100 flex items-center justify-center">
+              <div className="text-gray-300 text-sm tracking-widest uppercase">Beyond AI</div>
             </div>
           </div>
         </div>

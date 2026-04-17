@@ -21,17 +21,11 @@ export const EventCard: React.FC<{
   const d = new Date(date)
   const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
   const day = d.getDate()
-  const formattedDate = d.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
   const formattedTime = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
 
   return (
     <article
-      className={`group border-t-2 border-transparent hover:border-primary bg-card text-card-foreground transition-all duration-300 overflow-hidden ${className || ''}`}
+      className={`group border border-gray-200 bg-card text-card-foreground transition-all duration-300 overflow-hidden ${className || ''}`}
     >
       {heroImage && typeof heroImage !== 'number' && (
         <Link href={`/events/${slug}`} className="block">
