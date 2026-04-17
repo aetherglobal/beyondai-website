@@ -3,15 +3,6 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Eye, Target } from 'lucide-react'
-import { AnimatedStats } from '@/components/AnimatedStats'
-
-const stats = [
-  { value: 12, suffix: '+', label: 'Events Hosted' },
-  { value: 5, suffix: '+', label: 'Countries Reached' },
-  { value: 500, suffix: '+', label: 'Attendees Engaged' },
-  { value: 20, suffix: '+', label: 'Articles Published' },
-]
-
 const objectives = [
   {
     number: '01',
@@ -153,12 +144,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      <AnimatedStats
-        stats={stats}
-        className="bg-white border-y border-gray-200"
-        labelClassName="text-sm uppercase tracking-widest text-gray-500"
-      />
 
       <section className="bg-dark py-16 md:py-20">
         <div className="container">

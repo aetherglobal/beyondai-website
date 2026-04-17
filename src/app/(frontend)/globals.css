@@ -82,6 +82,11 @@
   body {
     @apply bg-background text-foreground min-h-screen flex flex-col;
   }
+  .bg-dark {
+    --foreground: oklch(100% 0 0deg);
+    --input: oklch(40% 0.04 184.5deg);
+    --border: oklch(40% 0.04 184.5deg);
+  }
 }
 
 @layer utilities {

@@ -12,10 +12,22 @@ export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['name', 'email', 'subject', 'createdAt'],
+    defaultColumns: ['name', 'email', 'source', 'subject', 'createdAt'],
     useAsTitle: 'name',
   },
   fields: [
+    {
+      name: 'source',
+      type: 'select',
+      defaultValue: 'contact-form',
+      options: [
+        { label: 'Contact Form', value: 'contact-form' },
+        { label: 'Sponsor Inquiry', value: 'sponsor-inquiry' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
     {
       name: 'name',
       type: 'text',
@@ -34,6 +46,36 @@ export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
       name: 'message',
       type: 'textarea',
       required: true,
+    },
+    {
+      name: 'organization',
+      type: 'text',
+      admin: {
+        condition: (_, siblingData) => siblingData?.source === 'sponsor-inquiry',
+      },
+    },
+    {
+      name: 'jobTitle',
+      type: 'text',
+      label: 'Job Title',
+      admin: {
+        condition: (_, siblingData) => siblingData?.source === 'sponsor-inquiry',
+      },
+    },
+    {
+      name: 'partnershipInterest',
+      type: 'select',
+      label: 'Partnership Interest',
+      options: [
+        { label: 'Sponsorship', value: 'sponsorship' },
+        { label: 'Knowledge Partnership', value: 'knowledge-partnership' },
+        { label: 'Community Partnership', value: 'community-partnership' },
+        { label: 'In-Kind Support', value: 'in-kind-support' },
+        { label: 'Other', value: 'other' },
+      ],
+      admin: {
+        condition: (_, siblingData) => siblingData?.source === 'sponsor-inquiry',
+      },
     },
   ],
 }
