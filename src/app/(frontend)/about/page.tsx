@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Eye, Target } from 'lucide-react'
 const objectives = [
   {
@@ -75,14 +74,8 @@ export default function AboutPage() {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-5">
-              <div className="relative aspect-4/5 border-t-2 border-primary overflow-hidden">
-                <Image
-                  src="/media/headway-F2KRf_QfCqw-unsplash-1920x1280.jpg"
-                  alt="Beyond AI community engagement"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="object-cover"
-                />
+              <div className="relative aspect-4/5 border-t-2 border-primary overflow-hidden bg-gray-100 flex items-center justify-center">
+                <div className="text-gray-300 text-sm tracking-widest uppercase">Beyond AI</div>
               </div>
             </div>
 
