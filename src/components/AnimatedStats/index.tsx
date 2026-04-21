@@ -64,7 +64,7 @@ export const AnimatedStats: React.FC<{ stats: Stat[]; className?: string; labelC
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-2">
+              <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-deep mb-2">
                 <AnimatedNumber value={stat.value} suffix={stat.suffix ?? '+'} />
               </div>
               <div className={labelClassName ?? 'text-sm uppercase tracking-widest text-muted-foreground'}>

@@ -72,14 +72,14 @@ export default async function BecomeSponsorPage() {
         />
 
         <div className="container relative z-10 py-20 md:py-28">
-          <p className="text-sm tracking-widest uppercase text-primary mb-6">[Partnership]</p>
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">[Partnership]</p>
 
-          <h1 className="text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
             Become A Partner In
             <br />
             Shaping Africa&apos;s
             <br />
-            <span className="text-primary">AI Future</span>
+            <span className="text-primary-deep">AI Future</span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mb-10 leading-relaxed">
@@ -96,7 +96,7 @@ export default async function BecomeSponsorPage() {
             </a>
             <Link
               href="/sponsors"
-              className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
             >
               View Current Partners
             </Link>
@@ -109,7 +109,7 @@ export default async function BecomeSponsorPage() {
       <section className="bg-white py-16 md:py-20">
         <div className="container">
           <FadeIn>
-            <p className="text-sm tracking-widest uppercase text-primary mb-4">[Why Partner]</p>
+            <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Why Partner]</p>
             <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-4 text-gray-900">
               Benefits Of Sponsorship
             </h2>
@@ -122,9 +122,9 @@ export default async function BecomeSponsorPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((benefit, i) => (
               <FadeIn key={benefit.title} delay={i * 0.08}>
-                <div className="border-t-2 border-primary pt-6 h-full">
+                <div className="border-t-2 border-primary-deep pt-6 h-full">
                   <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-4">
-                    <benefit.icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
+                    <benefit.icon className="w-6 h-6 text-primary-deep" strokeWidth={1.5} />
                   </div>
                   <h3 className="text-lg font-semibold mb-2 text-gray-900">{benefit.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">{benefit.description}</p>
@@ -140,8 +140,8 @@ export default async function BecomeSponsorPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-5">
               <FadeIn>
-                <p className="text-sm tracking-widest uppercase text-primary mb-4">[Get Started]</p>
-                <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-4">
+                <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Get Started]</p>
+                <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-4">
                   Start A<br />
                   Partnership
                 </h2>
@@ -155,7 +155,7 @@ export default async function BecomeSponsorPage() {
                     Or email us directly at{' '}
                     <a
                       href={`mailto:${siteSettings.contactEmail}`}
-                      className="text-primary underline hover:brightness-110 transition-all"
+                      className="text-primary-deep underline hover:brightness-110 transition-all"
                     >
                       {siteSettings.contactEmail}
                     </a>

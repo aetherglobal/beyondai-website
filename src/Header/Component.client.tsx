@@ -46,7 +46,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
                   key={link.href}
                   href={link.href}
                   className={`px-3 py-2 text-sm transition-colors ${
-                    isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+                    isActive
+                      ? 'text-primary-deep font-semibold'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.label}
@@ -85,8 +87,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
                     href={link.href}
                     className={`px-3 py-2.5 text-sm ${
                       isActive
-                        ? 'text-primary bg-foreground/5'
-                        : 'text-muted-foreground hover:text-primary hover:bg-foreground/5'
+                        ? 'text-foreground font-semibold border-l-2 border-primary bg-foreground/5'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
                     }`}
                   >
                     {link.label}

@@ -106,8 +106,8 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
                 onClick={() => toggleArea(area.value)}
                 className={`px-3 py-1.5 text-sm rounded-none border transition-colors ${
                   selectedAreas.includes(area.value)
-                    ? 'bg-primary text-primary-foreground border-primary'
-                    : 'border-border text-white hover:bg-accent'
+                    ? 'bg-primary text-primary-foreground border-primary-deep'
+                    : 'border-border text-foreground hover:bg-accent'
                 }`}
               >
                 {area.label}

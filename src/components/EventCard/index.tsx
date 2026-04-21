@@ -37,7 +37,7 @@ export const EventCard: React.FC<{
       <div className="p-6">
         <div className="flex items-start gap-4">
           <div className="text-center shrink-0">
-            <div className="text-xs font-mono text-primary uppercase tracking-wider">{month}</div>
+            <div className="text-xs font-mono text-primary-deep uppercase tracking-wider">{month}</div>
             <div className="text-2xl font-bold leading-none mt-0.5">{day}</div>
           </div>
 
@@ -47,12 +47,12 @@ export const EventCard: React.FC<{
                 Cancelled
               </span>
             )}
-            <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-primary/80 border border-primary/20 mb-2">
+            <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-primary-deep/80 border border-primary-deep/20 mb-2">
               {EVENT_TYPE_LABELS[eventType] || eventType}
             </span>
 
             <h3 className="text-lg font-bold tracking-tight mb-1">
-              <Link href={`/events/${slug}`} className="hover:text-primary transition-colors">
+              <Link href={`/events/${slug}`} className="hover:text-primary-deep transition-colors">
                 {title}
               </Link>
             </h3>
@@ -85,7 +85,7 @@ export const EventCard: React.FC<{
                   href={lumaEventUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider border border-primary text-primary hover:bg-primary/10 transition-all"
+                  className="inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider border border-primary-deep text-primary-deep hover:bg-primary/10 transition-all"
                 >
                   Register
                 </a>

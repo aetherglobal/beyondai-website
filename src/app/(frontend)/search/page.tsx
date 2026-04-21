@@ -97,7 +97,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
             </p>
             <Link
               href="/posts"
-              className="inline-flex items-center px-6 py-2.5 bg-primary text-white font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center px-6 py-2.5 bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
             >
               Browse All Articles
             </Link>

@@ -69,7 +69,7 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
               animate={{ scale: 1 }}
               transition={{ delay: 0.1, type: 'spring', stiffness: 200, damping: 15 }}
             >
-              <CheckCircle className="w-16 h-16 text-primary mb-6" strokeWidth={1.5} />
+              <CheckCircle className="w-16 h-16 text-primary-deep mb-6" strokeWidth={1.5} />
             </motion.div>
             <h3 className="text-xl font-bold text-gray-900 uppercase tracking-wide mb-2">
               Message Sent
@@ -79,7 +79,7 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
             </p>
             <button
               onClick={handleReset}
-              className="text-sm text-primary uppercase tracking-wider hover:brightness-110 transition-all"
+              className="text-sm text-primary-deep uppercase tracking-wider hover:brightness-110 transition-all"
             >
               Send Another Message
             </button>

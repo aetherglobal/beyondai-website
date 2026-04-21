@@ -42,7 +42,7 @@ export const CountdownTimer: React.FC<{
     <div className={`flex gap-6 md:gap-10 ${className || ''}`}>
       {units.map((unit) => (
         <div key={unit.label} className="text-center">
-          <span className="text-3xl md:text-5xl font-bold text-primary tabular-nums">
+          <span className="text-3xl md:text-5xl font-bold text-primary-deep tabular-nums">
             {String(unit.value).padStart(2, '0')}
           </span>
           <p className="text-xs md:text-sm uppercase tracking-wider text-muted-foreground mt-1">
