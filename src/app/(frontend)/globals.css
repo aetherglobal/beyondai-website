@@ -22,26 +22,27 @@
 
 :root {
   --background: oklch(100% 0 0deg);
-  --foreground: oklch(16.5% 0.028 199.1deg);
-  --dark: oklch(16.5% 0.028 199.1deg);
-  --dark-foreground: oklch(100% 0 0deg);
-  --card: oklch(25.4% 0.041 184.5deg);
-  --card-foreground: oklch(100% 0 0deg);
-  --popover: oklch(25.4% 0.041 184.5deg);
-  --popover-foreground: oklch(100% 0 0deg);
-  --primary: oklch(83.5% 0.16 165.7deg);
-  --primary-foreground: oklch(16.5% 0.028 199.1deg);
-  --secondary: oklch(25.4% 0.041 184.5deg);
-  --secondary-foreground: oklch(100% 0 0deg);
-  --muted: oklch(25.4% 0.041 184.5deg);
-  --muted-foreground: oklch(70% 0.02 199deg);
-  --accent: oklch(25.4% 0.041 184.5deg);
-  --accent-foreground: oklch(100% 0 0deg);
+  --foreground: oklch(16.5% 0.02 260deg);
+  --dark: oklch(100% 0 0deg);
+  --dark-foreground: oklch(16.5% 0.02 260deg);
+  --card: oklch(100% 0 0deg);
+  --card-foreground: oklch(16.5% 0.02 260deg);
+  --popover: oklch(100% 0 0deg);
+  --popover-foreground: oklch(16.5% 0.02 260deg);
+  --primary: oklch(82% 0.17 85deg);
+  --primary-foreground: oklch(16.5% 0.02 260deg);
+  --primary-deep: oklch(58% 0.15 78deg);
+  --secondary: oklch(100% 0 0deg);
+  --secondary-foreground: oklch(16.5% 0.02 260deg);
+  --muted: oklch(100% 0 0deg);
+  --muted-foreground: oklch(55% 0.01 260deg);
+  --accent: oklch(100% 0 0deg);
+  --accent-foreground: oklch(16.5% 0.02 260deg);
   --destructive: oklch(57.7% 0.245 27.325deg);
   --destructive-foreground: oklch(100% 0 0deg);
-  --border: oklch(30% 0.035 184.5deg);
-  --input: oklch(30% 0.035 184.5deg);
-  --ring: oklch(83.5% 0.16 165.7deg);
+  --border: oklch(92% 0.005 260deg);
+  --input: oklch(92% 0.005 260deg);
+  --ring: oklch(82% 0.17 85deg);
   --radius: 0;
 }
 
@@ -56,6 +57,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-deep: var(--primary-deep);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -81,11 +83,6 @@
   }
   body {
     @apply bg-background text-foreground min-h-screen flex flex-col;
-  }
-  .bg-dark {
-    --foreground: oklch(100% 0 0deg);
-    --input: oklch(40% 0.04 184.5deg);
-    --border: oklch(40% 0.04 184.5deg);
   }
 }
 
@@ -131,11 +128,6 @@
 .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
-}
-
-.bg-white .prose {
-  --tw-prose-body: #1a1a2e;
-  --tw-prose-headings: #0f0f1a;
 }
 
 .prose h1 {

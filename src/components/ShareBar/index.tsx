@@ -56,7 +56,7 @@ export const ShareBar: React.FC<{ title: string }> = ({ title }) => {
           <LinkedInIcon className="w-4 h-4" />
         </a>
         <button onClick={handleCopy} className={buttonClass} aria-label="Copy link">
-          {copied ? <Check className="w-4 h-4 text-primary" /> : <Link2 className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4 text-primary-deep" /> : <Link2 className="w-4 h-4" />}
         </button>
       </div>
 
@@ -80,7 +80,7 @@ export const ShareBar: React.FC<{ title: string }> = ({ title }) => {
           <LinkedInIcon className="w-4 h-4" />
         </a>
         <button onClick={handleCopy} className={buttonClass} aria-label="Copy link">
-          {copied ? <Check className="w-4 h-4 text-primary" /> : <Link2 className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4 text-primary-deep" /> : <Link2 className="w-4 h-4" />}
         </button>
       </div>
     </>

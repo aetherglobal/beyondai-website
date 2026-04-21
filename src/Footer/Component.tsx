@@ -58,7 +58,7 @@ export async function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary-deep transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -75,7 +75,7 @@ export async function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary-deep transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -90,7 +90,7 @@ export async function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary-deep transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -113,7 +113,7 @@ export async function Footer() {
                 <p>
                   <a
                     href={`mailto:${siteSettings.contactEmail}`}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary-deep transition-colors"
                   >
                     {siteSettings.contactEmail}
                   </a>
@@ -123,7 +123,7 @@ export async function Footer() {
                 <p>
                   <a
                     href={`tel:${siteSettings.contactPhone}`}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary-deep transition-colors"
                   >
                     {siteSettings.contactPhone}
                   </a>

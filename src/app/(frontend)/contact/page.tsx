@@ -23,12 +23,12 @@ export default async function ContactPage() {
         />
 
         <div className="container relative z-10 py-20 md:py-28">
-          <p className="text-sm tracking-widest uppercase text-primary mb-6">[Contact]</p>
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">[Contact]</p>
 
-          <h1 className="text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
             Let&apos;s Start A
             <br />
-            <span className="text-primary">Conversation</span>
+            <span className="text-primary-deep">Conversation</span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mb-10 leading-relaxed">
@@ -52,7 +52,7 @@ export default async function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-5">
               <FadeIn>
-                <p className="text-sm tracking-widest uppercase text-primary mb-4">
+                <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">
                   [Get In Touch]
                 </p>
                 <h2 className="text-3xl text-gray-900 md:text-4xl font-bold uppercase tracking-tight mb-4">
@@ -65,14 +65,14 @@ export default async function ContactPage() {
                 <div className="space-y-5">
                   {siteSettings?.contactEmail && (
                     <div className="flex items-start gap-4">
-                      <Mail className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={1.5} />
+                      <Mail className="w-5 h-5 text-primary-deep shrink-0 mt-0.5" strokeWidth={1.5} />
                       <div>
                         <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">
                           Email
                         </p>
                         <a
                           href={`mailto:${siteSettings.contactEmail}`}
-                          className="text-gray-900 hover:text-primary transition-colors"
+                          className="text-gray-900 hover:text-primary-deep transition-colors"
                         >
                           {siteSettings.contactEmail}
                         </a>
@@ -82,14 +82,14 @@ export default async function ContactPage() {
 
                   {siteSettings?.contactPhone && (
                     <div className="flex items-start gap-4">
-                      <Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={1.5} />
+                      <Phone className="w-5 h-5 text-primary-deep shrink-0 mt-0.5" strokeWidth={1.5} />
                       <div>
                         <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">
                           Phone
                         </p>
                         <a
                           href={`tel:${siteSettings.contactPhone}`}
-                          className="text-gray-900 hover:text-primary transition-colors"
+                          className="text-gray-900 hover:text-primary-deep transition-colors"
                         >
                           {siteSettings.contactPhone}
                         </a>
@@ -99,7 +99,7 @@ export default async function ContactPage() {
 
                   {siteSettings?.address && (
                     <div className="flex items-start gap-4">
-                      <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={1.5} />
+                      <MapPin className="w-5 h-5 text-primary-deep shrink-0 mt-0.5" strokeWidth={1.5} />
                       <div>
                         <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">
                           Address

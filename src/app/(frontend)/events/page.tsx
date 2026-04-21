@@ -66,24 +66,24 @@ export default async function EventsPage() {
         />
 
         <div className="container relative z-10 py-20 md:py-28">
-          <p className="text-sm tracking-widest uppercase text-primary mb-6 font-mono">[Events]</p>
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6 font-mono">[Events]</p>
 
-          <h1 className="text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
             Forums, Workshops &
             <br />
             Conferences On
             <br />
-            <span className="text-primary">AI Governance</span>
+            <span className="text-primary-deep">AI Governance</span>
           </h1>
 
-          <p className="text-lg text-white/80 max-w-2xl mb-10 leading-relaxed">
+          <p className="text-lg text-foreground/80 max-w-2xl mb-10 leading-relaxed">
             Join our events exploring AI governance and digital transformation in Africa — from
             monthly AI Watch forums to the annual Nyansa Futures conference.
           </p>
 
           <Link
             href="#footer-newsletter"
-            className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+            className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
           >
             Subscribe for Updates
           </Link>
@@ -100,10 +100,10 @@ export default async function EventsPage() {
         <section className="bg-dark py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Upcoming]
               </p>
-              <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-12">
+              <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-12">
                 More Upcoming Events
               </h2>
             </FadeIn>
@@ -123,7 +123,7 @@ export default async function EventsPage() {
         <section className="bg-white py-16 md:py-20">
           <div className="container text-center max-w-2xl mx-auto">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Stay Tuned]
               </p>
               <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4 text-gray-900">
@@ -149,7 +149,7 @@ export default async function EventsPage() {
         <section className="bg-white py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Past Events]
               </p>
               <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-10 text-gray-900">
@@ -178,7 +178,7 @@ function FeaturedEvent({ event }: { event: Event }) {
     <section className="bg-white py-16 md:py-20">
       <div className="container">
         <FadeIn>
-          <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
             [Next Event]
           </p>
         </FadeIn>
@@ -187,7 +187,7 @@ function FeaturedEvent({ event }: { event: Event }) {
             {heroImage && typeof heroImage !== 'number' && (
               <div className="lg:col-span-6">
                 <Link href={`/events/${slug}`} className="block">
-                  <div className="relative aspect-video border-t-2 border-primary overflow-hidden">
+                  <div className="relative aspect-video border-t-2 border-primary-deep overflow-hidden">
                     <Media resource={heroImage} fill imgClassName="object-cover" />
                   </div>
                 </Link>
@@ -195,12 +195,12 @@ function FeaturedEvent({ event }: { event: Event }) {
             )}
 
             <div className={heroImage && typeof heroImage !== 'number' ? 'lg:col-span-6' : 'lg:col-span-12'}>
-              <span className="inline-block px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary border border-primary/30 mb-4">
+              <span className="inline-block px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30 mb-4">
                 {EVENT_TYPE_LABELS[eventType] || eventType}
               </span>
 
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold uppercase tracking-tight mb-4 text-gray-900">
-                <Link href={`/events/${slug}`} className="hover:text-primary transition-colors">
+                <Link href={`/events/${slug}`} className="hover:text-primary-deep transition-colors">
                   {title}
                 </Link>
               </h2>
@@ -233,7 +233,7 @@ function FeaturedEvent({ event }: { event: Event }) {
                     href={lumaEventUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+                    className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
                   >
                     Register
                   </a>
@@ -253,18 +253,18 @@ function UpcomingEventCard({ event, index }: { event: Event; index: number }) {
 
   return (
     <Link href={`/events/${slug}`} className="group block">
-      <div className="p-6 md:p-8 bg-card border-l-2 border-transparent hover:border-primary transition-all duration-300">
+      <div className="p-6 md:p-8 bg-card border-l-2 border-transparent hover:border-primary-deep transition-all duration-300">
         <div className="flex items-start gap-5">
           <div className="text-center shrink-0">
-            <div className="text-xs font-mono text-primary uppercase tracking-wider">{d.month}</div>
-            <div className="text-3xl font-bold text-white leading-none mt-1">{d.day}</div>
+            <div className="text-xs font-mono text-primary-deep uppercase tracking-wider">{d.month}</div>
+            <div className="text-3xl font-bold text-foreground leading-none mt-1">{d.day}</div>
           </div>
 
           <div className="flex-1 min-w-0">
-            <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-primary/80 border border-primary/20 mb-2">
+            <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-primary-deep/80 border border-primary-deep/20 mb-2">
               {EVENT_TYPE_LABELS[eventType] || eventType}
             </span>
-            <h3 className="text-lg font-bold text-white tracking-tight mb-1 group-hover:text-primary transition-colors">
+            <h3 className="text-lg font-bold text-foreground tracking-tight mb-1 group-hover:text-primary-deep transition-colors">
               {title}
             </h3>
             <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
@@ -279,7 +279,7 @@ function UpcomingEventCard({ event, index }: { event: Event; index: number }) {
             </div>
           </div>
 
-          <span className="text-3xl font-bold text-primary/20 group-hover:text-primary/40 transition-colors font-mono shrink-0 hidden sm:block">
+          <span className="text-3xl font-bold text-primary-deep/20 group-hover:text-primary-deep/40 transition-colors font-mono shrink-0 hidden sm:block">
             {String(index + 1).padStart(2, '0')}
           </span>
         </div>
@@ -302,7 +302,7 @@ function PastEventRow({ event }: { event: Event }) {
           {d.month} {d.day}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors truncate">
+          <h3 className="font-semibold text-gray-900 group-hover:text-primary-deep transition-colors truncate">
             {title}
           </h3>
         </div>
@@ -312,7 +312,7 @@ function PastEventRow({ event }: { event: Event }) {
         {location && (
           <span className="text-sm text-gray-400 hidden lg:block">{location}</span>
         )}
-        <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors shrink-0" />
+        <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-deep transition-colors shrink-0" />
       </div>
     </Link>
   )

@@ -62,11 +62,11 @@ export default async function HomePage() {
         <div className="container relative z-10 py-20 md:py-28 lg:py-36">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-6">
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">
                 Govern / Innovate / Transform
               </p>
 
-              <h1 className="text-4xl text-white sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
+              <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
                 Shaping the Future of AI in Africa
               </h1>
 
@@ -115,7 +115,7 @@ export default async function HomePage() {
                 )}
                 <Link
                   href="#footer-newsletter"
-                  className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+                  className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
                 >
                   Join Newsletter
                 </Link>
@@ -149,7 +149,7 @@ export default async function HomePage() {
               <h2 className="text-2xl font-semibold text-gray-900">Upcoming Events</h2>
               <Link
                 href="/events"
-                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary hover:text-primary-foreground transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary-deep hover:text-primary-foreground transition-colors"
               >
                 View All Events
               </Link>
@@ -167,8 +167,8 @@ export default async function HomePage() {
         <div className="container py-16 pb-12">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">[About]</p>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] text-white">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[About]</p>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] text-foreground">
                 Shaping AI
                 <br />
                 Governance in Africa
@@ -177,7 +177,7 @@ export default async function HomePage() {
             <div className="shrink-0">
               <Link
                 href="/about"
-                className="inline-flex items-center px-4 py-2 border border-white text-white text-sm font-medium hover:bg-white/10 transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary-deep hover:text-primary-foreground transition-colors"
               >
                 Learn More
               </Link>
@@ -188,9 +188,9 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="container lg:max-w-none p-8 md:p-12 lg:p-16 flex flex-col justify-center">
             <div className="mb-6">
-              <ChevronsRight className="w-10 h-10 text-primary" strokeWidth={1} />
+              <ChevronsRight className="w-10 h-10 text-primary-deep" strokeWidth={1} />
             </div>
-            <h3 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4 text-white">
+            <h3 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4 text-foreground">
               Our Purpose and Goals
             </h3>
             <p className="text-secondary-foreground/70 leading-relaxed">
@@ -254,7 +254,7 @@ export default async function HomePage() {
               <h2 className="text-2xl font-semibold text-gray-900">Latest Articles</h2>
               <Link
                 href="/posts"
-                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary hover:text-primary-foreground transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-gray-900 text-gray-900 text-sm font-medium hover:bg-primary hover:border-primary-deep hover:text-primary-foreground transition-colors"
               >
                 View All Articles
               </Link>
@@ -272,13 +272,13 @@ export default async function HomePage() {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">
                 [Flagship Conference]
               </p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold uppercase tracking-tight leading-[1.1] mb-6 text-gray-900">
                 Nyansa
                 <br />
-                <span className="text-primary">Futures</span>
+                <span className="text-primary-deep">Futures</span>
               </h2>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 max-w-lg">
                 Nyansa Futures gathers policymakers, innovators, academics, and civil society to
@@ -302,10 +302,10 @@ export default async function HomePage() {
       {sponsors.length > 0 && (
         <section className="py-20 bg-secondary">
           <div className="container">
-            <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight text-foreground text-center mb-12">
               Meet Our Partners
             </h2>
-            <SponsorGrid sponsors={sponsors} className="border-white/20 [&>div]:border-white/20" />
+            <SponsorGrid sponsors={sponsors} className="border-foreground/20 [&>div]:border-foreground/20" />
           </div>
         </section>
       )}

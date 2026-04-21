@@ -124,14 +124,14 @@ export default function VolunteerPage() {
         />
 
         <div className="container relative z-10 py-20 md:py-28">
-          <p className="text-sm tracking-widest uppercase text-primary mb-6">[Volunteer]</p>
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">[Volunteer]</p>
 
-          <h1 className="text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
             Lend Your Skills To
             <br />
             Shape Africa&apos;s
             <br />
-            <span className="text-primary">AI Future</span>
+            <span className="text-primary-deep">AI Future</span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mb-10 leading-relaxed">
@@ -148,7 +148,7 @@ export default function VolunteerPage() {
             </a>
             <a
               href="#roles"
-              className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
             >
               See Roles
             </a>
@@ -163,7 +163,7 @@ export default function VolunteerPage() {
           <FadeIn>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               <div className="lg:col-span-5">
-                <p className="text-sm tracking-widest uppercase text-primary mb-4">
+                <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">
                   [Why Volunteer]
                 </p>
                 <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4 text-gray-900">
@@ -185,7 +185,7 @@ export default function VolunteerPage() {
                       key={i}
                       className="flex items-start gap-4 py-4 border-b border-gray-200 last:border-b-0"
                     >
-                      <ArrowRight className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                      <ArrowRight className="w-5 h-5 text-primary-deep shrink-0 mt-0.5" />
                       <p className="text-gray-600 leading-relaxed">{point}</p>
                     </div>
                   ))}
@@ -199,8 +199,8 @@ export default function VolunteerPage() {
       <section id="roles" className="bg-dark py-16 md:py-20">
         <div className="container">
           <FadeIn>
-            <p className="text-sm tracking-widest uppercase text-primary mb-4">[Roles]</p>
-            <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-4">
+            <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Roles]</p>
+            <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-4">
               Find Your Role
             </h2>
             <p className="text-muted-foreground max-w-xl text-base leading-relaxed mb-12">
@@ -212,14 +212,14 @@ export default function VolunteerPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {roles.map((role, i) => (
               <FadeIn key={role.title} delay={i * 0.08}>
-                <div className="group flex flex-col p-8 bg-card border-l-2 border-transparent hover:border-primary transition-all duration-300 h-full">
-                  <span className="text-3xl font-bold text-primary/40 group-hover:text-primary transition-colors font-mono mb-4">
+                <div className="group flex flex-col p-8 bg-card border-l-2 border-transparent hover:border-primary-deep transition-all duration-300 h-full">
+                  <span className="text-3xl font-bold text-primary-deep/40 group-hover:text-primary-deep transition-colors font-mono mb-4">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div className="w-10 h-10 bg-primary/10 flex items-center justify-center mb-4">
-                    <role.icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
+                    <role.icon className="w-5 h-5 text-primary-deep" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 tracking-tight">{role.title}</h3>
+                  <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">{role.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {role.description}
                   </p>
@@ -264,7 +264,7 @@ export default function VolunteerPage() {
       <section className="bg-white py-16 md:py-20">
         <div className="container">
           <FadeIn>
-            <p className="text-sm tracking-widest uppercase text-primary mb-4">[Voices]</p>
+            <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Voices]</p>
             <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-12 text-gray-900">
               From Our Volunteers
             </h2>
@@ -273,7 +273,7 @@ export default function VolunteerPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {testimonials.map((t, i) => (
               <FadeIn key={t.name} delay={i * 0.1}>
-                <div className="border-t-2 border-primary pt-6">
+                <div className="border-t-2 border-primary-deep pt-6">
                   <p className="text-gray-600 leading-relaxed mb-6">&ldquo;{t.quote}&rdquo;</p>
                   <div>
                     <p className="font-semibold text-gray-900">{t.name}</p>
@@ -291,8 +291,8 @@ export default function VolunteerPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-5">
               <FadeIn>
-                <p className="text-sm tracking-widest uppercase text-primary mb-4">[Get Started]</p>
-                <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-4">
+                <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Get Started]</p>
+                <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-4">
                   Join The
                   <br />
                   Movement
@@ -318,7 +318,7 @@ export default function VolunteerPage() {
         <div className="container">
           <FadeIn>
             <div className="max-w-3xl mx-auto">
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">[FAQ]</p>
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[FAQ]</p>
               <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8 text-gray-900">
                 Common Questions
               </h2>

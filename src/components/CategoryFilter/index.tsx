@@ -34,16 +34,16 @@ export const CategoryFilter: React.FC<{
                 key={category.slug}
                 onClick={() => handleClick(category.slug)}
                 className={cn(
-                  'relative px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors',
+                  'relative px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors border',
                   isActive
-                    ? 'text-secondary-foreground'
-                    : 'text-gray-500 hover:text-black border border-gray-200',
+                    ? 'text-primary-foreground border-transparent'
+                    : 'text-gray-500 hover:text-black border-gray-200',
                 )}
               >
                 {isActive && (
                   <motion.span
                     layoutId="activeCategory"
-                    className="absolute inset-0 bg-secondary"
+                    className="absolute inset-0 bg-primary"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
                   />
                 )}

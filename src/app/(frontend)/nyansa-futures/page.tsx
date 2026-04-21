@@ -43,28 +43,28 @@ export default async function NyansaFuturesPage() {
 
         <div className="container relative z-10 py-20 md:py-28">
           <div className="flex flex-wrap gap-3 mb-6">
-            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary border border-primary/30">
+            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30">
               Two-Day Hybrid Conference
             </span>
-            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-white/60 border border-white/20">
+            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-foreground/60 border border-foreground/20">
               Kigali, Rwanda
             </span>
           </div>
 
-          <p className="text-sm tracking-widest uppercase text-primary mb-6">
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">
             [Flagship Conference]
           </p>
 
-          <h1 className="text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
             Africa&apos;s Premier
             <br />
             Conference On
             <br />
-            <span className="text-primary">AI Governance</span>
+            <span className="text-primary-deep">AI Governance</span>
           </h1>
 
           {data?.subheadline && (
-            <p className="text-lg text-white/80 max-w-2xl mb-10 leading-relaxed">
+            <p className="text-lg text-foreground/80 max-w-2xl mb-10 leading-relaxed">
               {data.subheadline}
             </p>
           )}
@@ -82,7 +82,7 @@ export default async function NyansaFuturesPage() {
             )}
             <Link
               href={data?.sponsorUrl || '/become-a-sponsor'}
-              className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
             >
               Become a Sponsor
             </Link>
@@ -105,7 +105,7 @@ export default async function NyansaFuturesPage() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 <div className="lg:col-span-5">
                   {data?.heroImage && typeof data.heroImage !== 'number' ? (
-                    <div className="relative aspect-4/5 border-t-2 border-primary overflow-hidden">
+                    <div className="relative aspect-4/5 border-t-2 border-primary-deep overflow-hidden">
                       <Media resource={data.heroImage} fill imgClassName="object-cover" />
                     </div>
                   ) : (
@@ -114,7 +114,7 @@ export default async function NyansaFuturesPage() {
                 </div>
 
                 <div className="lg:col-span-7">
-                  <p className="text-sm tracking-widest uppercase text-primary mb-4">[About]</p>
+                  <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[About]</p>
                   <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4 text-gray-900">
                     What is Nyansa Futures?
                   </h2>
@@ -144,7 +144,7 @@ export default async function NyansaFuturesPage() {
                     Matters
                   </h2>
                 </div>
-                <div className="border-l-2 border-white/30 pl-6">
+                <div className="border-l-2 border-foreground/30 pl-6">
                   <div className="prose [&_p]:text-primary-foreground [&_li]:text-primary-foreground">
                     <RichText data={data.whyItMatters} enableGutter={false} />
                   </div>
@@ -159,19 +159,19 @@ export default async function NyansaFuturesPage() {
         <section className="bg-dark py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">[Audience]</p>
-              <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-12">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Audience]</p>
+              <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-12">
                 Who Should Attend
               </h2>
             </FadeIn>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {attendees.map((item, i) => (
                 <FadeIn key={i} delay={i * 0.05}>
-                  <div className="group flex items-start gap-4 p-6 bg-card border-l-2 border-transparent hover:border-primary transition-all duration-300">
-                    <span className="text-primary text-sm font-mono shrink-0 mt-0.5">
+                  <div className="group flex items-start gap-4 p-6 bg-card border-l-2 border-transparent hover:border-primary-deep transition-all duration-300">
+                    <span className="text-primary-deep text-sm font-mono shrink-0 mt-0.5">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="text-sm text-white leading-relaxed">{item.trim()}</span>
+                    <span className="text-sm text-foreground leading-relaxed">{item.trim()}</span>
                   </div>
                 </FadeIn>
               ))}
@@ -184,7 +184,7 @@ export default async function NyansaFuturesPage() {
         <section className="bg-white py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">[Format]</p>
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Format]</p>
               <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-12 text-gray-900">
                 Conference Format
               </h2>
@@ -192,8 +192,8 @@ export default async function NyansaFuturesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {formatBlocks.map((block, i) => (
                 <FadeIn key={i} delay={i * 0.1}>
-                  <div className="border-t-2 border-primary pt-6">
-                    <span className="text-3xl font-bold text-primary font-mono">
+                  <div className="border-t-2 border-primary-deep pt-6">
+                    <span className="text-3xl font-bold text-primary-deep font-mono">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <p className="text-gray-700 leading-relaxed mt-3">{block.trim()}</p>
@@ -209,19 +209,19 @@ export default async function NyansaFuturesPage() {
         <section className="bg-dark py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4">[Themes]</p>
-              <h2 className="text-3xl text-white sm:text-4xl md:text-5xl font-bold uppercase tracking-tight leading-tight mb-12">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Themes]</p>
+              <h2 className="text-3xl text-foreground sm:text-4xl md:text-5xl font-bold uppercase tracking-tight leading-tight mb-12">
                 Key Themes
               </h2>
             </FadeIn>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {data.keyThemes.map((item, i) => (
                 <FadeIn key={i} delay={i * 0.08}>
-                  <div className="group relative p-8 md:p-10 bg-card border-t-2 border-transparent hover:border-primary transition-all duration-300">
-                    <span className="text-4xl font-bold text-primary/40 group-hover:text-primary transition-colors font-mono">
+                  <div className="group relative p-8 md:p-10 bg-card border-t-2 border-transparent hover:border-primary-deep transition-all duration-300">
+                    <span className="text-4xl font-bold text-primary-deep/40 group-hover:text-primary-deep transition-colors font-mono">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="text-lg font-bold text-white mt-3 mb-2 tracking-tight">
+                    <h3 className="text-lg font-bold text-foreground mt-3 mb-2 tracking-tight">
                       {item.theme}
                     </h3>
                     {item.description && (
@@ -253,7 +253,7 @@ export default async function NyansaFuturesPage() {
             <div className="max-w-3xl">
               {data.expectedOutcomes.map((item, i) => (
                 <FadeIn key={i} delay={i * 0.08}>
-                  <div className="flex items-start gap-4 py-5 border-b border-white/10 last:border-b-0">
+                  <div className="flex items-start gap-4 py-5 border-b border-foreground/10 last:border-b-0">
                     <ArrowRight className="w-5 h-5 text-primary-foreground shrink-0 mt-0.5" />
                     <p className="text-primary-foreground leading-relaxed">{item.outcome}</p>
                   </div>
@@ -269,7 +269,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <div className="max-w-3xl mx-auto">
-                <p className="text-sm tracking-widest uppercase text-primary mb-4">[FAQ]</p>
+                <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[FAQ]</p>
                 <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8 text-gray-900">
                   Frequently Asked Questions
                 </h2>
@@ -286,10 +286,10 @@ export default async function NyansaFuturesPage() {
       <section className="bg-dark py-16 md:py-20">
         <div className="container text-center max-w-2xl mx-auto">
           <FadeIn>
-            <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-4">
+            <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-4">
               Be Part of Africa&apos;s AI Future
             </h2>
-            <p className="text-white/80 mb-8 leading-relaxed">
+            <p className="text-foreground/80 mb-8 leading-relaxed">
               Join policymakers, innovators, and thought leaders shaping responsible AI governance
               across the continent. Register now or partner with us.
             </p>
@@ -306,7 +306,7 @@ export default async function NyansaFuturesPage() {
               )}
               <Link
                 href={data?.sponsorUrl || '/become-a-sponsor'}
-                className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+                className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
               >
                 Become a Sponsor
               </Link>

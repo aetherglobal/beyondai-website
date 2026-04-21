@@ -119,23 +119,23 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
         <div className="container relative z-10 py-16 md:py-24">
           <div className="flex flex-wrap gap-3 mb-6">
-            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary border border-primary/30">
+            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30">
               {EVENT_TYPE_LABELS[eventType] || eventType}
             </span>
             {isVirtual && (
-              <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-white/60 border border-white/20">
+              <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-foreground/60 border border-foreground/20">
                 Virtual Event
               </span>
             )}
           </div>
 
-          <h1 className="text-3xl text-white sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
+          <h1 className="text-3xl text-foreground sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
             {title}
           </h1>
 
-          <div className="flex flex-wrap gap-6 text-white/80 mb-10">
+          <div className="flex flex-wrap gap-6 text-foreground/80 mb-10">
             <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-primary" />
+              <Calendar className="w-4 h-4 text-primary-deep" />
               {formattedDate} at {formattedTime}
             </span>
             {endDate && (
@@ -149,13 +149,13 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             )}
             {location && (
               <span className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-primary" />
+                <MapPin className="w-4 h-4 text-primary-deep" />
                 {location}
               </span>
             )}
             {isVirtual && (
               <span className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-primary" />
+                <Globe className="w-4 h-4 text-primary-deep" />
                 Virtual
               </span>
             )}
@@ -182,7 +182,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             <FadeIn>
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 <div className="lg:col-span-4">
-                  <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+                  <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                     [About This Event]
                   </p>
                   <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide text-gray-900">
@@ -205,10 +205,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         <section className="bg-dark py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Speakers]
               </p>
-              <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-12">
+              <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-12">
                 Who&apos;s Speaking
               </h2>
             </FadeIn>
@@ -218,7 +218,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                   <div className="text-center group">
                     {speaker.photo && typeof speaker.photo !== 'number' ? (
                       <div
-                        className="relative w-40 h-40 mx-auto mb-4 overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors"
+                        className="relative w-40 h-40 mx-auto mb-4 overflow-hidden border-2 border-transparent group-hover:border-primary-deep transition-colors"
                         style={{
                           clipPath:
                             'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
@@ -234,12 +234,12 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                             'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
                         }}
                       >
-                        <span className="text-2xl font-bold text-primary/40">
+                        <span className="text-2xl font-bold text-primary-deep/40">
                           {speaker.name.charAt(0)}
                         </span>
                       </div>
                     )}
-                    <h3 className="font-semibold text-white text-sm">{speaker.name}</h3>
+                    <h3 className="font-semibold text-foreground text-sm">{speaker.name}</h3>
                     {speaker.title && (
                       <p className="text-xs text-muted-foreground mt-1">{speaker.title}</p>
                     )}
@@ -255,7 +255,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         <section className="bg-white py-16 md:py-20">
           <div className="container">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Schedule]
               </p>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-16 text-gray-900">
@@ -318,10 +318,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         <section className="bg-dark py-16 md:py-20">
           <div className="container max-w-3xl mx-auto">
             <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary mb-4 font-mono text-center">
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono text-center">
                 [Registration]
               </p>
-              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8 text-white text-center">
+              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8 text-foreground text-center">
                 Register Now
               </h2>
               <LumaEmbed className="text-center" embedUrl={lumaEmbedUrl} eventUrl={lumaEventUrl} />

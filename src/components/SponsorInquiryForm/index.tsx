@@ -67,7 +67,7 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
   if (status === 'success') {
     return (
       <div className={className}>
-        <p className="text-lg font-medium text-white">Inquiry received!</p>
+        <p className="text-lg font-medium text-foreground">Inquiry received!</p>
         <p className="text-muted-foreground mt-1">
           Thank you for your interest in partnering with Beyond AI. Our team will respond within 2
           business days.

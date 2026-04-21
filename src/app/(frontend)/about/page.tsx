@@ -31,18 +31,18 @@ export default function AboutPage() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 60% 50% at 50% 40%, oklch(83.5% 0.16 165.7 / 0.07) 0%, transparent 70%)',
+              'radial-gradient(ellipse 60% 50% at 50% 40%, oklch(82% 0.17 85 / 0.15) 0%, transparent 70%)',
           }}
         />
 
         <div className="container relative z-10 py-20 md:py-28">
-          <p className="text-sm tracking-widest uppercase text-primary mb-6">[About]</p>
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">[About]</p>
 
-          <h1 className="text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
             Beyond AI Is A<br />
             Civic Platform For
             <br />
-            <span className="text-primary">Africa&apos;s AI Future</span>
+            <span className="text-primary-deep">Africa&apos;s AI Future</span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mb-10 leading-relaxed">
@@ -60,7 +60,7 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/posts"
-              className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
             >
               Read Our Articles
             </Link>
@@ -74,7 +74,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-5">
-              <div className="relative aspect-4/5 border-t-2 border-primary overflow-hidden bg-gray-100 flex items-center justify-center">
+              <div className="relative aspect-4/5 border-t-2 border-primary-deep overflow-hidden bg-gray-100 flex items-center justify-center">
                 <div className="text-gray-300 text-sm tracking-widest uppercase">Beyond AI</div>
               </div>
             </div>
@@ -110,12 +110,12 @@ export default function AboutPage() {
       <section className="bg-primary py-16 md:py-20">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <div className="border-l-2 border-white/30 pl-6">
+            <div className="border-l-2 border-foreground/30 pl-6">
               <Eye className="w-8 h-8 text-primary-foreground mb-4" strokeWidth={1.5} />
               <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-3 text-primary-foreground">
                 Our Vision
               </h2>
-              <div className="w-12 h-0.5 bg-white/30 mb-4" />
+              <div className="w-12 h-0.5 bg-foreground/30 mb-4" />
               <p className="text-primary-foreground/80 leading-relaxed">
                 An Africa where AI governance is inclusive, equitable, and driven by the voices of
                 its people — where technology serves communities and strengthens democratic
@@ -123,12 +123,12 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="border-l-2 border-white/30 pl-6">
+            <div className="border-l-2 border-foreground/30 pl-6">
               <Target className="w-8 h-8 text-primary-foreground mb-4" strokeWidth={1.5} />
               <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-3 text-primary-foreground">
                 Our Mission
               </h2>
-              <div className="w-12 h-0.5 bg-white/30 mb-4" />
+              <div className="w-12 h-0.5 bg-foreground/30 mb-4" />
               <p className="text-primary-foreground/80 leading-relaxed">
                 To build a vibrant civic platform that convenes stakeholders, produces knowledge,
                 and amplifies African perspectives on AI governance and digital transformation.
@@ -140,10 +140,10 @@ export default function AboutPage() {
 
       <section className="bg-dark py-16 md:py-20">
         <div className="container">
-          <p className="text-sm tracking-widest uppercase text-primary mb-4">
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">
             [Strategic Objectives]
           </p>
-          <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-12">
+          <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-12">
             What We Aim To Achieve
           </h2>
 
@@ -154,11 +154,11 @@ export default function AboutPage() {
                 className={`flex flex-col sm:flex-row items-start gap-4 sm:gap-8 py-8 border-b border-border ${i === 0 ? 'border-t' : ''}`}
               >
                 <div className="flex items-center gap-4 shrink-0">
-                  <span className="text-3xl md:text-4xl font-bold text-primary">{obj.number}</span>
+                  <span className="text-3xl md:text-4xl font-bold text-primary-deep">{obj.number}</span>
                   <span className="hidden sm:block w-8 h-0.5 bg-border" />
                 </div>
                 <div>
-                  <h3 className="text-lg  text-white font-semibold mb-2">{obj.title}</h3>
+                  <h3 className="text-lg  text-foreground font-semibold mb-2">{obj.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{obj.description}</p>
                 </div>
               </div>
@@ -234,9 +234,9 @@ export default function AboutPage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="border-t-2 border-primary pt-6">
+            <div className="border-t-2 border-primary-deep pt-6">
               <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-4">
-                <span className="text-primary font-bold text-lg">A</span>
+                <span className="text-primary-deep font-bold text-lg">A</span>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-900">Aether Strategies</h3>
               <p className="text-gray-600 leading-relaxed">
@@ -246,9 +246,9 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="border-t-2 border-primary pt-6">
+            <div className="border-t-2 border-primary-deep pt-6">
               <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-4">
-                <span className="text-primary font-bold text-lg">B</span>
+                <span className="text-primary-deep font-bold text-lg">B</span>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-900">Bilili Creative Lab</h3>
               <p className="text-gray-600 leading-relaxed">
@@ -263,7 +263,7 @@ export default function AboutPage() {
 
       <section className="bg-dark py-16 md:py-20">
         <div className="container text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl text-white md:text-4xl font-bold uppercase tracking-tight mb-4">
+          <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-4">
             Join the Movement
           </h2>
           <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -280,13 +280,13 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/sponsors"
-              className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
             >
               Become a Sponsor
             </Link>
             <Link
               href="#footer-newsletter"
-              className="inline-flex items-center px-7 py-3.5 border border-primary text-primary font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
             >
               Subscribe
             </Link>
