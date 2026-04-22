@@ -10,19 +10,66 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
-      name: 'navItems',
+      name: 'linkColumns',
       type: 'array',
-      fields: [
-        link({
-          appearances: false,
-        }),
-      ],
-      maxRows: 6,
+      label: 'Link Columns',
+      maxRows: 4,
       admin: {
         initCollapsed: true,
+        description: 'Groups of links shown as columns in the footer.',
         components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
+          RowLabel: '@/Footer/RowLabel#ColumnRowLabel',
         },
+      },
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'links',
+          type: 'array',
+          maxRows: 8,
+          fields: [
+            link({
+              appearances: false,
+            }),
+          ],
+          admin: {
+            initCollapsed: true,
+            components: {
+              RowLabel: '@/Footer/RowLabel#RowLabel',
+            },
+          },
+        },
+      ],
+    },
+    {
+      name: 'newsletter',
+      type: 'group',
+      admin: {
+        description: 'Newsletter block shown in the footer.',
+      },
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          defaultValue: 'Newsletter',
+        },
+        {
+          name: 'subheading',
+          type: 'text',
+          defaultValue: 'Subscribe to AI Pulse',
+        },
+      ],
+    },
+    {
+      name: 'copyrightText',
+      type: 'text',
+      defaultValue: '© {year} Beyond AI. All rights reserved.',
+      admin: {
+        description: "Use {year} as a placeholder for the current year.",
       },
     },
   ],

@@ -1,0 +1,20 @@
+name: Deploy Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  source-branch-check:
+    name: Source Branch Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify PR comes from testing branch
+        run: |
+          if [ "${{ github.head_ref }}" != "testing" ]; then
+            echo "::error::PRs to main must come from the 'testing' branch. Got '${{ github.head_ref }}' instead."
+            echo ""
+            echo "Follow the branching workflow: dev → testing → main"
+            exit 1
+          fi
+          echo "Source branch is 'testing' — proceeding."

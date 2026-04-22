@@ -20,7 +20,7 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
     <div className={clsx('lg:container', className)}>
       {introContent && <RichText data={introContent} enableGutter={false} />}
 
-      <h2 className="text-2xl font-bold mb-6">Continue Reading</h2>
+      <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-6">Continue Reading</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {docs?.map((doc, index) => {

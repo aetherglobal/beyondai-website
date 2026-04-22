@@ -4,9 +4,12 @@ import { CategoryFilter } from '@/components/CategoryFilter'
 import { FeaturedArticleHero } from '@/components/FeaturedArticleHero'
 import { LoadMoreButton } from '@/components/LoadMoreButton'
 import { NewsletterForm } from '@/components/NewsletterForm'
+import { RenderHero } from '@/heros/RenderHero'
+import { generateMeta } from '@/utilities/generateMeta'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import React from 'react'
+import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { draftMode } from 'next/headers'
+import React, { cache } from 'react'
 
 export const revalidate = 600
 
@@ -19,6 +22,7 @@ type Args = {
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
   const { category } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
+  const articlesPage = await queryArticlesPage()
 
   const categories = await payload.find({
     collection: 'categories',
@@ -106,15 +110,19 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
   return (
     <div className="pb-24 bg-white text-black">
-      <div className="container pt-24 mb-8">
-        <h1 className="font-bold" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
-          Articles
-        </h1>
-        <p className="text-gray-500 text-lg mt-2 max-w-2xl">
-          Insights on AI governance, policy, and digital transformation in Africa.
-        </p>
-        <div className="mt-6 h-1 w-24 bg-secondary" />
-      </div>
+      {articlesPage?.hero ? (
+        <RenderHero {...articlesPage.hero} />
+      ) : (
+        <div className="container pt-24 mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1]">
+            Articles
+          </h1>
+          <p className="text-gray-500 text-lg mt-2 max-w-2xl">
+            Insights on AI governance, policy, and digital transformation in Africa.
+          </p>
+          <div className="mt-6 h-1 w-24 bg-secondary" />
+        </div>
+      )}
 
       <CategoryFilter categories={categories.docs} />
 
@@ -138,8 +146,28 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   )
 }
 
-export function generateMetadata(): Metadata {
-  return {
-    title: 'Articles — Beyond AI',
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await queryArticlesPage()
+  if (page) return generateMeta({ doc: page })
+  return { title: 'Articles — Beyond AI' }
 }
+
+const queryArticlesPage = cache(
+  async (): Promise<RequiredDataFromCollectionSlug<'pages'> | null> => {
+    const { isEnabled: draft } = await draftMode()
+    const payload = await getPayload({ config: configPromise })
+
+    const result = await payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      overrideAccess: draft,
+      where: {
+        slug: { equals: 'posts' },
+      },
+    })
+
+    return result.docs?.[0] || null
+  },
+)

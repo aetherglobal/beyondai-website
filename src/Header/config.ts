@@ -25,6 +25,23 @@ export const Header: GlobalConfig = {
         },
       },
     },
+    {
+      name: 'ctaButton',
+      type: 'group',
+      admin: {
+        description: 'Primary call-to-action button shown on the right side of the header.',
+      },
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          defaultValue: true,
+        },
+        link({
+          appearances: false,
+        }),
+      ],
+    },
   ],
   hooks: {
     afterChange: [revalidateHeader],

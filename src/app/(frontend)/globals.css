@@ -25,18 +25,18 @@
   --foreground: oklch(16.5% 0.02 260deg);
   --dark: oklch(100% 0 0deg);
   --dark-foreground: oklch(16.5% 0.02 260deg);
-  --card: oklch(100% 0 0deg);
+  --card: oklch(97% 0.005 260deg);
   --card-foreground: oklch(16.5% 0.02 260deg);
   --popover: oklch(100% 0 0deg);
   --popover-foreground: oklch(16.5% 0.02 260deg);
   --primary: oklch(82% 0.17 85deg);
   --primary-foreground: oklch(16.5% 0.02 260deg);
   --primary-deep: oklch(58% 0.15 78deg);
-  --secondary: oklch(100% 0 0deg);
+  --secondary: oklch(96.5% 0.005 260deg);
   --secondary-foreground: oklch(16.5% 0.02 260deg);
-  --muted: oklch(100% 0 0deg);
+  --muted: oklch(96.5% 0.005 260deg);
   --muted-foreground: oklch(55% 0.01 260deg);
-  --accent: oklch(100% 0 0deg);
+  --accent: oklch(96.5% 0.005 260deg);
   --accent-foreground: oklch(16.5% 0.02 260deg);
   --destructive: oklch(57.7% 0.245 27.325deg);
   --destructive-foreground: oklch(100% 0 0deg);
@@ -44,6 +44,7 @@
   --input: oklch(92% 0.005 260deg);
   --ring: oklch(82% 0.17 85deg);
   --radius: 0;
+  --container-max: 86rem;
 }
 
 @theme inline {
@@ -71,8 +72,8 @@
   --color-ring: var(--ring);
   --font-sans: var(--font-sora);
   --font-mono: var(--font-space-mono);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: max(0px, calc(var(--radius) - 4px));
+  --radius-md: max(0px, calc(var(--radius) - 2px));
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
@@ -80,6 +81,9 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+  html {
+    font-size: 16px;
   }
   body {
     @apply bg-background text-foreground min-h-screen flex flex-col;
@@ -108,19 +112,7 @@
 
   @variant lg {
     .container {
-      max-width: var(--breakpoint-lg);
-    }
-  }
-
-  @variant xl {
-    .container {
-      max-width: var(--breakpoint-xl);
-    }
-  }
-
-  @variant 2xl {
-    .container {
-      max-width: var(--breakpoint-2xl);
+      max-width: min(var(--container-max, 86rem), 100%);
     }
   }
 }
@@ -133,7 +125,7 @@
 .prose h1 {
   font-weight: normal;
   margin-bottom: 0.25em;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
 }
 
 .prose h2 {
@@ -141,13 +133,18 @@
   font-weight: 600;
 }
 
+.prose h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
 @media (width >= 48rem) {
   .prose h1 {
-    font-size: 3.5rem;
+    font-size: 2rem;
   }
 
   .prose h2 {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
   }
 }
 
@@ -170,4 +167,15 @@ html {
   margin-right: 0.75rem;
   margin-top: 0.25rem;
   line-height: 1;
+}
+
+.site-logo {
+  width: auto;
+  height: calc(var(--logo-h, 56px) * 0.7);
+}
+
+@media (min-width: 48rem) {
+  .site-logo {
+    height: var(--logo-h, 56px);
+  }
 }

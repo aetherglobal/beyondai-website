@@ -61,8 +61,7 @@ export const FeaturedArticleHero: React.FC<{
         )}
 
         <h2
-          className="font-bold mb-4 leading-tight"
-          style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
+          className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight mb-4"
         >
           <Link href={href} ref={link.ref} className="hover:underline">
             {title}

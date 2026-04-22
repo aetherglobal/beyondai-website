@@ -18,6 +18,7 @@ export const revalidateEvent: CollectionAfterChangeHook<Event> = ({
         revalidatePath('/events')
         revalidatePath('/')
         revalidateTag('events-sitemap', 'max')
+        revalidateTag('events', 'max')
       } catch {}
     }
   }
@@ -36,6 +37,7 @@ export const revalidateDeleteEvent: CollectionAfterDeleteHook<Event> = ({
       revalidatePath('/events')
       revalidatePath('/')
       revalidateTag('events-sitemap', 'max')
+      revalidateTag('events', 'max')
     } catch {}
   }
 
