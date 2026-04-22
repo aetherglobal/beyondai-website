@@ -64,8 +64,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     <div className="pt-24 pb-24 bg-white text-black">
       <div className="container mb-16">
         <h1
-          className="font-bold text-center mb-8 lg:mb-12"
-          style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] text-center mb-8 lg:mb-12"
         >
           Search
         </h1>

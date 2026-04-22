@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { anyone } from '../../access/anyone'
 import { slugField } from 'payload'
+import { revalidateDeleteSponsor, revalidateSponsor } from './hooks/revalidateSponsor'
 
 export const Sponsors: CollectionConfig<'sponsors'> = {
   slug: 'sponsors',
@@ -11,6 +12,10 @@ export const Sponsors: CollectionConfig<'sponsors'> = {
     delete: authenticated,
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [revalidateSponsor],
+    afterDelete: [revalidateDeleteSponsor],
   },
   defaultPopulate: {
     name: true,

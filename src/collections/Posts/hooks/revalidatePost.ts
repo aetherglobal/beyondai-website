@@ -17,6 +17,7 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
 
       revalidatePath(path)
       revalidateTag('posts-sitemap', 'max')
+      revalidateTag('posts', 'max')
     }
 
     if (previousDoc._status === 'published' && doc._status !== 'published') {
@@ -26,6 +27,7 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
 
       revalidatePath(oldPath)
       revalidateTag('posts-sitemap', 'max')
+      revalidateTag('posts', 'max')
     }
   }
   return doc

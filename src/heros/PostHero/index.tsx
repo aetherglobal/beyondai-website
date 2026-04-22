@@ -42,8 +42,7 @@ export const PostHero: React.FC<{
           )}
 
           <h1
-            className="font-bold mb-6 leading-tight"
-            style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+            className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6"
           >
             {title}
           </h1>

@@ -8,13 +8,22 @@ import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
+  const hasMedia = media && typeof media === 'object'
+
   return (
-    <div className="relative -mt-[10.4rem] flex items-center justify-center text-white">
-      <div className="container mb-8 z-10 relative flex items-center justify-center">
-        <div className="max-w-[36.5rem] md:text-center">
+    <section className="relative bg-dark text-white min-h-[60vh] flex items-center justify-center overflow-hidden">
+      {hasMedia && (
+        <div className="absolute inset-0 select-none">
+          <Media fill imgClassName="object-cover" priority resource={media} />
+          <div className="absolute inset-0 bg-dark/60" />
+        </div>
+      )}
+
+      <div className="container relative z-10 py-20 md:py-28 flex items-center justify-center">
+        <div className="max-w-3xl text-center">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (
-            <ul className="flex md:justify-center gap-4">
+            <ul className="flex justify-center flex-wrap gap-4">
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
@@ -26,11 +35,6 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           )}
         </div>
       </div>
-      <div className="absolute inset-0 min-h-[80vh] select-none">
-        {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
-        )}
-      </div>
-    </div>
+    </section>
   )
 }

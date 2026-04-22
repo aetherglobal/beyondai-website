@@ -129,7 +129,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             )}
           </div>
 
-          <h1 className="text-3xl text-foreground sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
             {title}
           </h1>
 
@@ -185,7 +185,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                   <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                     [About This Event]
                   </p>
-                  <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide text-gray-900">
+                  <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight text-gray-900">
                     What to Expect
                   </h2>
                   <div className="w-16 h-0.5 bg-primary mt-4" />
@@ -208,7 +208,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Speakers]
               </p>
-              <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Who&apos;s Speaking
               </h2>
             </FadeIn>
@@ -258,7 +258,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Schedule]
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-16 text-gray-900">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-16 text-gray-900">
                 Schedule
               </h2>
             </FadeIn>
@@ -272,7 +272,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                     <FadeIn key={i} delay={i * 0.04}>
                       <div className="my-6">
                         <div className="bg-gray-100 py-8 px-8 md:px-12 rounded-lg">
-                          <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight text-gray-900">
+                          <h3 className="text-lg md:text-xl font-bold uppercase tracking-tight text-gray-900">
                             {item.title}
                           </h3>
                           {item.description && (
@@ -293,7 +293,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                         </div>
 
                         <div>
-                          <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight text-gray-900 mb-2">
+                          <h3 className="text-lg md:text-xl font-bold uppercase tracking-tight text-gray-900 mb-2">
                             {item.title}
                           </h3>
                           {item.description && (
@@ -321,7 +321,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono text-center">
                 [Registration]
               </p>
-              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8 text-foreground text-center">
+              <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8 text-foreground text-center">
                 Register Now
               </h2>
               <LumaEmbed className="text-center" embedUrl={lumaEmbedUrl} eventUrl={lumaEventUrl} />

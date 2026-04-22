@@ -1,13 +1,18 @@
 import type { Metadata } from 'next'
-import React from 'react'
+import { cache } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { FAQ } from '@/components/FAQ'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { AnimatedStats } from '@/components/AnimatedStats'
+import { RenderHero } from '@/heros/RenderHero'
+import { generateMeta } from '@/utilities/generateMeta'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { FadeIn } from '@/components/FadeIn'
+import configPromise from '@payload-config'
+import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { draftMode } from 'next/headers'
 
 import type { NyansaFuture } from '@/payload-types'
 
@@ -20,6 +25,7 @@ const stats = [
 
 export default async function NyansaFuturesPage() {
   const data = (await getCachedGlobal('nyansa-futures', 1)()) as NyansaFuture
+  const cmsPage = await queryNyansaFuturesPage()
 
   const faqItems =
     data?.faq?.map((item) => ({
@@ -32,65 +38,69 @@ export default async function NyansaFuturesPage() {
 
   return (
     <article>
-      <section className="relative min-h-[70vh] bg-dark flex items-center overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 60% 50% at 50% 40%, oklch(83.5% 0.16 165.7 / 0.07) 0%, transparent 70%)',
-          }}
-        />
+      {cmsPage?.hero ? (
+        <RenderHero {...cmsPage.hero} />
+      ) : (
+        <section className="relative min-h-[70vh] bg-dark flex items-center overflow-hidden">
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(ellipse 60% 50% at 50% 40%, oklch(83.5% 0.16 165.7 / 0.07) 0%, transparent 70%)',
+            }}
+          />
 
-        <div className="container relative z-10 py-20 md:py-28">
-          <div className="flex flex-wrap gap-3 mb-6">
-            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30">
-              Two-Day Hybrid Conference
-            </span>
-            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-foreground/60 border border-foreground/20">
-              Kigali, Rwanda
-            </span>
-          </div>
+          <div className="container relative z-10 py-20 md:py-28">
+            <div className="flex flex-wrap gap-3 mb-6">
+              <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30">
+                Two-Day Hybrid Conference
+              </span>
+              <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-foreground/60 border border-foreground/20">
+                Kigali, Rwanda
+              </span>
+            </div>
 
-          <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">
-            [Flagship Conference]
-          </p>
-
-          <h1 className="text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[1.1] mb-8">
-            Africa&apos;s Premier
-            <br />
-            Conference On
-            <br />
-            <span className="text-primary-deep">AI Governance</span>
-          </h1>
-
-          {data?.subheadline && (
-            <p className="text-lg text-foreground/80 max-w-2xl mb-10 leading-relaxed">
-              {data.subheadline}
+            <p className="text-sm tracking-widest uppercase text-primary-deep mb-6">
+              [Flagship Conference]
             </p>
-          )}
 
-          <div className="flex flex-wrap gap-4">
-            {data?.attendUrl && (
-              <a
-                href={data.attendUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-7 py-3.5 bg-primary text-primary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
-              >
-                Register to Attend
-              </a>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-8">
+              Africa&apos;s Premier
+              <br />
+              Conference On
+              <br />
+              <span className="text-primary-deep">AI Governance</span>
+            </h1>
+
+            {data?.subheadline && (
+              <p className="text-lg text-foreground/80 max-w-2xl mb-10 leading-relaxed">
+                {data.subheadline}
+              </p>
             )}
-            <Link
-              href={data?.sponsorUrl || '/become-a-sponsor'}
-              className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
-            >
-              Become a Sponsor
-            </Link>
-          </div>
-        </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent" />
-      </section>
+            <div className="flex flex-wrap gap-4">
+              {data?.attendUrl && (
+                <a
+                  href={data.attendUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-7 py-3.5 bg-primary text-primary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
+                >
+                  Register to Attend
+                </a>
+              )}
+              <Link
+                href={data?.sponsorUrl || '/become-a-sponsor'}
+                className="inline-flex items-center px-7 py-3.5 border border-primary-deep text-primary-deep font-semibold text-sm uppercase tracking-wider hover:bg-primary/10 transition-all"
+              >
+                Become a Sponsor
+              </Link>
+            </div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent" />
+        </section>
+      )}
 
       <AnimatedStats
         stats={stats}
@@ -115,7 +125,7 @@ export default async function NyansaFuturesPage() {
 
                 <div className="lg:col-span-7">
                   <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[About]</p>
-                  <h2 className="text-xl md:text-2xl font-semibold uppercase tracking-wide mb-4 text-gray-900">
+                  <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-4 text-gray-900">
                     What is Nyansa Futures?
                   </h2>
                   <div className="w-16 h-0.5 bg-primary mb-6" />
@@ -138,7 +148,7 @@ export default async function NyansaFuturesPage() {
                   <p className="text-sm tracking-widest uppercase text-primary-foreground mb-4">
                     [Purpose]
                   </p>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight leading-tight text-primary-foreground">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] text-primary-foreground">
                     Why It
                     <br />
                     Matters
@@ -160,7 +170,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Audience]</p>
-              <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Who Should Attend
               </h2>
             </FadeIn>
@@ -185,7 +195,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Format]</p>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-12 text-gray-900">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-12 text-gray-900">
                 Conference Format
               </h2>
             </FadeIn>
@@ -210,7 +220,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Themes]</p>
-              <h2 className="text-3xl text-foreground sm:text-4xl md:text-5xl font-bold uppercase tracking-tight leading-tight mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Key Themes
               </h2>
             </FadeIn>
@@ -245,7 +255,7 @@ export default async function NyansaFuturesPage() {
                 <p className="text-sm tracking-widest uppercase text-primary-foreground mb-4">
                   [Outcomes]
                 </p>
-                <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight text-primary-foreground mb-10">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] text-primary-foreground mb-10">
                   Expected Outcomes
                 </h2>
               </div>
@@ -270,7 +280,7 @@ export default async function NyansaFuturesPage() {
             <FadeIn>
               <div className="max-w-3xl mx-auto">
                 <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[FAQ]</p>
-                <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8 text-gray-900">
+                <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8 text-gray-900">
                   Frequently Asked Questions
                 </h2>
                 <FAQ
@@ -286,7 +296,7 @@ export default async function NyansaFuturesPage() {
       <section className="bg-dark py-16 md:py-20">
         <div className="container text-center max-w-2xl mx-auto">
           <FadeIn>
-            <h2 className="text-3xl text-foreground md:text-4xl font-bold uppercase tracking-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-4">
               Be Part of Africa&apos;s AI Future
             </h2>
             <p className="text-foreground/80 mb-8 leading-relaxed">
@@ -318,8 +328,32 @@ export default async function NyansaFuturesPage() {
   )
 }
 
-export const metadata: Metadata = {
-  title: 'Nyansa Futures Conference — Beyond AI',
-  description:
-    'Nyansa Futures gathers policymakers, innovators, academics, and civil society to discuss AI governance and digital transformation in Africa.',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await queryNyansaFuturesPage()
+  if (page) return generateMeta({ doc: page })
+  return {
+    title: 'Nyansa Futures Conference — Beyond AI',
+    description:
+      'Nyansa Futures gathers policymakers, innovators, academics, and civil society to discuss AI governance and digital transformation in Africa.',
+  }
 }
+
+const queryNyansaFuturesPage = cache(
+  async (): Promise<RequiredDataFromCollectionSlug<'pages'> | null> => {
+    const { isEnabled: draft } = await draftMode()
+    const payload = await getPayload({ config: configPromise })
+
+    const result = await payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      overrideAccess: draft,
+      where: {
+        slug: { equals: 'nyansa-futures' },
+      },
+    })
+
+    return result.docs?.[0] || null
+  },
+)

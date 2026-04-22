@@ -71,7 +71,7 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
             >
               <CheckCircle className="w-16 h-16 text-primary-deep mb-6" strokeWidth={1.5} />
             </motion.div>
-            <h3 className="text-xl font-bold text-gray-900 uppercase tracking-wide mb-2">
+            <h3 className="text-lg font-bold text-gray-900 uppercase tracking-tight mb-2">
               Message Sent
             </h3>
             <p className="text-muted-foreground mb-8">

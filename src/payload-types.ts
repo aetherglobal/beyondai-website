@@ -171,7 +171,7 @@ export interface Page {
   id: number;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'featuredEvent' | 'pageHero';
     richText?: {
       root: {
         type: string;
@@ -212,8 +212,70 @@ export interface Page {
         }[]
       | null;
     media?: (number | null) | Media;
+    /**
+     * Small label shown above the title (e.g. "Govern / Innovate / Transform" or "[Events]").
+     */
+    eyebrow?: string | null;
+    title?: string | null;
+    /**
+     * Main heading. Line breaks are preserved.
+     */
+    heading?: string | null;
+    /**
+     * Optional final line of the heading rendered in the accent color.
+     */
+    headingAccent?: string | null;
+    subtitle?: string | null;
+    ctas?:
+      | {
+          label: string;
+          /**
+           * Internal path (e.g. /events) or external URL.
+           */
+          href?: string | null;
+          variant?: ('primary' | 'outline') | null;
+          /**
+           * If enabled and an upcoming event is found, this button links to that event's Luma URL.
+           */
+          useEventLumaUrl?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Displays date, location and countdown for the next upcoming event.
+     */
+    bindNextEvent?: boolean | null;
+    /**
+     * Shown when no upcoming event exists or when binding is disabled.
+     */
+    fallbackImage?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | SplitContentBlock
+    | StatementSectionBlock
+    | ObjectivesGridBlock
+    | ProgramsGridBlock
+    | StatsRowBlock
+    | TimelineStepsBlock
+    | RolesListBlock
+    | TestimonialListBlock
+    | FAQBlockType
+    | ContactInfoBlockType
+    | UpcomingEventsBlockType
+    | FeaturedEventBlockType
+    | PastEventsBlockType
+    | LatestArticlesBlockType
+    | FeaturedSponsorsBlockType
+    | NewsletterFormBlockType
+    | ContactFormBlockType
+    | VolunteerFormBlockType
+    | SponsorInquiryFormBlockType
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -800,6 +862,434 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SplitContentBlock".
+ */
+export interface SplitContentBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  /**
+   * Optional. Shown on a second line after the heading in the primary-deep accent color (e.g. "Futures").
+   */
+  headingAccent?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image?: (number | null) | Media;
+  imagePosition?: ('left' | 'right') | null;
+  background?: ('secondary' | 'white' | 'primary' | 'dark') | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'splitContent';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatementSectionBlock".
+ */
+export interface StatementSectionBlock {
+  eyebrow?: string | null;
+  /**
+   * Primary heading. Line breaks in the text become <br/> in the output.
+   */
+  heading?: string | null;
+  /**
+   * Optional action button shown to the right of the heading at the top.
+   */
+  sideCta?: {
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: number | Post;
+          } | null);
+      url?: string | null;
+      label?: string | null;
+    };
+  };
+  /**
+   * Small title above the body copy.
+   */
+  subheading?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Show the decorative chevron icon above the body.
+   */
+  showIcon?: boolean | null;
+  image?: (number | null) | Media;
+  background?: ('secondary' | 'white' | 'primary' | 'dark') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'statementSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ObjectivesGridBlock".
+ */
+export interface ObjectivesGridBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  items?:
+    | {
+        /**
+         * e.g. "01", "02"
+         */
+        number: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'objectivesGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProgramsGridBlock".
+ */
+export interface ProgramsGridBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  background?: ('primary' | 'white' | 'secondary' | 'dark') | null;
+  columns?: ('1' | '2' | '3' | '4') | null;
+  items?:
+    | {
+        title: string;
+        description: string;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'programsGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsRowBlock".
+ */
+export interface StatsRowBlock {
+  heading?: string | null;
+  items?:
+    | {
+        /**
+         * e.g. "500+", "12"
+         */
+        number: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'statsRow';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TimelineStepsBlock".
+ */
+export interface TimelineStepsBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  steps?:
+    | {
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'timelineSteps';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RolesListBlock".
+ */
+export interface RolesListBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  roles?:
+    | {
+        title: string;
+        /**
+         * e.g. "4-6 hrs / month"
+         */
+        commitment?: string | null;
+        description: string;
+        skills?:
+          | {
+              skill: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'rolesList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialListBlock".
+ */
+export interface TestimonialListBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  items?:
+    | {
+        quote: string;
+        author: string;
+        role?: string | null;
+        avatar?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonialList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlockType".
+ */
+export interface FAQBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  items?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactInfoBlockType".
+ */
+export interface ContactInfoBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  /**
+   * Pulled from Site Settings > Contact Info.
+   */
+  showEmail?: boolean | null;
+  showPhone?: boolean | null;
+  showAddress?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactInfo';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingEventsBlockType".
+ */
+export interface UpcomingEventsBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  ctaLabel?: string | null;
+  ctaHref?: string | null;
+  variant?: ('grid' | 'numberedList') | null;
+  /**
+   * When enabled, the first upcoming event is skipped (useful when a Featured Event block is rendering it above).
+   */
+  skipFirst?: boolean | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'upcomingEvents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedEventBlockType".
+ */
+export interface FeaturedEventBlockType {
+  eyebrow?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredEvent';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PastEventsBlockType".
+ */
+export interface PastEventsBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pastEvents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestArticlesBlockType".
+ */
+export interface LatestArticlesBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  ctaLabel?: string | null;
+  ctaHref?: string | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestArticles';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedSponsorsBlockType".
+ */
+export interface FeaturedSponsorsBlockType {
+  heading?: string | null;
+  limit?: number | null;
+  /**
+   * Only show sponsors marked as "Show on Homepage".
+   */
+  featuredOnly?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredSponsors';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsletterFormBlockType".
+ */
+export interface NewsletterFormBlockType {
+  heading?: string | null;
+  subheading?: string | null;
+  variant?: ('full' | 'compact') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'newsletterForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlockType".
+ */
+export interface ContactFormBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VolunteerFormBlockType".
+ */
+export interface VolunteerFormBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'volunteerForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SponsorInquiryFormBlockType".
+ */
+export interface SponsorInquiryFormBlockType {
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sponsorInquiryForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
@@ -1265,6 +1755,22 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
             };
         media?: T;
+        eyebrow?: T;
+        title?: T;
+        heading?: T;
+        headingAccent?: T;
+        subtitle?: T;
+        ctas?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              variant?: T;
+              useEventLumaUrl?: T;
+              id?: T;
+            };
+        bindNextEvent?: T;
+        fallbackImage?: T;
       };
   layout?:
     | T
@@ -1274,6 +1780,25 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        splitContent?: T | SplitContentBlockSelect<T>;
+        statementSection?: T | StatementSectionBlockSelect<T>;
+        objectivesGrid?: T | ObjectivesGridBlockSelect<T>;
+        programsGrid?: T | ProgramsGridBlockSelect<T>;
+        statsRow?: T | StatsRowBlockSelect<T>;
+        timelineSteps?: T | TimelineStepsBlockSelect<T>;
+        rolesList?: T | RolesListBlockSelect<T>;
+        testimonialList?: T | TestimonialListBlockSelect<T>;
+        faqBlock?: T | FAQBlockTypeSelect<T>;
+        contactInfo?: T | ContactInfoBlockTypeSelect<T>;
+        upcomingEvents?: T | UpcomingEventsBlockTypeSelect<T>;
+        featuredEvent?: T | FeaturedEventBlockTypeSelect<T>;
+        pastEvents?: T | PastEventsBlockTypeSelect<T>;
+        latestArticles?: T | LatestArticlesBlockTypeSelect<T>;
+        featuredSponsors?: T | FeaturedSponsorsBlockTypeSelect<T>;
+        newsletterForm?: T | NewsletterFormBlockTypeSelect<T>;
+        contactForm?: T | ContactFormBlockTypeSelect<T>;
+        volunteerForm?: T | VolunteerFormBlockTypeSelect<T>;
+        sponsorInquiryForm?: T | SponsorInquiryFormBlockTypeSelect<T>;
       };
   meta?:
     | T
@@ -1370,6 +1895,321 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SplitContentBlock_select".
+ */
+export interface SplitContentBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  headingAccent?: T;
+  body?: T;
+  image?: T;
+  imagePosition?: T;
+  background?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatementSectionBlock_select".
+ */
+export interface StatementSectionBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  sideCta?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  subheading?: T;
+  body?: T;
+  showIcon?: T;
+  image?: T;
+  background?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ObjectivesGridBlock_select".
+ */
+export interface ObjectivesGridBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  items?:
+    | T
+    | {
+        number?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProgramsGridBlock_select".
+ */
+export interface ProgramsGridBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
+  background?: T;
+  columns?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsRowBlock_select".
+ */
+export interface StatsRowBlockSelect<T extends boolean = true> {
+  heading?: T;
+  items?:
+    | T
+    | {
+        number?: T;
+        label?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TimelineStepsBlock_select".
+ */
+export interface TimelineStepsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  steps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RolesListBlock_select".
+ */
+export interface RolesListBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  roles?:
+    | T
+    | {
+        title?: T;
+        commitment?: T;
+        description?: T;
+        skills?:
+          | T
+          | {
+              skill?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialListBlock_select".
+ */
+export interface TestimonialListBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  items?:
+    | T
+    | {
+        quote?: T;
+        author?: T;
+        role?: T;
+        avatar?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlockType_select".
+ */
+export interface FAQBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactInfoBlockType_select".
+ */
+export interface ContactInfoBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
+  showEmail?: T;
+  showPhone?: T;
+  showAddress?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingEventsBlockType_select".
+ */
+export interface UpcomingEventsBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  ctaLabel?: T;
+  ctaHref?: T;
+  variant?: T;
+  skipFirst?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedEventBlockType_select".
+ */
+export interface FeaturedEventBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PastEventsBlockType_select".
+ */
+export interface PastEventsBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestArticlesBlockType_select".
+ */
+export interface LatestArticlesBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  ctaLabel?: T;
+  ctaHref?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedSponsorsBlockType_select".
+ */
+export interface FeaturedSponsorsBlockTypeSelect<T extends boolean = true> {
+  heading?: T;
+  limit?: T;
+  featuredOnly?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsletterFormBlockType_select".
+ */
+export interface NewsletterFormBlockTypeSelect<T extends boolean = true> {
+  heading?: T;
+  subheading?: T;
+  variant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlockType_select".
+ */
+export interface ContactFormBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VolunteerFormBlockType_select".
+ */
+export interface VolunteerFormBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SponsorInquiryFormBlockType_select".
+ */
+export interface SponsorInquiryFormBlockTypeSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
   id?: T;
   blockName?: T;
 }
@@ -1940,6 +2780,27 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Primary call-to-action button shown on the right side of the header.
+   */
+  ctaButton: {
+    enabled?: boolean | null;
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: number | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1949,26 +2810,46 @@ export interface Header {
  */
 export interface Footer {
   id: number;
-  navItems?:
+  /**
+   * Groups of links shown as columns in the footer.
+   */
+  linkColumns?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        heading: string;
+        links?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: number | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: number | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Newsletter block shown in the footer.
+   */
+  newsletter?: {
+    heading?: string | null;
+    subheading?: string | null;
+  };
+  /**
+   * Use {year} as a placeholder for the current year.
+   */
+  copyrightText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1980,6 +2861,130 @@ export interface SiteSetting {
   id: number;
   siteName?: string | null;
   siteDescription?: string | null;
+  branding?: {
+    /**
+     * Used in the header and footer. Uploaded file replaces /logo.png.
+     */
+    logo?: (number | null) | Media;
+    /**
+     * Optional. Used on dark sections (e.g. header with bg-dark). Falls back to primary logo if empty.
+     */
+    logoDark?: (number | null) | Media;
+    /**
+     * Desktop logo height in pixels (mobile auto-scales to ~70%).
+     */
+    logoHeight?: number | null;
+    /**
+     * Optional. Replaces the default favicon. Accepts .ico, .svg, or .png.
+     */
+    favicon?: (number | null) | Media;
+  };
+  theme?: {
+    colors?: {
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      background?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      foreground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      dark?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      darkForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      card?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      cardForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      popover?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      popoverForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      primary?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      primaryForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      primaryDeep?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      secondary?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      secondaryForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      muted?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      mutedForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      accent?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      accentForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      destructive?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      destructiveForeground?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      border?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      input?: string | null;
+      /**
+       * OKLCH, HSL, RGB, or hex. Example: oklch(82% 0.17 85deg) or #ffcc00
+       */
+      ring?: string | null;
+    };
+    typography?: {
+      fontSans?: ('sora' | 'inter' | 'manrope' | 'dm-sans' | 'space-grotesk' | 'ibm-plex-sans') | null;
+      fontMono?: ('space-mono' | 'jetbrains-mono' | 'ibm-plex-mono') | null;
+    };
+    layout?: {
+      /**
+       * Border radius in pixels. 0 = sharp corners.
+       */
+      radius?: number | null;
+      /**
+       * Maximum container width in pixels at lg breakpoint and above.
+       */
+      containerMaxWidth?: number | null;
+    };
+  };
   contactEmail?: string | null;
   contactPhone?: string | null;
   address?: string | null;
@@ -2088,18 +3093,10 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer_select".
- */
-export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  ctaButton?:
     | T
     | {
+        enabled?: T;
         link?:
           | T
           | {
@@ -2109,8 +3106,43 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  linkColumns?:
+    | T
+    | {
+        heading?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
         id?: T;
       };
+  newsletter?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+      };
+  copyrightText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2122,6 +3154,56 @@ export interface FooterSelect<T extends boolean = true> {
 export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
   siteDescription?: T;
+  branding?:
+    | T
+    | {
+        logo?: T;
+        logoDark?: T;
+        logoHeight?: T;
+        favicon?: T;
+      };
+  theme?:
+    | T
+    | {
+        colors?:
+          | T
+          | {
+              background?: T;
+              foreground?: T;
+              dark?: T;
+              darkForeground?: T;
+              card?: T;
+              cardForeground?: T;
+              popover?: T;
+              popoverForeground?: T;
+              primary?: T;
+              primaryForeground?: T;
+              primaryDeep?: T;
+              secondary?: T;
+              secondaryForeground?: T;
+              muted?: T;
+              mutedForeground?: T;
+              accent?: T;
+              accentForeground?: T;
+              destructive?: T;
+              destructiveForeground?: T;
+              border?: T;
+              input?: T;
+              ring?: T;
+            };
+        typography?:
+          | T
+          | {
+              fontSans?: T;
+              fontMono?: T;
+            };
+        layout?:
+          | T
+          | {
+              radius?: T;
+              containerMaxWidth?: T;
+            };
+      };
   contactEmail?: T;
   contactPhone?: T;
   address?: T;

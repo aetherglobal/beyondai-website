@@ -7,6 +7,25 @@ import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { SplitContent } from '../../blocks/SplitContent/config'
+import { StatementSection } from '../../blocks/StatementSection/config'
+import { ObjectivesGrid } from '../../blocks/ObjectivesGrid/config'
+import { ProgramsGrid } from '../../blocks/ProgramsGrid/config'
+import { StatsRow } from '../../blocks/StatsRow/config'
+import { TimelineSteps } from '../../blocks/TimelineSteps/config'
+import { RolesList } from '../../blocks/RolesList/config'
+import { TestimonialList } from '../../blocks/TestimonialList/config'
+import { FAQBlock } from '../../blocks/FAQBlock/config'
+import { ContactInfoBlock } from '../../blocks/ContactInfoBlock/config'
+import { UpcomingEventsBlock } from '../../blocks/UpcomingEventsBlock/config'
+import { FeaturedEventBlock } from '../../blocks/FeaturedEventBlock/config'
+import { PastEventsBlock } from '../../blocks/PastEventsBlock/config'
+import { LatestArticlesBlock } from '../../blocks/LatestArticlesBlock/config'
+import { FeaturedSponsorsBlock } from '../../blocks/FeaturedSponsorsBlock/config'
+import { NewsletterFormBlock } from '../../blocks/NewsletterFormBlock/config'
+import { ContactFormBlock } from '../../blocks/ContactFormBlock/config'
+import { VolunteerFormBlock } from '../../blocks/VolunteerFormBlock/config'
+import { SponsorInquiryFormBlock } from '../../blocks/SponsorInquiryFormBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -69,7 +88,32 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                SplitContent,
+                StatementSection,
+                ObjectivesGrid,
+                ProgramsGrid,
+                StatsRow,
+                TimelineSteps,
+                RolesList,
+                TestimonialList,
+                FAQBlock,
+                ContactInfoBlock,
+                UpcomingEventsBlock,
+                FeaturedEventBlock,
+                PastEventsBlock,
+                LatestArticlesBlock,
+                FeaturedSponsorsBlock,
+                NewsletterFormBlock,
+                ContactFormBlock,
+                VolunteerFormBlock,
+                SponsorInquiryFormBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

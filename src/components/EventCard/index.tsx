@@ -25,7 +25,7 @@ export const EventCard: React.FC<{
 
   return (
     <article
-      className={`group border border-gray-200 bg-card text-card-foreground transition-all duration-300 overflow-hidden ${className || ''}`}
+      className={`group border border-gray-200 bg-white text-card-foreground transition-all duration-300 overflow-hidden ${className || ''}`}
     >
       {heroImage && typeof heroImage !== 'number' && (
         <Link href={`/events/${slug}`} className="block">

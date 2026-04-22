@@ -27,7 +27,7 @@ export default async function SponsorsPage() {
   return (
     <article className="pt-16 pb-24">
       <section className="container py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
           Sponsors & Partners
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl">
@@ -38,7 +38,7 @@ export default async function SponsorsPage() {
 
       {sponsors.length > 0 && (
         <section className="container py-8">
-          <h2 className="text-2xl font-semibold mb-8">Sponsors</h2>
+          <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Sponsors</h2>
           <SponsorGrid sponsors={sponsors} />
         </section>
       )}
@@ -46,7 +46,7 @@ export default async function SponsorsPage() {
       {knowledgePartners.length > 0 && (
         <section className="bg-card py-12">
           <div className="container">
-            <h2 className="text-2xl font-semibold mb-8">Knowledge Partners</h2>
+            <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Knowledge Partners</h2>
             <SponsorGrid sponsors={knowledgePartners} />
           </div>
         </section>
@@ -54,7 +54,7 @@ export default async function SponsorsPage() {
 
       {communityPartners.length > 0 && (
         <section className="container py-8">
-          <h2 className="text-2xl font-semibold mb-8">Community Partners</h2>
+          <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Community Partners</h2>
           <SponsorGrid sponsors={communityPartners} />
         </section>
       )}
@@ -68,7 +68,7 @@ export default async function SponsorsPage() {
       )}
 
       <section className="container py-12 text-center">
-        <h2 className="text-2xl font-semibold mb-4">Interested in Partnering?</h2>
+        <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-4">Interested in Partnering?</h2>
         <p className="text-muted-foreground mb-6">
           Support the Beyond AI initiative and help shape AI governance in Africa.
         </p>
