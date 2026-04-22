@@ -9,12 +9,12 @@ jobs:
     name: Source Branch Check
     runs-on: ubuntu-latest
     steps:
-      - name: Verify PR comes from testing branch
+      - name: Verify PR comes from staging branch
         run: |
-          if [ "${{ github.head_ref }}" != "testing" ]; then
-            echo "::error::PRs to main must come from the 'testing' branch. Got '${{ github.head_ref }}' instead."
+          if [ "${{ github.head_ref }}" != "staging" ]; then
+            echo "::error::PRs to main must come from the 'staging' branch. Got '${{ github.head_ref }}' instead."
             echo ""
-            echo "Follow the branching workflow: dev → testing → main"
+            echo "Follow the branching workflow: dev → staging → main"
             exit 1
           fi
-          echo "Source branch is 'testing' — proceeding."
+          echo "Source branch is 'staging' — proceeding."

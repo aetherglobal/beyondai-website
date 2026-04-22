@@ -11,6 +11,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { slugField } from 'payload'
 import { revalidateEvent, revalidateDeleteEvent } from './hooks/revalidateEvent'
+import { syncEventStatus } from './hooks/syncEventStatus'
 
 import {
   MetaDescriptionField,
@@ -269,6 +270,7 @@ export const Events: CollectionConfig<'events'> = {
     slugField(),
   ],
   hooks: {
+    beforeChange: [syncEventStatus],
     afterChange: [revalidateEvent],
     afterDelete: [revalidateDeleteEvent],
   },

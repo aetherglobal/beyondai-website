@@ -16,7 +16,8 @@ export const getUpcomingEvents = cache(async (limit: number = DEFAULT_LIMIT): Pr
       const result = await payload.find({
         collection: 'events',
         where: {
-          eventStatus: { equals: 'upcoming' },
+          date: { greater_than_equal: new Date().toISOString() },
+          eventStatus: { not_equals: 'cancelled' },
           _status: { equals: 'published' },
         },
         sort: 'date',
@@ -38,7 +39,8 @@ export const getPastEvents = cache(async (limit: number = 20): Promise<Event[]> 
       const result = await payload.find({
         collection: 'events',
         where: {
-          eventStatus: { equals: 'past' },
+          date: { less_than: new Date().toISOString() },
+          eventStatus: { not_equals: 'cancelled' },
           _status: { equals: 'published' },
         },
         sort: '-date',
