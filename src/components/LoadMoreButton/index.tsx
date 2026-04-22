@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { BentoGrid } from '@/components/BentoGrid'
+import { ArticleCard } from '@/components/ArticleCard'
 import type { ArticleCardPost } from '@/components/ArticleCard'
 
 export const LoadMoreButton: React.FC<{
@@ -52,7 +52,11 @@ export const LoadMoreButton: React.FC<{
 
   return (
     <div>
-      <BentoGrid posts={posts} />
+      <div className="flex flex-col gap-10">
+        {posts.map((post, index) => (
+          <ArticleCard key={post.slug || index} post={post} />
+        ))}
+      </div>
 
       <AnimatePresence>
         {hasMore && (

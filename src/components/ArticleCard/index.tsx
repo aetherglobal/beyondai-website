@@ -28,7 +28,7 @@ export const ArticleCard: React.FC<{
   post: ArticleCardPost
   variant?: 'default' | 'large'
   className?: string
-}> = ({ post, variant = 'default', className }) => {
+}> = ({ post, className }) => {
   const { card, link } = useClickableCard<HTMLElement>({})
   const { slug, categories, meta, heroImage, title, populatedAuthors, publishedAt, content } = post
   const { description, image: metaImage } = meta || {}
@@ -46,15 +46,13 @@ export const ArticleCard: React.FC<{
     .filter(Boolean)
     .join(', ')
 
-  const isLarge = variant === 'large'
-
   return (
     <motion.article
       ref={card.ref}
       className={cn(
-        'group border border-gray-200 overflow-hidden bg-white hover:cursor-pointer',
-        'transition-all duration-300 ease-out hover:-translate-y-0.5',
-        isLarge && 'md:flex md:flex-row',
+        'group overflow-hidden bg-white hover:cursor-pointer',
+        'transition-all duration-300 ease-out',
+        'flex flex-col md:flex-row',
         className,
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -62,19 +60,14 @@ export const ArticleCard: React.FC<{
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.4 }}
     >
-      <div
-        className={cn(
-          'relative overflow-hidden',
-          isLarge ? 'md:w-1/2 aspect-[16/10] md:aspect-auto' : 'aspect-[16/10]',
-        )}
-      >
+      <div className="relative overflow-hidden md:w-[45%] aspect-[16/10] md:aspect-auto md:min-h-[280px] shrink-0">
         {image && typeof image !== 'string' && typeof image !== 'number' ? (
           <div className="relative w-full h-full transition-transform duration-500 ease-out group-hover:scale-105">
             <Media
               resource={image}
               fill
               imgClassName="object-cover"
-              size={isLarge ? '50vw' : '33vw'}
+              size="50vw"
             />
           </div>
         ) : (
@@ -82,28 +75,28 @@ export const ArticleCard: React.FC<{
             No image
           </div>
         )}
+      </div>
+
+      <div className="p-5 md:p-8 md:w-[55%] flex flex-col justify-center">
         {firstCategory && (
           <span
             className={cn(
-              'absolute bottom-3 left-3 px-2.5 py-1 text-xs font-medium text-white',
+              'inline-block self-start px-2.5 py-1 text-xs font-medium text-white mb-3',
               getCategoryColor(firstCategory.slug || ''),
             )}
           >
             {firstCategory.title}
           </span>
         )}
-      </div>
-
-      <div className={cn('p-5', isLarge && 'md:w-1/2 md:flex md:flex-col md:justify-center')}>
         {title && (
-          <h3 className="font-bold text-lg line-clamp-2 text-black">
+          <h3 className="font-bold text-xl md:text-2xl line-clamp-3 text-black">
             <Link className="hover:underline" href={href} ref={link.ref}>
               {title}
             </Link>
           </h3>
         )}
         {description && (
-          <p className="text-gray-500 text-sm line-clamp-2 mt-2">{description}</p>
+          <p className="text-gray-500 text-sm md:text-base line-clamp-2 mt-3">{description}</p>
         )}
         <div className="flex items-center gap-3 text-xs text-gray-400 mt-4 flex-wrap">
           {authorNames && <span>{authorNames}</span>}
