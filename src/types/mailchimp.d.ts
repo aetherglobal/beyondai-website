@@ -8,6 +8,7 @@ declare module '@mailchimp/mailchimp_marketing' {
     email_address: string
     status: 'subscribed' | 'unsubscribed' | 'cleaned' | 'pending' | 'transactional'
     merge_fields?: Record<string, string>
+    tags?: string[]
   }
 
   interface Lists {

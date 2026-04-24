@@ -73,6 +73,7 @@ export interface Config {
     media: Media;
     categories: Category;
     sponsors: Sponsor;
+    'gallery-images': GalleryImage;
     volunteers: Volunteer;
     'contact-submissions': ContactSubmission;
     users: User;
@@ -99,6 +100,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
+    'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>;
     volunteers: VolunteersSelect<false> | VolunteersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -1396,6 +1398,32 @@ export interface Sponsor {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-images".
+ */
+export interface GalleryImage {
+  id: number;
+  image: number | Media;
+  /**
+   * Short description of the photo
+   */
+  caption?: string | null;
+  /**
+   * The event this photo is from
+   */
+  event?: (number | null) | Event;
+  /**
+   * Featured images appear larger in the gallery grid
+   */
+  featured?: boolean | null;
+  /**
+   * Lower numbers appear first
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "volunteers".
  */
 export interface Volunteer {
@@ -1653,6 +1681,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sponsors';
         value: number | Sponsor;
+      } | null)
+    | ({
+        relationTo: 'gallery-images';
+        value: number | GalleryImage;
       } | null)
     | ({
         relationTo: 'volunteers';
@@ -2422,6 +2454,19 @@ export interface SponsorsSelect<T extends boolean = true> {
   sortOrder?: T;
   generateSlug?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-images_select".
+ */
+export interface GalleryImagesSelect<T extends boolean = true> {
+  image?: T;
+  caption?: T;
+  event?: T;
+  featured?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

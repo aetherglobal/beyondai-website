@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { ContactSubmissions } from './collections/ContactSubmissions'
 import { Events } from './collections/Events'
+import { GalleryImages } from './collections/GalleryImages'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -67,7 +68,7 @@ export default buildConfig({
     },
     push: true,
   }),
-  collections: [Pages, Posts, Events, Media, Categories, Sponsors, Volunteers, ContactSubmissions, Users],
+  collections: [Pages, Posts, Events, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, SiteSettings, NyansaFutures],
   plugins,
