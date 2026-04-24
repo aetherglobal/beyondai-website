@@ -51,10 +51,7 @@ export const NewsletterForm: React.FC<{ className?: string; compact?: boolean }>
   if (status === 'success') {
     return (
       <div className={className}>
-        <p className="text-lg font-medium">Thank you for subscribing!</p>
-        <p className="text-muted-foreground mt-1">
-          You&apos;ll receive the AI Pulse newsletter in your inbox.
-        </p>
+        <p className="text-sm font-medium">Thank you for subscribing!</p>
       </div>
     )
   }
@@ -62,7 +59,12 @@ export const NewsletterForm: React.FC<{ className?: string; compact?: boolean }>
   if (compact) {
     return (
       <form onSubmit={handleSubmit} className={className}>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
+          <Input
+            name="firstName"
+            className="h-10"
+            placeholder="Your name"
+          />
           <Input
             name="email"
             type="email"
@@ -70,7 +72,7 @@ export const NewsletterForm: React.FC<{ className?: string; compact?: boolean }>
             placeholder="Your email address"
             required
           />
-          <Button type="submit" disabled={status === 'loading'}>
+          <Button type="submit" className="w-fit" disabled={status === 'loading'}>
             {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
           </Button>
         </div>
