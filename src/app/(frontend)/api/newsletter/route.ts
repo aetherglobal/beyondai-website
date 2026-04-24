@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         CITY: city || '',
         COUNTRY: country || '',
       },
+      tags: ['AI Pulse'],
     })
 
     return NextResponse.json({ success: true })
