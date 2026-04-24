@@ -5,7 +5,7 @@ import { getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
 import { cache } from 'react'
 
-import type { Event, Post, Sponsor } from '@/payload-types'
+import type { Event, GalleryImage, Post, Sponsor } from '@/payload-types'
 
 const DEFAULT_LIMIT = 3
 
@@ -94,3 +94,21 @@ export const getFeaturedSponsors = cache(
     return fetcher()
   },
 )
+
+export const getGalleryImages = cache(async (limit: number = 100): Promise<GalleryImage[]> => {
+  const fetcher = unstable_cache(
+    async () => {
+      const payload = await getPayload({ config: configPromise })
+      const result = await payload.find({
+        collection: 'gallery-images',
+        sort: 'sortOrder',
+        limit,
+        depth: 2,
+      })
+      return result.docs as GalleryImage[]
+    },
+    ['gallery-images', String(limit)],
+    { tags: ['gallery-images'] },
+  )
+  return fetcher()
+})
