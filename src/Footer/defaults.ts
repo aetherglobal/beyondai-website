@@ -7,6 +7,7 @@ export const DEFAULT_FOOTER_COLUMNS: FooterColumnFallback[] = [
   {
     heading: 'Quick Links',
     links: [
+      { label: 'Home', href: '/' },
       { label: 'About', href: '/about' },
       { label: 'Events', href: '/events' },
       { label: 'Articles', href: '/posts' },
