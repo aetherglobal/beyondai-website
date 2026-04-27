@@ -1,6 +1,7 @@
 export type NavFallbackItem = { label: string; href: string; newTab?: boolean }
 
 export const DEFAULT_HEADER_NAV_ITEMS: NavFallbackItem[] = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Events', href: '/events' },
   { label: 'Gallery', href: '/gallery' },
