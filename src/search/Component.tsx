@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useTransition } from 'react'
 import { useDebounce } from '@/utilities/useDebounce'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Search as SearchIcon, X, Loader2 } from 'lucide-react'
@@ -10,16 +10,16 @@ import { Search as SearchIcon, X, Loader2 } from 'lucide-react'
 export const Search: React.FC = () => {
   const searchParams = useSearchParams()
   const [value, setValue] = useState(searchParams.get('q') || '')
-  const [isSearching, setIsSearching] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
   const debouncedValue = useDebounce(value)
 
   useEffect(() => {
-    setIsSearching(true)
-    router.push(`/search${debouncedValue ? `?q=${debouncedValue}` : ''}`)
-    const timer = setTimeout(() => setIsSearching(false), 300)
-    return () => clearTimeout(timer)
+    const url = `/search${debouncedValue ? `?q=${debouncedValue}` : ''}`
+    startTransition(() => {
+      router.push(url)
+    })
   }, [debouncedValue, router])
 
   return (
@@ -43,7 +43,7 @@ export const Search: React.FC = () => {
             placeholder="Search articles..."
             className="pl-12 pr-12 py-6 text-lg shadow-none border-gray-200 bg-white text-black placeholder:text-gray-400"
           />
-          {value && !isSearching && (
+          {value && !isPending && (
             <button
               type="button"
               onClick={() => setValue('')}
@@ -53,7 +53,7 @@ export const Search: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
           )}
-          {isSearching && value && (
+          {isPending && value && (
             <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 animate-spin" />
           )}
         </div>

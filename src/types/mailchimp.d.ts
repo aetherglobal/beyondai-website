@@ -15,8 +15,10 @@ declare module '@mailchimp/mailchimp_marketing' {
     addListMember(listId: string, body: MemberBody): Promise<unknown>
   }
 
-  const lists: Lists
-  function setConfig(config: Config): void
+  const mailchimp: {
+    lists: Lists
+    setConfig(config: Config): void
+  }
 
-  export default { lists, setConfig }
+  export default mailchimp
 }
