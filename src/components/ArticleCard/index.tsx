@@ -29,7 +29,7 @@ export const ArticleCard: React.FC<{
   variant?: 'default' | 'large'
   className?: string
 }> = ({ post, className }) => {
-  const { card, link } = useClickableCard<HTMLElement>({})
+  const { cardRef, linkRef } = useClickableCard<HTMLElement>({})
   const { slug, categories, meta, heroImage, title, populatedAuthors, publishedAt, content } = post
   const { description, image: metaImage } = meta || {}
   const image = heroImage || metaImage
@@ -48,7 +48,7 @@ export const ArticleCard: React.FC<{
 
   return (
     <motion.article
-      ref={card.ref}
+      ref={cardRef}
       className={cn(
         'group overflow-hidden bg-white hover:cursor-pointer',
         'transition-all duration-300 ease-out',
@@ -90,7 +90,7 @@ export const ArticleCard: React.FC<{
         )}
         {title && (
           <h3 className="font-bold text-xl md:text-2xl line-clamp-3 text-black">
-            <Link className="hover:underline" href={href} ref={link.ref}>
+            <Link className="hover:underline" href={href} ref={linkRef}>
               {title}
             </Link>
           </h3>
