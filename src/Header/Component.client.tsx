@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
 import type { Header } from '@/payload-types'
@@ -23,12 +23,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
   logoAlt,
   logoHeight,
 }) => {
-  const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [prevPathname, setPrevPathname] = useState(pathname)
 
-  useEffect(() => {
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
     setMobileOpen(false)
-  }, [pathname])
+  }
 
   const navItemsFromCMS = (data?.navItems ?? []).map((item) => ({
     label: item.link?.label ?? '',
