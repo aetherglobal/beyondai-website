@@ -2,15 +2,11 @@
 import type { RefObject } from 'react'
 
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 type UseClickableCardType<T extends HTMLElement> = {
-  card: {
-    ref: RefObject<T | null>
-  }
-  link: {
-    ref: RefObject<HTMLAnchorElement | null>
-  }
+  cardRef: RefObject<T | null>
+  linkRef: RefObject<HTMLAnchorElement | null>
 }
 
 interface Props {
@@ -25,81 +21,60 @@ function useClickableCard<T extends HTMLElement>({
   scroll = true,
 }: Props): UseClickableCardType<T> {
   const router = useRouter()
-  const card = useRef<T>(null)
-  const link = useRef<HTMLAnchorElement>(null)
+  const cardRef = useRef<T>(null)
+  const linkRef = useRef<HTMLAnchorElement>(null)
   const timeDown = useRef<number>(0)
   const hasActiveParent = useRef<boolean>(false)
   const pressedButton = useRef<number>(0)
 
-  const handleMouseDown = useCallback(
-    (e: MouseEvent) => {
-      if (e.target) {
-        const target = e.target as Element
+  useEffect(() => {
+    const cardNode = cardRef.current
+    if (!cardNode) return
 
-        const timeNow = +new Date()
-        const parent = target?.closest('a')
+    const abortController = new AbortController()
+    const opts = { signal: abortController.signal }
 
-        pressedButton.current = e.button
-
-        if (!parent) {
-          hasActiveParent.current = false
-          timeDown.current = timeNow
-        } else {
-          hasActiveParent.current = true
+    cardNode.addEventListener(
+      'mousedown',
+      (e: MouseEvent) => {
+        if (e.target) {
+          const target = e.target as Element
+          const parent = target?.closest('a')
+          pressedButton.current = e.button
+          if (!parent) {
+            hasActiveParent.current = false
+            timeDown.current = +new Date()
+          } else {
+            hasActiveParent.current = true
+          }
         }
-      }
-    },
-    [router, card, link, timeDown],
-  )
+      },
+      opts,
+    )
 
-  const handleMouseUp = useCallback(
-    (e: MouseEvent) => {
-      if (link.current?.href) {
-        const timeNow = +new Date()
-        const difference = timeNow - timeDown.current
-
-        if (link.current?.href && difference <= 250) {
-          if (!hasActiveParent.current && pressedButton.current === 0 && !e.ctrlKey) {
+    cardNode.addEventListener(
+      'mouseup',
+      (e: MouseEvent) => {
+        if (linkRef.current?.href) {
+          const difference = +new Date() - timeDown.current
+          if (difference <= 250 && !hasActiveParent.current && pressedButton.current === 0 && !e.ctrlKey) {
             if (external) {
-              const target = newTab ? '_blank' : '_self'
-              window.open(link.current.href, target)
+              window.open(linkRef.current.href, newTab ? '_blank' : '_self')
             } else {
-              router.push(link.current.href, { scroll })
+              router.push(linkRef.current.href, { scroll })
             }
           }
         }
-      }
-    },
-    [router, card, link, timeDown],
-  )
-
-  useEffect(() => {
-    const cardNode = card.current
-
-    const abortController = new AbortController()
-
-    if (cardNode) {
-      cardNode.addEventListener('mousedown', handleMouseDown, {
-        signal: abortController.signal,
-      })
-      cardNode.addEventListener('mouseup', handleMouseUp, {
-        signal: abortController.signal,
-      })
-    }
+      },
+      opts,
+    )
 
     return () => {
       abortController.abort()
     }
-  }, [card, link, router])
+  }, [external, newTab, scroll, router])
 
-  return {
-    card: {
-      ref: card,
-    },
-    link: {
-      ref: link,
-    },
-  }
+  return { cardRef, linkRef }
 }
 
 export default useClickableCard

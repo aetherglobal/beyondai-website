@@ -3,15 +3,13 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
-import Link from 'next/link'
 import { Calendar, MapPin, Globe } from 'lucide-react'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { LumaEmbed } from '@/components/LumaEmbed'
-import { SponsorGrid } from '@/components/SponsorGrid'
 import { FadeIn } from '@/components/FadeIn'
 
-import type { Event, Sponsor } from '@/payload-types'
+import type { Event } from '@/payload-types'
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   'ai-watch': 'AI Watch — Monthly Forum',
@@ -77,7 +75,6 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     agenda,
     lumaEventUrl,
     lumaEmbedUrl,
-    partnerLogos,
     eventType,
   } = event
 
@@ -93,7 +90,6 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     minute: '2-digit',
   })
 
-  const partners = (partnerLogos || []).filter((s): s is Sponsor => typeof s !== 'number')
   const hasHeroImage = heroImage && typeof heroImage !== 'number'
 
   return (
