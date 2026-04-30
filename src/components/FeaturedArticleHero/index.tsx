@@ -15,7 +15,7 @@ export const FeaturedArticleHero: React.FC<{
   post: ArticleCardPost
   className?: string
 }> = ({ post, className }) => {
-  const { card, link } = useClickableCard<HTMLElement>({})
+  const { cardRef, linkRef } = useClickableCard<HTMLElement>({})
   const { slug, categories, heroImage, meta, title, populatedAuthors, publishedAt, content } = post
   const image = heroImage || meta?.image
   const href = `/posts/${slug}`
@@ -33,7 +33,7 @@ export const FeaturedArticleHero: React.FC<{
 
   return (
     <article
-      ref={card.ref}
+      ref={cardRef}
       className={cn(
         'relative overflow-hidden min-h-[40vh] md:min-h-[50vh] flex items-end',
         'hover:cursor-pointer transition-all duration-300 hover:-translate-y-1 group',
@@ -63,7 +63,7 @@ export const FeaturedArticleHero: React.FC<{
         <h2
           className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight mb-4"
         >
-          <Link href={href} ref={link.ref} className="hover:underline">
+          <Link href={href} ref={linkRef} className="hover:underline">
             {title}
           </Link>
         </h2>

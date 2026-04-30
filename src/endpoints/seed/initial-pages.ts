@@ -768,36 +768,3 @@ function richTextFromTwoParagraphs(text1: string, text2: string): LexicalRoot {
     },
   } as LexicalRoot
 }
-
-function richTextFromHeading(text: string): LexicalRoot {
-  return {
-    root: {
-      type: 'root',
-      direction: null,
-      format: '',
-      indent: 0,
-      version: 1,
-      children: [
-        {
-          type: 'heading',
-          direction: null,
-          format: '',
-          indent: 0,
-          version: 1,
-          tag: 'h1',
-          children: [
-            {
-              type: 'text',
-              detail: 0,
-              format: 0,
-              mode: 'normal',
-              style: '',
-              text,
-              version: 1,
-            },
-          ],
-        },
-      ],
-    },
-  } as LexicalRoot
-}
