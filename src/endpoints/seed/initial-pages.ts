@@ -455,16 +455,16 @@ export const buildBecomeSponsorPage = (): PageInput => ({
       columns: '3',
       items: [
         {
-          title: 'Lead Partner',
+          title: 'Sponsor',
           description: 'Headline sponsorship of the Nyansa Futures conference and year-round programming.',
         },
         {
-          title: 'Knowledge Partner',
+          title: 'Collaborator',
           description: 'Co-branded research, reports, and insight series distributed through AI Pulse.',
         },
         {
-          title: 'Community Partner',
-          description: 'Event sponsorship and community-aligned activations across the continent.',
+          title: 'Media Partner',
+          description: 'Media collaboration, event coverage, and editorial amplification across the continent.',
         },
       ],
     },
@@ -481,7 +481,7 @@ export const buildBecomeSponsorPage = (): PageInput => ({
         {
           question: 'Can we co-create content?',
           answer: richTextFromParagraph(
-            'Yes. Knowledge Partners regularly co-author research briefs, host panels, and shape editorial themes with our team.',
+            'Yes. Collaborators regularly co-author research briefs, host panels, and shape editorial themes with our team.',
           ),
         },
       ],

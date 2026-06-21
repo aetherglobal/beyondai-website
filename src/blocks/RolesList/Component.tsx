@@ -34,7 +34,7 @@ export const RolesListBlock: React.FC<Props> = ({ eyebrow, heading, roles }) => 
                   </span>
                 )}
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-4">{role.description}</p>
+              <p className="text-muted-foreground leading-relaxed mb-4 text-justify hyphens-auto">{role.description}</p>
               {Array.isArray(role.skills) && role.skills.length > 0 && (
                 <ul className="flex flex-wrap gap-2">
                   {role.skills.map((s, si) => (

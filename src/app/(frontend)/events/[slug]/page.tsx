@@ -70,6 +70,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     location,
     isVirtual,
     description,
+    flyerImage,
     heroImage,
     speakers,
     agenda,
@@ -91,6 +92,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
   })
 
   const hasHeroImage = heroImage && typeof heroImage !== 'number'
+  const hasFlyer = flyerImage && typeof flyerImage !== 'number'
 
   return (
     <article>
@@ -114,59 +116,71 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         )}
 
         <div className="container relative z-10 py-16 md:py-24">
-          <div className="flex flex-wrap gap-3 mb-6">
-            <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30">
-              {EVENT_TYPE_LABELS[eventType] || eventType}
-            </span>
-            {isVirtual && (
-              <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-foreground/60 border border-foreground/20">
-                Virtual Event
-              </span>
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-end">
+            <div className={hasFlyer ? 'lg:col-span-8' : 'lg:col-span-12'}>
+              <div className="flex flex-wrap gap-3 mb-6">
+                <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30">
+                  {EVENT_TYPE_LABELS[eventType] || eventType}
+                </span>
+                {isVirtual && (
+                  <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-foreground/60 border border-foreground/20">
+                    Virtual Event
+                  </span>
+                )}
+              </div>
+
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
+                {title}
+              </h1>
+
+              <div className="flex flex-wrap gap-6 text-foreground/80 mb-10">
+                <span className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-primary-deep" />
+                  {formattedDate} at {formattedTime}
+                </span>
+                {endDate && (
+                  <span>
+                    &mdash;{' '}
+                    {new Date(endDate).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                )}
+                {location && (
+                  <span className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-primary-deep" />
+                    {location}
+                  </span>
+                )}
+                {isVirtual && (
+                  <span className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-primary-deep" />
+                    Virtual
+                  </span>
+                )}
+              </div>
+
+              {lumaEventUrl && (
+                <a
+                  href={lumaEventUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-7 py-3.5 bg-primary text-primary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
+                >
+                  Register to Attend
+                </a>
+              )}
+            </div>
+
+            {hasFlyer && (
+              <div className="lg:col-span-4">
+                <div className="border-t-2 border-primary-deep bg-dark/40 shadow-2xl">
+                  <Media resource={flyerImage} imgClassName="block h-auto w-full" />
+                </div>
+              </div>
             )}
           </div>
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
-            {title}
-          </h1>
-
-          <div className="flex flex-wrap gap-6 text-foreground/80 mb-10">
-            <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-primary-deep" />
-              {formattedDate} at {formattedTime}
-            </span>
-            {endDate && (
-              <span>
-                &mdash;{' '}
-                {new Date(endDate).toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-            )}
-            {location && (
-              <span className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-primary-deep" />
-                {location}
-              </span>
-            )}
-            {isVirtual && (
-              <span className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-primary-deep" />
-                Virtual
-              </span>
-            )}
-          </div>
-
-          {lumaEventUrl && (
-            <a
-              href={lumaEventUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-7 py-3.5 bg-primary text-primary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
-            >
-              Register to Attend
-            </a>
-          )}
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent" />

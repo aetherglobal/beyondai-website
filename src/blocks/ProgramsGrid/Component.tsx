@@ -58,7 +58,7 @@ export const ProgramsGridBlock: React.FC<Props> = ({
             </h2>
           )}
           {subheading && (
-            <p className={`max-w-xl text-base leading-relaxed ${descriptionColor}`}>{subheading}</p>
+            <p className={`max-w-xl text-base leading-relaxed text-justify hyphens-auto ${descriptionColor}`}>{subheading}</p>
           )}
         </div>
         <div
@@ -72,7 +72,7 @@ export const ProgramsGridBlock: React.FC<Props> = ({
                 <h3 className={`text-xl font-bold mb-3 tracking-tight ${headingColor}`}>
                   {item.title}
                 </h3>
-                <p className={`text-sm leading-relaxed ${descriptionColor}`}>{item.description}</p>
+                <p className={`text-sm leading-relaxed text-justify hyphens-auto ${descriptionColor}`}>{item.description}</p>
                 {hasHref && (
                   <div
                     className={`mt-5 flex items-center gap-1.5 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${headingColor}`}
