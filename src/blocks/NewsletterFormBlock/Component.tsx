@@ -17,7 +17,7 @@ export const NewsletterFormBlockComponent: React.FC<Props> = ({
           {heading && (
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-4">{heading}</h2>
           )}
-          {subheading && <p className="text-muted-foreground leading-relaxed mb-8">{subheading}</p>}
+          {subheading && <p className="text-muted-foreground leading-relaxed mb-8 text-justify hyphens-auto">{subheading}</p>}
           <NewsletterForm compact={variant === 'compact'} />
         </div>
       </div>

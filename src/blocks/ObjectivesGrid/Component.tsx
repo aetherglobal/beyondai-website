@@ -31,7 +31,7 @@ export const ObjectivesGridBlock: React.FC<Props> = ({ eyebrow, heading, items }
             >
               <p className="text-4xl md:text-5xl font-bold text-primary-deep mb-6">{item.number}</p>
               <h3 className="text-xl font-bold mb-3 tracking-tight">{item.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+              <p className="text-muted-foreground leading-relaxed text-justify hyphens-auto">{item.description}</p>
             </div>
           ))}
         </div>

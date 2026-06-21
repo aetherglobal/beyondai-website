@@ -34,7 +34,7 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
   const event = events[0]
   if (!event) return null
 
-  const { title, slug, date, location, isVirtual, heroImage, lumaEventUrl, eventType } = event
+  const { title, slug, date, location, isVirtual, flyerImage, lumaEventUrl, eventType } = event
   const d = formatEventDate(date)
 
   return (
@@ -49,11 +49,11 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
         )}
         <FadeIn delay={0.1}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {heroImage && typeof heroImage !== 'number' && (
+            {flyerImage && typeof flyerImage !== 'number' && (
               <div className="lg:col-span-6">
                 <Link href={`/events/${slug}`} className="block">
                   <div className="relative aspect-video border-t-2 border-primary-deep overflow-hidden">
-                    <Media resource={heroImage} fill imgClassName="object-cover" />
+                    <Media resource={flyerImage} fill imgClassName="object-cover" />
                   </div>
                 </Link>
               </div>
@@ -61,7 +61,7 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
 
             <div
               className={
-                heroImage && typeof heroImage !== 'number' ? 'lg:col-span-6' : 'lg:col-span-12'
+                flyerImage && typeof flyerImage !== 'number' ? 'lg:col-span-6' : 'lg:col-span-12'
               }
             >
               <span className="inline-block px-3 py-1 text-xs font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/30 mb-4">
