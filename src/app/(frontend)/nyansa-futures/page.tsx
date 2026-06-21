@@ -73,7 +73,7 @@ export default async function NyansaFuturesPage() {
             </h1>
 
             {data?.subheadline && (
-              <p className="text-lg text-foreground/80 max-w-2xl mb-10 leading-relaxed">
+              <p className="text-lg text-foreground/80 max-w-2xl mb-10 leading-relaxed text-justify hyphens-auto">
                 {data.subheadline}
               </p>
             )}
@@ -206,7 +206,7 @@ export default async function NyansaFuturesPage() {
                     <span className="text-3xl font-bold text-primary-deep font-mono">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <p className="text-gray-700 leading-relaxed mt-3">{block.trim()}</p>
+                    <p className="text-gray-700 leading-relaxed mt-3 text-justify hyphens-auto">{block.trim()}</p>
                   </div>
                 </FadeIn>
               ))}
@@ -235,7 +235,7 @@ export default async function NyansaFuturesPage() {
                       {item.theme}
                     </h3>
                     {item.description && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm text-muted-foreground leading-relaxed text-justify hyphens-auto">
                         {item.description}
                       </p>
                     )}
@@ -265,7 +265,7 @@ export default async function NyansaFuturesPage() {
                 <FadeIn key={i} delay={i * 0.08}>
                   <div className="flex items-start gap-4 py-5 border-b border-foreground/10 last:border-b-0">
                     <ArrowRight className="w-5 h-5 text-primary-foreground shrink-0 mt-0.5" />
-                    <p className="text-primary-foreground leading-relaxed">{item.outcome}</p>
+                    <p className="text-primary-foreground leading-relaxed text-justify hyphens-auto">{item.outcome}</p>
                   </div>
                 </FadeIn>
               ))}

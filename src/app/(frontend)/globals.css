@@ -122,6 +122,14 @@
   --tw-prose-headings: var(--foreground);
 }
 
+/* Justify body prose for a cleaner, more uniform reading column.
+   Paragraphs and list items only — headings stay left-aligned.
+   hyphens: auto keeps word-spacing tight on narrow widths. */
+.prose :where(p, li) {
+  text-align: justify;
+  hyphens: auto;
+}
+
 .prose h1 {
   font-weight: normal;
   margin-bottom: 0.25em;

@@ -64,7 +64,7 @@ export const PageHero: React.FC<HeroProps> = (props) => {
         )}
 
         {subtitle && (
-          <p className={`text-lg max-w-2xl mb-10 leading-relaxed ${hasMedia ? 'text-white/85' : 'text-foreground/80'}`}>{subtitle}</p>
+          <p className={`text-lg max-w-2xl mb-10 leading-relaxed text-justify hyphens-auto ${hasMedia ? 'text-white/85' : 'text-foreground/80'}`}>{subtitle}</p>
         )}
 
         {Array.isArray(ctas) && ctas.length > 0 && (

@@ -25,7 +25,7 @@ export default async function GalleryPage() {
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
           Gallery
         </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl">
+        <p className="text-lg text-muted-foreground max-w-3xl text-justify hyphens-auto">
           Relive the moments from our past events — panels, workshops, and community gatherings
           advancing AI governance across Africa.
         </p>

@@ -28,7 +28,7 @@ export const ContactInfoBlockComponent: React.FC<Props> = async ({
                 {heading}
               </h2>
             )}
-            {subheading && <p className="text-muted-foreground leading-relaxed">{subheading}</p>}
+            {subheading && <p className="text-muted-foreground leading-relaxed text-justify hyphens-auto">{subheading}</p>}
           </div>
         )}
 
