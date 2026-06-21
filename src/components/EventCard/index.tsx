@@ -16,7 +16,7 @@ export const EventCard: React.FC<{
   event: Event
   className?: string
 }> = ({ event, className }) => {
-  const { title, slug, date, location, isVirtual, heroImage, lumaEventUrl, eventStatus, eventType } = event
+  const { title, slug, date, location, isVirtual, flyerImage, lumaEventUrl, eventStatus, eventType } = event
 
   const d = new Date(date)
   const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
@@ -27,10 +27,10 @@ export const EventCard: React.FC<{
     <article
       className={`group border border-gray-200 bg-white text-card-foreground transition-all duration-300 overflow-hidden ${className || ''}`}
     >
-      {heroImage && typeof heroImage !== 'number' && (
+      {flyerImage && typeof flyerImage !== 'number' && (
         <Link href={`/events/${slug}`} className="block">
           <div className="relative aspect-video overflow-hidden">
-            <Media resource={heroImage} fill imgClassName="object-cover group-hover:scale-105 transition-transform duration-500" />
+            <Media resource={flyerImage} fill imgClassName="object-cover group-hover:scale-105 transition-transform duration-500" />
           </div>
         </Link>
       )}

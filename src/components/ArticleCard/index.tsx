@@ -96,7 +96,7 @@ export const ArticleCard: React.FC<{
           </h3>
         )}
         {description && (
-          <p className="text-gray-500 text-sm md:text-base line-clamp-2 mt-3">{description}</p>
+          <p className="text-gray-500 text-sm md:text-base line-clamp-2 mt-3 text-justify hyphens-auto">{description}</p>
         )}
         <div className="flex items-center gap-3 text-xs text-gray-400 mt-4 flex-wrap">
           {authorNames && <span>{authorNames}</span>}

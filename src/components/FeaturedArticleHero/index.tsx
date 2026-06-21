@@ -69,7 +69,7 @@ export const FeaturedArticleHero: React.FC<{
         </h2>
 
         {meta?.description && (
-          <p className="text-white/80 text-base md:text-lg line-clamp-2 max-w-2xl mb-4">
+          <p className="text-white/80 text-base md:text-lg line-clamp-2 max-w-2xl mb-4 text-justify hyphens-auto">
             {meta.description}
           </p>
         )}

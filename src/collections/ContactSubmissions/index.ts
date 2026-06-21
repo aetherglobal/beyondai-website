@@ -68,8 +68,8 @@ export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
       label: 'Partnership Interest',
       options: [
         { label: 'Sponsorship', value: 'sponsorship' },
-        { label: 'Knowledge Partnership', value: 'knowledge-partnership' },
-        { label: 'Community Partnership', value: 'community-partnership' },
+        { label: 'Collaboration', value: 'collaboration' },
+        { label: 'Media Partnership', value: 'media-partnership' },
         { label: 'In-Kind Support', value: 'in-kind-support' },
         { label: 'Other', value: 'other' },
       ],

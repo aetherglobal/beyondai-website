@@ -43,7 +43,7 @@ export const ContactFormBlockComponent: React.FC<Props> = async ({ eyebrow, head
               facebook={settings?.socialLinks?.facebook}
               className="mb-6"
             />
-            {subheading && <p className="text-muted-foreground leading-relaxed">{subheading}</p>}
+            {subheading && <p className="text-muted-foreground leading-relaxed text-justify hyphens-auto">{subheading}</p>}
           </div>
           <ContactForm />
         </div>

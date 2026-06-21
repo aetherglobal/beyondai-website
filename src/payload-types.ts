@@ -1317,6 +1317,13 @@ export interface Event {
     };
     [k: string]: unknown;
   };
+  /**
+   * The primary image representing the event (official flyer). Shown as the event card thumbnail and as the poster on the event detail page.
+   */
+  flyerImage?: (number | null) | Media;
+  /**
+   * Banner/background image that visually represents the event's theme. Used as the full-bleed background on the event detail and homepage heroes. Does not have to be the flyer.
+   */
   heroImage?: (number | null) | Media;
   speakers?:
     | {
@@ -1378,7 +1385,7 @@ export interface Sponsor {
    * External website link for the sponsor/partner
    */
   url?: string | null;
-  type: 'sponsor' | 'knowledge-partner' | 'community-partner';
+  type: 'sponsor' | 'collaborator' | 'media-partner';
   description?: string | null;
   /**
    * Display this sponsor on the homepage
@@ -1453,9 +1460,7 @@ export interface ContactSubmission {
   message: string;
   organization?: string | null;
   jobTitle?: string | null;
-  partnershipInterest?:
-    | ('sponsorship' | 'knowledge-partnership' | 'community-partnership' | 'in-kind-support' | 'other')
-    | null;
+  partnershipInterest?: ('sponsorship' | 'collaboration' | 'media-partnership' | 'in-kind-support' | 'other') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2290,6 +2295,7 @@ export interface EventsSelect<T extends boolean = true> {
   location?: T;
   isVirtual?: T;
   description?: T;
+  flyerImage?: T;
   heroImage?: T;
   speakers?:
     | T
