@@ -53,8 +53,8 @@ export const Sponsors: CollectionConfig<'sponsors'> = {
       defaultValue: 'sponsor',
       options: [
         { label: 'Sponsor', value: 'sponsor' },
-        { label: 'Knowledge Partner', value: 'knowledge-partner' },
-        { label: 'Community Partner', value: 'community-partner' },
+        { label: 'Collaborator', value: 'collaborator' },
+        { label: 'Media Partner', value: 'media-partner' },
       ],
       required: true,
     },

@@ -125,9 +125,24 @@ export const Events: CollectionConfig<'events'> = {
               required: true,
             },
             {
+              name: 'flyerImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Event Flyer / Image',
+              admin: {
+                description:
+                  'The primary image representing the event (official flyer). Shown as the event card thumbnail and as the poster on the event detail page.',
+              },
+            },
+            {
               name: 'heroImage',
               type: 'upload',
               relationTo: 'media',
+              label: 'Hero Image',
+              admin: {
+                description:
+                  "Banner/background image that visually represents the event's theme. Used as the full-bleed background on the event detail and homepage heroes. Does not have to be the flyer.",
+              },
             },
           ],
         },

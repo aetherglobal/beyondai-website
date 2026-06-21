@@ -116,7 +116,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1]">
             Articles
           </h1>
-          <p className="text-gray-500 text-lg mt-2 max-w-2xl">
+          <p className="text-gray-500 text-lg mt-2 max-w-2xl text-justify hyphens-auto">
             Insights on AI governance, policy, and digital transformation in Africa.
           </p>
           <div className="mt-6 h-1 w-24 bg-secondary" />

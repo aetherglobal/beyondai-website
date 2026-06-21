@@ -90,7 +90,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
               )}
 
               {subtitle && (
-                <p className="text-base md:text-lg text-muted-foreground max-w-lg mb-6 leading-relaxed">
+                <p className="text-base md:text-lg text-muted-foreground max-w-lg mb-6 leading-relaxed text-justify hyphens-auto">
                   {subtitle}
                 </p>
               )}

@@ -30,7 +30,7 @@ export const TimelineStepsBlock: React.FC<Props> = ({ eyebrow, heading, steps })
                 {String(i + 1).padStart(2, '0')}
               </p>
               <h3 className="text-lg font-bold mb-2 tracking-tight">{step.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed text-justify hyphens-auto">{step.description}</p>
             </li>
           ))}
         </ol>
