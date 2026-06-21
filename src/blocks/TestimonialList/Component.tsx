@@ -27,7 +27,7 @@ export const TestimonialListBlock: React.FC<Props> = ({ eyebrow, heading, items 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, i) => (
             <figure key={i} className="bg-white p-8 border border-border">
-              <blockquote className="text-lg leading-relaxed mb-6">“{item.quote}”</blockquote>
+              <blockquote className="text-lg leading-relaxed mb-6 text-justify hyphens-auto">“{item.quote}”</blockquote>
               <figcaption className="flex items-center gap-3">
                 {item.avatar && typeof item.avatar !== 'number' && (
                   <div className="w-10 h-10 relative overflow-hidden rounded-full shrink-0">

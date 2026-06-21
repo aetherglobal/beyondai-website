@@ -21,8 +21,8 @@ export default async function SponsorsPage() {
   const allSponsors = result.docs as Sponsor[]
 
   const sponsors = allSponsors.filter((s) => s.type === 'sponsor')
-  const knowledgePartners = allSponsors.filter((s) => s.type === 'knowledge-partner')
-  const communityPartners = allSponsors.filter((s) => s.type === 'community-partner')
+  const collaborators = allSponsors.filter((s) => s.type === 'collaborator')
+  const mediaPartners = allSponsors.filter((s) => s.type === 'media-partner')
 
   return (
     <article className="pt-16 pb-24">
@@ -30,7 +30,7 @@ export default async function SponsorsPage() {
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
           Sponsors & Partners
         </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl">
+        <p className="text-lg text-muted-foreground max-w-3xl text-justify hyphens-auto">
           Beyond AI is made possible through the support of our sponsors and partners who share our
           commitment to responsible AI governance in Africa.
         </p>
@@ -43,19 +43,19 @@ export default async function SponsorsPage() {
         </section>
       )}
 
-      {knowledgePartners.length > 0 && (
+      {collaborators.length > 0 && (
         <section className="bg-card py-12">
           <div className="container">
-            <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Knowledge Partners</h2>
-            <SponsorGrid sponsors={knowledgePartners} />
+            <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Collaborators</h2>
+            <SponsorGrid sponsors={collaborators} />
           </div>
         </section>
       )}
 
-      {communityPartners.length > 0 && (
+      {mediaPartners.length > 0 && (
         <section className="container py-8">
-          <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Community Partners</h2>
-          <SponsorGrid sponsors={communityPartners} />
+          <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8">Media Partners</h2>
+          <SponsorGrid sponsors={mediaPartners} />
         </section>
       )}
 
@@ -69,7 +69,7 @@ export default async function SponsorsPage() {
 
       <section className="container py-12 text-center">
         <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-4">Interested in Partnering?</h2>
-        <p className="text-muted-foreground mb-6">
+        <p className="text-muted-foreground mb-6 text-justify hyphens-auto">
           Support the Beyond AI initiative and help shape AI governance in Africa.
         </p>
         <Button asChild size="lg">
