@@ -16,7 +16,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
     subtitle,
     ctas,
     bindNextEvent,
-    fallbackImage,
+    media,
   } = props as HeroProps & {
     eyebrow?: string | null
     title?: string | null
@@ -30,7 +30,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
         }>
       | null
     bindNextEvent?: boolean | null
-    fallbackImage?: HeroProps['media']
+    media?: HeroProps['media']
   }
 
   let nextEvent: Event | null = null
@@ -53,12 +53,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
     }
   }
 
-  const heroImage =
-    nextEvent?.heroImage && typeof nextEvent.heroImage !== 'number'
-      ? nextEvent.heroImage
-      : fallbackImage && typeof fallbackImage !== 'number'
-        ? fallbackImage
-        : null
+  const heroImage = media && typeof media !== 'number' ? media : null
 
   return (
     <>
