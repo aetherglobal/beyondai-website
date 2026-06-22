@@ -2,12 +2,14 @@ export const formatDateTime = (timestamp: string): string => {
   const now = new Date()
   let date = now
   if (timestamp) date = new Date(timestamp)
-  const months = date.getMonth()
-  const days = date.getDate()
+  // Use UTC getters so the output is identical on the server and the client
+  // regardless of their timezones (prevents hydration mismatch / React #418).
+  const months = date.getUTCMonth()
+  const days = date.getUTCDate()
 
   const MM = months + 1 < 10 ? `0${months + 1}` : months + 1
   const DD = days < 10 ? `0${days}` : days
-  const YYYY = date.getFullYear()
+  const YYYY = date.getUTCFullYear()
 
   return `${MM}/${DD}/${YYYY}`
 }
