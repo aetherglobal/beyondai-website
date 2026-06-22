@@ -17,6 +17,38 @@ interface HeaderClientProps {
   logoHeight?: number | null
 }
 
+/**
+ * Nav link that defers route prefetching until the user signals intent (hover/focus).
+ *
+ * Next.js' default viewport prefetch eagerly preloads every nav route's CSS on page
+ * load. For a route with its own CSS chunk (e.g. /gallery's lightbox + photo-album
+ * styles), that injects a `<link rel="preload" as="style">` that is never used when
+ * the visitor stays put — triggering Chrome's "preloaded but not used" warning.
+ * Prefetching on intent keeps navigation fast without the wasted preload.
+ */
+const NavLink: React.FC<{
+  href: string
+  className?: string
+  newTab?: boolean
+  children: React.ReactNode
+}> = ({ href, className, newTab, children }) => {
+  const [intent, setIntent] = useState(false)
+  const arm = () => setIntent(true)
+
+  return (
+    <Link
+      href={href}
+      prefetch={intent ? null : false}
+      onMouseEnter={arm}
+      onFocus={arm}
+      {...(newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
+      className={className}
+    >
+      {children}
+    </Link>
+  )
+}
+
 export const HeaderClient: React.FC<HeaderClientProps> = ({
   data,
   logoUrl,
@@ -70,10 +102,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
             {navItems.map((link) => {
               const active = isActive(link.href)
               return (
-                <Link
+                <NavLink
                   key={link.href + link.label}
                   href={link.href}
-                  {...(link.newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
+                  newTab={link.newTab}
                   className={`px-3 py-2 text-sm transition-colors ${
                     active
                       ? 'text-primary-deep font-semibold'
@@ -81,7 +113,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   }`}
                 >
                   {link.label}
-                </Link>
+                </NavLink>
               )
             })}
           </nav>
@@ -113,10 +145,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               {navItems.map((link) => {
                 const active = isActive(link.href)
                 return (
-                  <Link
+                  <NavLink
                     key={link.href + link.label}
                     href={link.href}
-                    {...(link.newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
+                    newTab={link.newTab}
                     className={`px-3 py-2.5 text-sm ${
                       active
                         ? 'text-foreground font-semibold border-l-2 border-primary bg-foreground/5'
@@ -124,7 +156,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     }`}
                   >
                     {link.label}
-                  </Link>
+                  </NavLink>
                 )
               })}
               {ctaEnabled && (
