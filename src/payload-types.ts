@@ -213,6 +213,9 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
+    /**
+     * Hero background image.
+     */
     media?: (number | null) | Media;
     /**
      * Small label shown above the title (e.g. "Govern / Innovate / Transform" or "[Events]").
@@ -247,10 +250,6 @@ export interface Page {
      * Displays date, location and countdown for the next upcoming event.
      */
     bindNextEvent?: boolean | null;
-    /**
-     * Shown when no upcoming event exists or when binding is disabled.
-     */
-    fallbackImage?: (number | null) | Media;
   };
   layout: (
     | CallToActionBlock
@@ -1807,7 +1806,6 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
             };
         bindNextEvent?: T;
-        fallbackImage?: T;
       };
   layout?:
     | T
