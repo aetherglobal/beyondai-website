@@ -1,12 +1,16 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useCallback, useRef, useSyncExternalStore } from 'react'
 
-function getTimeLeft(targetDate: string) {
+type TimeLeft = { days: number; hours: number; minutes: number; seconds: number }
+
+const ZERO: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 }
+
+function getTimeLeft(targetDate: string): TimeLeft {
   const diff = new Date(targetDate).getTime() - Date.now()
 
   if (diff <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+    return ZERO
   }
 
   return {
@@ -21,15 +25,31 @@ export const CountdownTimer: React.FC<{
   targetDate: string
   className?: string
 }> = ({ targetDate, className }) => {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate))
+  // Read the live countdown via an external store. The server render — and the
+  // first client render during hydration — use the deterministic ZERO snapshot,
+  // so the markup matches and there is no hydration mismatch (React error #418).
+  // The real value is published from the subscription, which runs only after
+  // mount, so the wall clock is never read during render. The ref caches the
+  // latest snapshot so getSnapshot returns a stable reference between ticks.
+  const snapshotRef = useRef<TimeLeft>(ZERO)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(getTimeLeft(targetDate))
-    }, 1000)
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      const update = () => {
+        snapshotRef.current = getTimeLeft(targetDate)
+        onStoreChange()
+      }
+      update()
+      const interval = setInterval(update, 1000)
+      return () => clearInterval(interval)
+    },
+    [targetDate],
+  )
 
-    return () => clearInterval(interval)
-  }, [targetDate])
+  const getSnapshot = useCallback(() => snapshotRef.current, [])
+  const getServerSnapshot = useCallback(() => ZERO, [])
+
+  const timeLeft = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const units = [
     { value: timeLeft.days, label: 'Day' },
