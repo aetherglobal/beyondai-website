@@ -60,7 +60,9 @@ export const hero: Field = {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact', 'pageHero'].includes(type),
+        condition: (_, { type } = {}) =>
+          ['highImpact', 'mediumImpact', 'pageHero', 'featuredEvent'].includes(type),
+        description: 'Hero background image.',
       },
       relationTo: 'media',
     },
@@ -150,15 +152,6 @@ export const hero: Field = {
       admin: {
         condition: (_, { type } = {}) => type === 'featuredEvent',
         description: 'Displays date, location and countdown for the next upcoming event.',
-      },
-    },
-    {
-      name: 'fallbackImage',
-      type: 'upload',
-      relationTo: 'media',
-      admin: {
-        condition: (_, { type } = {}) => type === 'featuredEvent',
-        description: 'Shown when no upcoming event exists or when binding is disabled.',
       },
     },
   ],
