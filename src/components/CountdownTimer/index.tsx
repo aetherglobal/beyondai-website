@@ -21,9 +21,13 @@ export const CountdownTimer: React.FC<{
   targetDate: string
   className?: string
 }> = ({ targetDate, className }) => {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate))
+  // Seed with a deterministic value (no clock read) so the server render and the
+  // first client render produce identical markup. The real countdown is computed
+  // after mount, avoiding a hydration mismatch (React error #418).
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
+    setTimeLeft(getTimeLeft(targetDate))
     const interval = setInterval(() => {
       setTimeLeft(getTimeLeft(targetDate))
     }, 1000)
