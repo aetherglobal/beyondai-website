@@ -261,6 +261,7 @@ export interface Page {
     | StatementSectionBlock
     | ObjectivesGridBlock
     | ProgramsGridBlock
+    | SponsorshipTiersBlock
     | StatsRowBlock
     | TimelineStepsBlock
     | RolesListBlock
@@ -1037,6 +1038,43 @@ export interface ProgramsGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SponsorshipTiersBlock".
+ */
+export interface SponsorshipTiersBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  background?: ('primary' | 'white' | 'secondary' | 'dark') | null;
+  tiers?:
+    | {
+        name: string;
+        /**
+         * e.g. "GHS 250,000+"
+         */
+        amount?: string | null;
+        /**
+         * Emphasise this tier (accent border).
+         */
+        highlighted?: boolean | null;
+        features?:
+          | {
+              feature: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional note shown below the tiers.
+   */
+  footnote?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sponsorshipTiers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatsRowBlock".
  */
 export interface StatsRowBlock {
@@ -1285,6 +1323,10 @@ export interface SponsorInquiryFormBlockType {
   eyebrow?: string | null;
   heading?: string | null;
   subheading?: string | null;
+  /**
+   * Optional. Shown as a mailto link below the subheading.
+   */
+  contactEmail?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'sponsorInquiryForm';
@@ -1819,6 +1861,7 @@ export interface PagesSelect<T extends boolean = true> {
         statementSection?: T | StatementSectionBlockSelect<T>;
         objectivesGrid?: T | ObjectivesGridBlockSelect<T>;
         programsGrid?: T | ProgramsGridBlockSelect<T>;
+        sponsorshipTiers?: T | SponsorshipTiersBlockSelect<T>;
         statsRow?: T | StatsRowBlockSelect<T>;
         timelineSteps?: T | TimelineStepsBlockSelect<T>;
         rolesList?: T | RolesListBlockSelect<T>;
@@ -2040,6 +2083,33 @@ export interface ProgramsGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SponsorshipTiersBlock_select".
+ */
+export interface SponsorshipTiersBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
+  background?: T;
+  tiers?:
+    | T
+    | {
+        name?: T;
+        amount?: T;
+        highlighted?: T;
+        features?:
+          | T
+          | {
+              feature?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  footnote?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatsRowBlock_select".
  */
 export interface StatsRowBlockSelect<T extends boolean = true> {
@@ -2245,6 +2315,7 @@ export interface SponsorInquiryFormBlockTypeSelect<T extends boolean = true> {
   eyebrow?: T;
   heading?: T;
   subheading?: T;
+  contactEmail?: T;
   id?: T;
   blockName?: T;
 }
