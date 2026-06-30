@@ -430,7 +430,7 @@ export const buildBecomeSponsorPage = (): PageInput => ({
     heading: "Become A Partner In\nShaping Africa\'s",
     headingAccent: 'AI Future',
     subtitle:
-      'Join a growing coalition of organizations supporting responsible AI governance and digital transformation across the continent.',
+      'Beyond AI is the reference civic platform for AI governance in Africa. Partner with us to put your organisation at the center of the conversation shaping the continent\'s digital future.',
     ctas: [
       { label: 'Partner with Us', href: '#sponsor-form', variant: 'primary', useEventLumaUrl: false },
       { label: 'View Current Partners', href: '/sponsors', variant: 'outline', useEventLumaUrl: false },
@@ -441,47 +441,155 @@ export const buildBecomeSponsorPage = (): PageInput => ({
       blockType: 'splitContent',
       eyebrow: '[Why Partner]',
       heading: 'Invest in Africa\'s AI Future',
-      body: richTextFromParagraph(
-        'Our sponsors help power forums, research, and the Nyansa Futures conference. Partnership with Beyond AI positions your organization at the center of Africa\'s AI governance conversation.',
+      body: richTextFromTwoParagraphs(
+        'Beyond AI is a pan-African civic platform helping African societies understand and govern artificial intelligence. Anchored in Accra and convened by Aether Strategies, it brings together citizens, policymakers, technologists, researchers, and cultural actors through public forums, workshops, a podcast, and a newsletter on digital governance.',
+        'Nyansa Futures, its annual flagship conference, gathers government officials, regulators, startups, researchers, and civil society to produce concrete policy recommendations and cross-sector partnerships. Partnering with Beyond AI means choosing visibility where Africa\'s digital governance is being shaped.',
       ),
       imagePosition: 'right',
       background: 'secondary',
     },
     {
       blockType: 'programsGrid',
-      eyebrow: '[Tiers]',
-      heading: 'Partnership Tiers',
+      eyebrow: '[The Opportunity]',
+      heading: 'Measurable Impact For Your Organisation',
+      subheading: 'Beyond event visibility, a Beyond AI partnership delivers tangible returns.',
       background: 'white',
-      columns: '3',
+      columns: '2',
       items: [
         {
-          title: 'Sponsor',
-          description: 'Headline sponsorship of the Nyansa Futures conference and year-round programming.',
+          title: 'Brand Awareness & Reputation',
+          description:
+            'Associate your brand with the reference initiative on AI in Africa, amplified through our publications, newsletter, podcast, and social channels to a qualified audience of professionals, decision-makers, and pan-African media.',
         },
         {
-          title: 'Collaborator',
-          description: 'Co-branded research, reports, and insight series distributed through AI Pulse.',
+          title: 'New Markets & Clients',
+          description:
+            'Nyansa Futures concentrates the key players of Africa\'s digital ecosystem into two days. Roundtables, workshops, and informal exchanges are a privileged environment to initiate collaborations, identify local partners, and accelerate your growth on the continent.',
         },
         {
-          title: 'Media Partner',
-          description: 'Media collaboration, event coverage, and editorial amplification across the continent.',
+          title: 'Strategic Intelligence',
+          description:
+            'Access reports, recommendations, and policy briefs produced by the initiative — a valuable resource for guiding your investment decisions and regulatory positioning across Africa.',
+        },
+        {
+          title: 'Trust & Legitimacy',
+          description:
+            'As digital sovereignty rises to the top of Africa\'s public agenda, being a Beyond AI partner positions your organisation as a good-faith actor, genuinely grounded in local realities.',
         },
       ],
+    },
+    {
+      blockType: 'objectivesGrid',
+      eyebrow: '[Why Be There]',
+      heading: 'Where Africa\'s AI Rules Are Being Shaped',
+      items: [
+        {
+          number: '01',
+          title: 'Meet The Decision-Makers',
+          description:
+            'Connect in one place with government decision-makers, regulators, academics, and African technology leaders.',
+        },
+        {
+          number: '02',
+          title: 'Demonstrate Your Commitment',
+          description:
+            'Signal your commitment to responsible AI and inclusive digital transformation — values increasingly decisive in tenders and institutional partnerships across the continent.',
+        },
+        {
+          number: '03',
+          title: 'Shape The Debate',
+          description:
+            'Actively contribute to debates that will shape public policy and regulatory frameworks on AI in Africa.',
+        },
+        {
+          number: '04',
+          title: 'Join The Community Of Practice',
+          description:
+            'Access an active Community of Practice — a permanent network of practitioners, researchers, and decision-makers engaged year-round.',
+        },
+      ],
+    },
+    {
+      blockType: 'sponsorshipTiers',
+      eyebrow: '[Tiers]',
+      heading: 'Partnership Tiers',
+      subheading:
+        'Choose the level of partnership that fits your organisation. In-kind contributions — media coverage, venues, technical tools — are accepted with equivalent recognition.',
+      background: 'white',
+      tiers: [
+        {
+          name: 'Platinum',
+          amount: 'GHS 250,000+',
+          highlighted: true,
+          features: [
+            { feature: 'Premier event visibility' },
+            { feature: 'Speaking slot / panel' },
+            { feature: 'Logo on all materials & media' },
+            { feature: 'Access to Community of Practice' },
+            { feature: 'Reports & publications' },
+          ],
+        },
+        {
+          name: 'Gold',
+          amount: 'GHS 150,000',
+          highlighted: false,
+          features: [
+            { feature: 'Premier event visibility' },
+            { feature: 'Speaking slot / panel' },
+            { feature: 'Logo on all materials & media' },
+            { feature: 'Access to Community of Practice' },
+            { feature: 'Reports & publications' },
+          ],
+        },
+        {
+          name: 'Silver',
+          amount: 'GHS 100,000',
+          highlighted: false,
+          features: [
+            { feature: 'Logo on all materials & media' },
+            { feature: 'Access to Community of Practice' },
+            { feature: 'Reports & publications' },
+          ],
+        },
+        {
+          name: 'Bronze',
+          amount: 'GHS 50,000',
+          highlighted: false,
+          features: [
+            { feature: 'Logo on all materials & media' },
+            { feature: 'Reports & publications' },
+          ],
+        },
+      ],
+      footnote:
+        'An Impact & Inclusion tier (GHS 25,000) is also available to support youth participation and programme accessibility. Detailed sponsorship packages are available upon request.',
     },
     {
       blockType: 'faqBlock',
       heading: 'Partnership FAQ',
       items: [
         {
-          question: 'How are sponsorship funds used?',
+          question: 'What\'s included in each tier?',
           answer: richTextFromParagraph(
-            'Funds support events, research, media production, and operational costs that keep Beyond AI independent and accessible.',
+            'Platinum and Gold include premier event visibility and a speaking slot or panel, plus logo placement, Community of Practice access, and our reports and publications. Silver includes logo placement, Community of Practice access, and publications; Bronze includes logo placement and publications.',
           ),
         },
         {
-          question: 'Can we co-create content?',
+          question: 'Can we contribute in-kind instead of cash?',
           answer: richTextFromParagraph(
-            'Yes. Collaborators regularly co-author research briefs, host panels, and shape editorial themes with our team.',
+            'Yes. In-kind contributions such as media coverage, venues, and technical tools are accepted and recognised equivalently to a monetary contribution.',
+          ),
+        },
+        {
+          question: 'Is there a way to support youth participation?',
+          answer: richTextFromParagraph(
+            'Yes. Our Impact & Inclusion tier (GHS 25,000) is dedicated to supporting youth participation and programme accessibility.',
+          ),
+        },
+        {
+          question: 'How are partnership funds used?',
+          answer: richTextFromParagraph(
+            'Funds support events, research, media production, and operational costs that keep Beyond AI independent and accessible.',
           ),
         },
       ],
@@ -489,7 +597,8 @@ export const buildBecomeSponsorPage = (): PageInput => ({
     {
       blockType: 'sponsorInquiryForm',
       heading: 'Start the Conversation',
-      subheading: 'Tell us about your organization and partnership interest.',
+      subheading: 'Tell us about your organisation and partnership interest.',
+      contactEmail: 'partnerships@beyondai.africa',
     },
   ] as Page['layout'],
   meta: {
@@ -689,6 +798,18 @@ export async function seedInitialPages({
     results.push({ slug: p.slug!, id })
   }
   return { pages: results }
+}
+
+export async function seedBecomeSponsorPage({
+  payload,
+  req,
+}: {
+  payload: Payload
+  req: PayloadRequest
+}): Promise<{ slug: string; id: number }> {
+  const page = buildBecomeSponsorPage()
+  const id = await upsertPageBySlug(payload, req, page)
+  return { slug: page.slug!, id }
 }
 
 // ---- helpers ----
