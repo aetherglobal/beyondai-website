@@ -3,6 +3,8 @@ import Link from 'next/link'
 
 import type { ProgramsGridBlock as ProgramsGridBlockType } from '@/payload-types'
 import { resolveLinkHref } from '@/utilities/resolveLinkHref'
+import { SectionHeader } from '@/components/SectionHeader'
+import { Reveal } from '@/components/Reveal'
 
 type Props = ProgramsGridBlockType & { disableInnerContainer?: boolean }
 
@@ -41,55 +43,49 @@ export const ProgramsGridBlock: React.FC<Props> = ({
   const gridDivider = onColored ? 'bg-primary-foreground/10' : 'bg-border'
   const headingColor = onColored ? 'text-primary-foreground' : 'text-foreground'
   const descriptionColor = onColored ? 'text-primary-foreground/70' : 'text-muted-foreground'
-  const eyebrowColor = onColored ? 'text-primary-foreground/60' : 'text-primary-deep'
 
   return (
-    <section className={`mt-16 py-20 ${bg}`}>
+    <section className={`mt-16 py-20 md:py-24 ${bg}`}>
       <div className="container">
-        <div className="mb-12">
-          {eyebrow && (
-            <p className={`text-sm tracking-widest uppercase mb-4 ${eyebrowColor}`}>{eyebrow}</p>
-          )}
-          {heading && (
-            <h2
-              className={`text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-4 ${headingColor}`}
-            >
-              {heading}
-            </h2>
-          )}
-          {subheading && (
-            <p className={`max-w-xl text-base leading-relaxed text-justify hyphens-auto ${descriptionColor}`}>{subheading}</p>
-          )}
-        </div>
-        <div
-          className={`grid grid-cols-1 ${columnClassMap[columns ?? '2']} gap-px ${gridDivider}`}
-        >
+        <SectionHeader
+          eyebrow={eyebrow}
+          heading={heading}
+          subheading={subheading}
+          onColored={onColored}
+          className="mb-12 max-w-2xl"
+        />
+        <div className={`grid grid-cols-1 ${columnClassMap[columns ?? '2']} gap-px ${gridDivider}`}>
           {items.map((item, i) => {
             const href = item.link ? resolveLinkHref(item.link) : null
             const hasHref = href && href !== '#'
             const inner = (
-              <div className={`group relative h-full p-8 transition-all duration-300 ${cardBase}`}>
+              <div
+                className={`group relative h-full p-8 transition-colors duration-300 ${cardBase}`}
+              >
                 <h3 className={`text-xl font-bold mb-3 tracking-tight ${headingColor}`}>
                   {item.title}
                 </h3>
-                <p className={`text-sm leading-relaxed text-justify hyphens-auto ${descriptionColor}`}>{item.description}</p>
+                <p className={`text-sm leading-relaxed ${descriptionColor}`}>{item.description}</p>
                 {hasHref && (
                   <div
                     className={`mt-5 flex items-center gap-1.5 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${headingColor}`}
                   >
                     <span>Learn more</span>
+                    <span aria-hidden="true">→</span>
                   </div>
                 )}
               </div>
             )
-            return hasHref ? (
-              <Link key={i} href={href} className="h-full">
-                {inner}
-              </Link>
-            ) : (
-              <div key={i} className="h-full">
-                {inner}
-              </div>
+            return (
+              <Reveal key={i} delay={i * 60} className="h-full">
+                {hasHref ? (
+                  <Link href={href} className="block h-full">
+                    {inner}
+                  </Link>
+                ) : (
+                  inner
+                )}
+              </Reveal>
             )
           })}
         </div>

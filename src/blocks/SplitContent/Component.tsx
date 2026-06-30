@@ -4,6 +4,8 @@ import type { SplitContentBlock as SplitContentBlockType } from '@/payload-types
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
+import { SectionHeader } from '@/components/SectionHeader'
+import { Reveal } from '@/components/Reveal'
 
 type Props = SplitContentBlockType & { disableInnerContainer?: boolean }
 
@@ -26,32 +28,31 @@ export const SplitContentBlock: React.FC<Props> = ({
 }) => {
   const imageRight = imagePosition !== 'left'
   const bg = backgroundClasses[background ?? 'white']
+  const onColored = background === 'primary'
+  const hasImage = image && typeof image !== 'number'
 
   return (
-    <section className={`py-20 ${bg}`}>
+    <section className={`py-20 md:py-24 ${bg}`}>
       <div className="container">
         <div
           className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
             imageRight ? '' : 'lg:[&>*:first-child]:order-2'
           }`}
         >
-          <div>
-            {eyebrow && (
-              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">{eyebrow}</p>
-            )}
-            {(heading || headingAccent) && (
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6 text-gray-900">
-                {heading}
-                {headingAccent && (
-                  <>
-                    {heading && <br />}
-                    <span className="text-primary-deep">{headingAccent}</span>
-                  </>
-                )}
-              </h2>
-            )}
+          <Reveal>
+            <SectionHeader
+              eyebrow={eyebrow}
+              heading={heading}
+              headingAccent={headingAccent}
+              onColored={onColored}
+              className="mb-6"
+            />
             {body && (
-              <div className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 max-w-lg [&_p]:mb-4 last:[&_p]:mb-0">
+              <div
+                className={`text-base md:text-lg leading-relaxed mb-8 max-w-xl [&_p]:mb-4 last:[&_p]:mb-0 ${
+                  onColored ? 'text-primary-foreground/85' : 'text-muted-foreground'
+                }`}
+              >
                 <RichText data={body} enableGutter={false} />
               </div>
             )}
@@ -64,14 +65,27 @@ export const SplitContentBlock: React.FC<Props> = ({
                 ))}
               </ul>
             )}
-          </div>
-          <div className="relative aspect-4/3 bg-gray-100 flex items-center justify-center overflow-hidden">
-            {image && typeof image !== 'number' ? (
-              <Media resource={image} fill imgClassName="object-cover" />
-            ) : (
-              <div className="text-gray-300 text-sm tracking-widest uppercase">Beyond AI</div>
-            )}
-          </div>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <div className="relative aspect-4/3 overflow-hidden">
+              {hasImage ? (
+                <Media resource={image} fill imgClassName="object-cover" />
+              ) : (
+                <div
+                  className="absolute inset-0 flex items-center justify-center border border-primary-deep/15"
+                  style={{
+                    background:
+                      'radial-gradient(ellipse 80% 70% at 50% 35%, oklch(82% 0.17 85 / 0.18) 0%, oklch(96.5% 0.005 260) 70%)',
+                  }}
+                >
+                  <span className="text-sm tracking-[0.3em] uppercase text-primary-deep/60 font-mono">
+                    Beyond AI
+                  </span>
+                </div>
+              )}
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

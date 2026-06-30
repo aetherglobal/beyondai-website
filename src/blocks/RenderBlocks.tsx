@@ -11,6 +11,7 @@ import { SplitContentBlock } from '@/blocks/SplitContent/Component'
 import { StatementSectionBlock } from '@/blocks/StatementSection/Component'
 import { ObjectivesGridBlock } from '@/blocks/ObjectivesGrid/Component'
 import { ProgramsGridBlock } from '@/blocks/ProgramsGrid/Component'
+import { SponsorshipTiersBlock } from '@/blocks/SponsorshipTiers/Component'
 import { StatsRowBlock } from '@/blocks/StatsRow/Component'
 import { TimelineStepsBlock } from '@/blocks/TimelineSteps/Component'
 import { RolesListBlock } from '@/blocks/RolesList/Component'
@@ -37,6 +38,7 @@ const blockComponents = {
   statementSection: StatementSectionBlock,
   objectivesGrid: ObjectivesGridBlock,
   programsGrid: ProgramsGridBlock,
+  sponsorshipTiers: SponsorshipTiersBlock,
   statsRow: StatsRowBlock,
   timelineSteps: TimelineStepsBlock,
   rolesList: RolesListBlock,

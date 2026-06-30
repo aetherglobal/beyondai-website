@@ -8,5 +8,10 @@ export const SponsorInquiryFormBlock: Block = {
     { name: 'eyebrow', type: 'text' },
     { name: 'heading', type: 'text', defaultValue: 'Partner With Us' },
     { name: 'subheading', type: 'textarea' },
+    {
+      name: 'contactEmail',
+      type: 'text',
+      admin: { description: 'Optional. Shown as a mailto link below the subheading.' },
+    },
   ],
 }
