@@ -18,6 +18,14 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
+
+  /* Fluid type scale — smooth scaling instead of stepping at breakpoints. */
+  --text-hero: clamp(2.5rem, 1.55rem + 4.2vw, 4.5rem);
+  --text-hero--line-height: 1.04;
+  --text-section: clamp(1.65rem, 1.15rem + 1.95vw, 2.75rem);
+  --text-section--line-height: 1.08;
+  --text-price: clamp(1.85rem, 1.35rem + 1.7vw, 2.6rem);
+  --text-price--line-height: 1;
 }
 
 :root {
@@ -122,12 +130,10 @@
   --tw-prose-headings: var(--foreground);
 }
 
-/* Justify body prose for a cleaner, more uniform reading column.
-   Paragraphs and list items only — headings stay left-aligned.
-   hyphens: auto keeps word-spacing tight on narrow widths. */
+/* Left-aligned body prose for a clean editorial reading column.
+   (Justified text created uneven word-spacing / rivers on the web.) */
 .prose :where(p, li) {
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
 }
 
 .prose h1 {
