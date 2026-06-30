@@ -11,6 +11,7 @@ import { SplitContent } from '../../blocks/SplitContent/config'
 import { StatementSection } from '../../blocks/StatementSection/config'
 import { ObjectivesGrid } from '../../blocks/ObjectivesGrid/config'
 import { ProgramsGrid } from '../../blocks/ProgramsGrid/config'
+import { SponsorshipTiers } from '../../blocks/SponsorshipTiers/config'
 import { StatsRow } from '../../blocks/StatsRow/config'
 import { TimelineSteps } from '../../blocks/TimelineSteps/config'
 import { RolesList } from '../../blocks/RolesList/config'
@@ -98,6 +99,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 StatementSection,
                 ObjectivesGrid,
                 ProgramsGrid,
+                SponsorshipTiers,
                 StatsRow,
                 TimelineSteps,
                 RolesList,
