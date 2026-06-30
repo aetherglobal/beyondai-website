@@ -214,6 +214,16 @@ export const Posts: CollectionConfig<'posts'> = {
       relationTo: 'users',
     },
     {
+      name: 'authorName',
+      type: 'text',
+      label: 'Author Name',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Optional. If set, this name is shown as the article author everywhere, replacing the linked account(s).',
+      },
+    },
+    {
       name: 'populatedAuthors',
       type: 'array',
       access: {

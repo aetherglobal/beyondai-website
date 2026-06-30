@@ -336,6 +336,10 @@ export interface Post {
   };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
+  /**
+   * Optional. If set, this name is shown as the article author everywhere, replacing the linked account(s).
+   */
+  authorName?: string | null;
   populatedAuthors?:
     | {
         id?: string | null;
@@ -1366,6 +1370,15 @@ export interface Event {
    * Banner/background image that visually represents the event's theme. Used as the full-bleed background on the event detail and homepage heroes. Does not have to be the flyer.
    */
   heroImage?: (number | null) | Media;
+  hosts?:
+    | {
+        name: string;
+        title?: string | null;
+        bio?: string | null;
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   speakers?:
     | {
         name: string;
@@ -2340,6 +2353,7 @@ export interface PostsSelect<T extends boolean = true> {
       };
   publishedAt?: T;
   authors?: T;
+  authorName?: T;
   populatedAuthors?:
     | T
     | {
@@ -2366,6 +2380,15 @@ export interface EventsSelect<T extends boolean = true> {
   description?: T;
   flyerImage?: T;
   heroImage?: T;
+  hosts?:
+    | T
+    | {
+        name?: T;
+        title?: T;
+        bio?: T;
+        photo?: T;
+        id?: T;
+      };
   speakers?:
     | T
     | {
