@@ -147,8 +147,37 @@ export const Events: CollectionConfig<'events'> = {
           ],
         },
         {
-          label: 'Speakers & Agenda',
+          label: 'Hosts, Speakers & Agenda',
           fields: [
+            {
+              name: 'hosts',
+              type: 'array',
+              label: 'Hosts',
+              admin: {
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'title',
+                  type: 'text',
+                  label: 'Title / Role',
+                },
+                {
+                  name: 'bio',
+                  type: 'textarea',
+                },
+                {
+                  name: 'photo',
+                  type: 'upload',
+                  relationTo: 'media',
+                },
+              ],
+            },
             {
               name: 'speakers',
               type: 'array',

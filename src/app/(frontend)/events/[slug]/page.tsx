@@ -72,6 +72,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     description,
     flyerImage,
     heroImage,
+    hosts,
     speakers,
     agenda,
     lumaEventUrl,
@@ -207,6 +208,56 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                 </div>
               </div>
             </FadeIn>
+          </div>
+        </section>
+      )}
+
+      {hosts && hosts.length > 0 && (
+        <section className="bg-dark py-16 md:py-20">
+          <div className="container">
+            <FadeIn>
+              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
+                [Hosts]
+              </p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+                Meet Your Hosts
+              </h2>
+            </FadeIn>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {hosts.map((host, i) => (
+                <FadeIn key={i} delay={i * 0.05}>
+                  <div className="text-center group">
+                    {host.photo && typeof host.photo !== 'number' ? (
+                      <div
+                        className="relative w-40 h-40 mx-auto mb-4 overflow-hidden border-2 border-transparent group-hover:border-primary-deep transition-colors"
+                        style={{
+                          clipPath:
+                            'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
+                        }}
+                      >
+                        <Media resource={host.photo} fill imgClassName="object-cover" />
+                      </div>
+                    ) : (
+                      <div
+                        className="w-40 h-40 mx-auto mb-4 bg-card flex items-center justify-center"
+                        style={{
+                          clipPath:
+                            'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
+                        }}
+                      >
+                        <span className="text-2xl font-bold text-primary-deep/40">
+                          {host.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    <h3 className="font-semibold text-foreground text-sm">{host.name}</h3>
+                    {host.title && (
+                      <p className="text-xs text-muted-foreground mt-1">{host.title}</p>
+                    )}
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
           </div>
         </section>
       )}
