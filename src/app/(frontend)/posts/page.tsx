@@ -148,7 +148,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await queryArticlesPage()
   if (page) return generateMeta({ doc: page })
-  return { title: 'Articles — Beyond AI' }
+  // The root layout appends the `— Beyond AI` suffix via its title template.
+  return { title: 'Articles' }
 }
 
 const queryArticlesPage = cache(

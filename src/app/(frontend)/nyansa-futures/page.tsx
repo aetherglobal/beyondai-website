@@ -331,8 +331,9 @@ export default async function NyansaFuturesPage() {
 export async function generateMetadata(): Promise<Metadata> {
   const page = await queryNyansaFuturesPage()
   if (page) return generateMeta({ doc: page })
+  // The root layout appends the `— Beyond AI` suffix via its title template.
   return {
-    title: 'Nyansa Futures Conference — Beyond AI',
+    title: 'Nyansa Futures Conference',
     description:
       'Nyansa Futures gathers policymakers, innovators, academics, and civil society to discuss AI governance and digital transformation in Africa.',
   }
