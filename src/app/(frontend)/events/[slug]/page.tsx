@@ -8,6 +8,7 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { LumaEmbed } from '@/components/LumaEmbed'
 import { FadeIn } from '@/components/FadeIn'
+import { generateMeta } from '@/utilities/generateMeta'
 
 import type { Event } from '@/payload-types'
 
@@ -400,10 +401,17 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   if (!event) return {}
 
-  return {
-    title: `${event.title} — Beyond AI`,
-    description: `Join us for ${event.title} on ${new Date(event.date).toLocaleDateString()}.`,
-  }
+  return generateMeta({
+    doc: event,
+    fallback: {
+      title: event.title,
+      description: event.date
+        ? `Join us for ${event.title} on ${new Date(event.date).toLocaleDateString()}.`
+        : `Join us for ${event.title}.`,
+      // meta.image is preferred inside generateMeta; hero then flyer as fallbacks.
+      image: event.heroImage || event.flyerImage,
+    },
+  })
 }
 
 const queryEventBySlug = cache(async ({ slug }: { slug: string }) => {
