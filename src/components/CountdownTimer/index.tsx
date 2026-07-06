@@ -25,12 +25,6 @@ export const CountdownTimer: React.FC<{
   targetDate: string
   className?: string
 }> = ({ targetDate, className }) => {
-  // Read the live countdown via an external store. The server render — and the
-  // first client render during hydration — use the deterministic ZERO snapshot,
-  // so the markup matches and there is no hydration mismatch (React error #418).
-  // The real value is published from the subscription, which runs only after
-  // mount, so the wall clock is never read during render. The ref caches the
-  // latest snapshot so getSnapshot returns a stable reference between ticks.
   const snapshotRef = useRef<TimeLeft>(ZERO)
 
   const subscribe = useCallback(
