@@ -17,15 +17,6 @@ interface HeaderClientProps {
   logoHeight?: number | null
 }
 
-/**
- * Nav link that defers route prefetching until the user signals intent (hover/focus).
- *
- * Next.js' default viewport prefetch eagerly preloads every nav route's CSS on page
- * load. For a route with its own CSS chunk (e.g. /gallery's lightbox + photo-album
- * styles), that injects a `<link rel="preload" as="style">` that is never used when
- * the visitor stays put — triggering Chrome's "preloaded but not used" warning.
- * Prefetching on intent keeps navigation fast without the wasted preload.
- */
 const NavLink: React.FC<{
   href: string
   className?: string

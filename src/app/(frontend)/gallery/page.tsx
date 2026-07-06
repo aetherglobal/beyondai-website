@@ -39,7 +39,6 @@ export default async function GalleryPage() {
 }
 
 export const metadata: Metadata = {
-  // The root layout appends the `— Beyond AI` suffix via its title template.
   title: 'Gallery',
   description:
     'Photos from Beyond AI events — panels, workshops, and community gatherings advancing AI governance in Africa.',

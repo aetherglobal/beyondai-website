@@ -81,7 +81,6 @@ export default async function SponsorsPage() {
 }
 
 export const metadata: Metadata = {
-  // The root layout appends the `— Beyond AI` suffix via its title template.
   title: 'Sponsors & Partners',
   description:
     'Meet the sponsors and partners supporting the Beyond AI initiative in advancing AI governance in Africa.',
