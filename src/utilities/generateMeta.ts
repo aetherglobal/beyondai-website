@@ -5,6 +5,8 @@ import type { Event, Media, Page, Post, Config } from '../payload-types'
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 
+const SITE_NAME = 'Beyond AI'
+
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   if (image && typeof image === 'object' && 'url' in image) {
     const serverUrl = getServerSideURL()
@@ -16,10 +18,18 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   return undefined
 }
 
+export const buildTitle = (value?: string | null): string | undefined => {
+  const core = (value || '')
+    .replace(new RegExp(`\\s*[|\\-–—:]\\s*${SITE_NAME}\\s*$`, 'i'), '')
+    .trim()
+
+  if (!core || core.toLowerCase() === SITE_NAME.toLowerCase()) return undefined
+
+  return /^beyond ai\b/i.test(core) ? core : `${SITE_NAME} | ${core}`
+}
+
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | Partial<Event> | null
-  // Per-doc defaults used when the SEO tab is empty (e.g. an event's own
-  // title/date/imagery). The doc's `meta.*` fields always take precedence.
   fallback?: {
     title?: string | null
     description?: string | null
@@ -30,8 +40,7 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image) ?? getImageURL(fallback?.image)
 
-  // Let the root layout supply the site title/template (`%s — Beyond AI`).
-  const title = doc?.meta?.title || fallback?.title || undefined
+  const title = buildTitle(doc?.meta?.title || fallback?.title)
   const description = doc?.meta?.description || fallback?.description || undefined
 
   return {
@@ -48,6 +57,6 @@ export const generateMeta = async (args: {
       title,
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),
-    title,
+    title: title ? { absolute: title } : undefined,
   }
 }

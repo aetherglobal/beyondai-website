@@ -226,7 +226,7 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
       image: heroImage.id,
       title: 'Global Gaze: Beyond the Headlines',
     },
-    relatedPosts: [], // this is populated by the seed script
+    relatedPosts: [],
     title: 'Global Gaze: Beyond the Headlines',
   }
 }

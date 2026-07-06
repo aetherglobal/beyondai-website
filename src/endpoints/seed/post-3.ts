@@ -262,7 +262,7 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
       image: heroImage.id,
       title: 'Dollar and Sense: The Financial Forecast',
     },
-    relatedPosts: [], // this is populated by the seed script
+    relatedPosts: [],
     title: 'Dollar and Sense: The Financial Forecast',
   }
 }

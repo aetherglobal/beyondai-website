@@ -15,7 +15,7 @@ import { Event, Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post | Page | Event> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Beyond AI` : 'Beyond AI'
+  return doc?.title ? `Beyond AI | ${doc.title}` : 'Beyond AI'
 }
 
 const generateURL: GenerateURL<Post | Page | Event> = ({ doc }) => {

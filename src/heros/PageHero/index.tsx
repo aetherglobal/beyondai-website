@@ -37,7 +37,6 @@ export const PageHero: React.FC<HeroProps> = (props) => {
         </div>
       ) : (
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          {/* Soft brand-green glow */}
           <div
             className="absolute inset-0"
             style={{
@@ -45,7 +44,6 @@ export const PageHero: React.FC<HeroProps> = (props) => {
                 'radial-gradient(ellipse 70% 60% at 50% 28%, oklch(82% 0.17 85 / 0.14) 0%, transparent 72%)',
             }}
           />
-          {/* Faint hairline grid, masked out toward the edges */}
           <div
             className="absolute inset-0"
             style={{

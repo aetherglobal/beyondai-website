@@ -14,7 +14,6 @@ const backgroundClassMap: Record<string, string> = {
   dark: 'bg-dark',
 }
 
-/** Tiny metal-tone signifier per named tier — the only per-tier colour. */
 const tierDotColor: Record<string, string> = {
   platinum: '#C9CDD2',
   gold: '#C8A24B',
@@ -22,7 +21,6 @@ const tierDotColor: Record<string, string> = {
   bronze: '#B87333',
 }
 
-/** Split a "GHS 250,000+" amount into a currency prefix + the figure. */
 function splitAmount(amount?: string | null): { prefix?: string; value?: string } {
   if (!amount) return {}
   const match = amount.trim().match(/^([A-Za-z]{2,4})\s+(.*)$/)
