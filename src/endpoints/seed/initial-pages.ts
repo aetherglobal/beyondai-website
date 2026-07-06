@@ -812,8 +812,6 @@ export async function seedBecomeSponsorPage({
   return { slug: page.slug!, id }
 }
 
-// ---- helpers ----
-
 type LexicalRoot = NonNullable<Page['layout'][number]> extends { richText?: infer R } ? R : never
 
 function richTextFromParagraph(text: string): LexicalRoot {

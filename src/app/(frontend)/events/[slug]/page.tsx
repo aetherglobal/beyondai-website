@@ -408,7 +408,6 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       description: event.date
         ? `Join us for ${event.title} on ${new Date(event.date).toLocaleDateString()}.`
         : `Join us for ${event.title}.`,
-      // meta.image is preferred inside generateMeta; hero then flyer as fallbacks.
       image: event.heroImage || event.flyerImage,
     },
   })

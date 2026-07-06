@@ -9,7 +9,6 @@ type Props = ObjectivesGridBlockType & { disableInnerContainer?: boolean }
 export const ObjectivesGridBlock: React.FC<Props> = ({ eyebrow, heading, items }) => {
   if (!items || items.length === 0) return null
 
-  // 4 (or 8) items fill a 4-col row cleanly; otherwise keep the 3-col rhythm.
   const lgCols = items.length % 4 === 0 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'
 
   return (

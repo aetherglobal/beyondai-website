@@ -5,18 +5,11 @@ type SectionHeaderProps = {
   heading?: string | null
   headingAccent?: string | null
   subheading?: string | null
-  /** Render on a primary/dark (colored) background — flips text colors. */
   onColored?: boolean
   className?: string
-  /** Heading element + size. `hero` is reserved for the page hero. */
   as?: 'h1' | 'h2'
 }
 
-/**
- * Canonical eyebrow + heading (+ optional subheading) used across section blocks.
- * Replaces markup that was duplicated in every block so the type rhythm stays
- * consistent. Sharp corners / uppercase headings are brand rules.
- */
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
   eyebrow,
   heading,
