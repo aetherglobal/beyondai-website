@@ -11,9 +11,7 @@ export function FadeIn({
 }: {
   children: ReactNode
   delay?: number
-  /** Initial vertical offset in px before reveal. */
   y?: number
-  /** Applied to the motion wrapper — lets it serve as a grid/flex child. */
   className?: string
 }) {
   const reduceMotion = useReducedMotion()

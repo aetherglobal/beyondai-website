@@ -108,7 +108,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 }
 
 export function generateMetadata(): Metadata {
-  // The root layout appends the `— Beyond AI` suffix via its title template.
   return {
     title: 'Search',
   }
