@@ -4,7 +4,6 @@ import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
 import React from 'react'
-import { motion } from 'framer-motion'
 
 import type { Category, Media as MediaType, Post } from '@/payload-types'
 
@@ -47,18 +46,15 @@ export const ArticleCard: React.FC<{
     .join(', ')
 
   return (
-    <motion.article
+    <article
       ref={cardRef}
       className={cn(
         'group overflow-hidden bg-white hover:cursor-pointer',
         'transition-all duration-300 ease-out',
         'flex flex-col md:flex-row',
+        'motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:[animation-duration:600ms] motion-safe:[animation-fill-mode:both]',
         className,
       )}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.4 }}
     >
       <div className="relative overflow-hidden md:w-[45%] aspect-[16/10] md:aspect-auto md:min-h-[280px] shrink-0">
         {image && typeof image !== 'string' && typeof image !== 'number' ? (
@@ -110,6 +106,6 @@ export const ArticleCard: React.FC<{
           <span>{readingTime} min read</span>
         </div>
       </div>
-    </motion.article>
+    </article>
   )
 }
