@@ -12,6 +12,8 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from '../[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+export const revalidate = 3600
+
 export default async function EventsPage() {
   const { isEnabled: draft } = await draftMode()
 

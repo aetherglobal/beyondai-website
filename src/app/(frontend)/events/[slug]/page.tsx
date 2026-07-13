@@ -42,6 +42,8 @@ type Args = {
   params: Promise<{ slug: string }>
 }
 
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const events = await payload.find({
