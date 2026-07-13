@@ -31,7 +31,7 @@ export const TestimonialListBlock: React.FC<Props> = ({ eyebrow, heading, items 
               <figcaption className="flex items-center gap-3">
                 {item.avatar && typeof item.avatar !== 'number' && (
                   <div className="w-10 h-10 relative overflow-hidden rounded-full shrink-0">
-                    <Media resource={item.avatar} fill imgClassName="object-cover" />
+                    <Media resource={item.avatar} fill imgClassName="object-cover" size="40px" />
                   </div>
                 )}
                 <div>
