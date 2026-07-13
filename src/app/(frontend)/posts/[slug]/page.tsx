@@ -16,6 +16,8 @@ import { ArticleClientComponents } from './page.client'
 import { AuthorBio } from '@/components/AuthorBio'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({

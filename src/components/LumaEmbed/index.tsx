@@ -14,6 +14,7 @@ export const LumaEmbed: React.FC<{
           width="100%"
           height="600"
           frameBorder="0"
+          loading="lazy"
           style={{ border: 'none', borderRadius: '8px' }}
           allowFullScreen
           title="Event Registration"
