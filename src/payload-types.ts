@@ -1018,6 +1018,7 @@ export interface ObjectivesGridBlock {
  * via the `definition` "ProgramsGridBlock".
  */
 export interface ProgramsGridBlock {
+  layout?: ('grid' | 'showcase') | null;
   eyebrow?: string | null;
   heading?: string | null;
   subheading?: string | null;
@@ -1027,21 +1028,10 @@ export interface ProgramsGridBlock {
     | {
         title: string;
         description: string;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label?: string | null;
-        };
+        /**
+         * Used by the Showcase layout; falls back to a branded placeholder when empty.
+         */
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -2087,6 +2077,7 @@ export interface ObjectivesGridBlockSelect<T extends boolean = true> {
  * via the `definition` "ProgramsGridBlock_select".
  */
 export interface ProgramsGridBlockSelect<T extends boolean = true> {
+  layout?: T;
   eyebrow?: T;
   heading?: T;
   subheading?: T;
@@ -2097,15 +2088,7 @@ export interface ProgramsGridBlockSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        image?: T;
         id?: T;
       };
   id?: T;

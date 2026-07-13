@@ -24,13 +24,8 @@ export function getThemeStyle(settings: SiteSetting | null): string {
     declarations.push(`--container-max: ${theme.layout.containerMaxWidth}px;`)
   }
 
-  if (theme.typography?.fontSans) {
-    declarations.push(`--font-sans: var(--font-${theme.typography.fontSans});`)
-  }
-
-  if (theme.typography?.fontMono) {
-    declarations.push(`--font-mono: var(--font-${theme.typography.fontMono});`)
-  }
+  // Typography is fixed to Clash Grotesk site-wide (see globals.css); the Site
+  // Settings font selectors are intentionally not applied here.
 
   if (declarations.length === 0) return ''
 

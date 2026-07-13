@@ -1,12 +1,19 @@
 import type { Block } from 'payload'
 
-import { optionalLink } from '@/fields/optionalLink'
-
 export const ProgramsGrid: Block = {
   slug: 'programsGrid',
   interfaceName: 'ProgramsGridBlock',
   labels: { singular: 'Programs Grid', plural: 'Programs Grid' },
   fields: [
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'grid',
+      options: [
+        { label: 'Grid (default)', value: 'grid' },
+        { label: 'Showcase (numbered, alternating image + text rows)', value: 'showcase' },
+      ],
+    },
     { name: 'eyebrow', type: 'text' },
     { name: 'heading', type: 'text' },
     { name: 'subheading', type: 'textarea' },
@@ -25,6 +32,7 @@ export const ProgramsGrid: Block = {
       name: 'columns',
       type: 'select',
       defaultValue: '2',
+      admin: { condition: (_, siblingData) => siblingData?.layout !== 'showcase' },
       options: [
         { label: '1 column', value: '1' },
         { label: '2 columns', value: '2' },
@@ -39,7 +47,15 @@ export const ProgramsGrid: Block = {
       fields: [
         { name: 'title', type: 'text', required: true },
         { name: 'description', type: 'textarea', required: true },
-        optionalLink({ appearances: false }),
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description:
+              'Used by the Showcase layout; falls back to a branded placeholder when empty.',
+          },
+        },
       ],
     },
   ],
