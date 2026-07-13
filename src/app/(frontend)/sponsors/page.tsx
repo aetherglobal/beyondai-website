@@ -8,6 +8,8 @@ import { SponsorGrid } from '@/components/SponsorGrid'
 
 import type { Sponsor } from '@/payload-types'
 
+export const revalidate = 3600
+
 export default async function SponsorsPage() {
   const payload = await getPayload({ config: configPromise })
 
