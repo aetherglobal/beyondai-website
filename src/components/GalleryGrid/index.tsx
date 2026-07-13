@@ -1,25 +1,19 @@
 'use client'
 
 import React, { useMemo, useState, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { MasonryPhotoAlbum, RenderImageContext, RenderImageProps } from 'react-photo-album'
-import Lightbox from 'yet-another-react-lightbox'
-import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails'
-import Zoom from 'yet-another-react-lightbox/plugins/zoom'
-import Captions from 'yet-another-react-lightbox/plugins/captions'
-import Counter from 'yet-another-react-lightbox/plugins/counter'
 import { cn } from '@/utilities/ui'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 
 import 'react-photo-album/masonry.css'
-import 'yet-another-react-lightbox/styles.css'
-import 'yet-another-react-lightbox/plugins/thumbnails.css'
-import 'yet-another-react-lightbox/plugins/captions.css'
-import 'yet-another-react-lightbox/plugins/counter.css'
 
 import type { Event, GalleryImage, Media } from '@/payload-types'
+
+const GalleryLightbox = dynamic(() => import('./GalleryLightbox'), { ssr: false })
 
 type EventTab = { title: string; slug: string }
 
@@ -82,6 +76,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, events }) => {
   const activeEvent = searchParams.get('event') || ''
 
   const [lightboxIndex, setLightboxIndex] = useState(-1)
+  const [lightboxReady, setLightboxReady] = useState(false)
 
   const handleFilterClick = useCallback(
     (slug: string) => {
@@ -174,7 +169,10 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, events }) => {
                   return 4
                 }}
                 spacing={12}
-                onClick={({ index }) => setLightboxIndex(index)}
+                onClick={({ index }) => {
+                  setLightboxReady(true)
+                  setLightboxIndex(index)
+                }}
                 render={{ image: renderNextImage }}
                 defaultContainerWidth={1200}
                 sizes={{
@@ -194,16 +192,14 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, events }) => {
         </AnimatePresence>
       </section>
 
-      <Lightbox
-        open={lightboxIndex >= 0}
-        index={lightboxIndex}
-        close={() => setLightboxIndex(-1)}
-        slides={slides}
-        plugins={[Thumbnails, Zoom, Captions, Counter]}
-        captions={{ descriptionTextAlign: 'center' }}
-        counter={{ container: { style: { top: 'unset', bottom: 0 } } }}
-        thumbnails={{ position: 'bottom', width: 100, height: 60, gap: 8 }}
-      />
+      {lightboxReady && (
+        <GalleryLightbox
+          open={lightboxIndex >= 0}
+          index={lightboxIndex}
+          close={() => setLightboxIndex(-1)}
+          slides={slides}
+        />
+      )}
     </>
   )
 }
