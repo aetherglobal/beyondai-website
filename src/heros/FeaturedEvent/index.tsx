@@ -61,7 +61,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
         <div className="absolute inset-0 hidden lg:block">
           <div className="absolute top-0 right-0 bottom-0 w-[55%]">
             {heroImage ? (
-              <Media resource={heroImage} fill imgClassName="object-cover" />
+              <Media resource={heroImage} fill imgClassName="object-cover" size="55vw" />
             ) : (
               <div className="w-full h-full bg-card" />
             )}

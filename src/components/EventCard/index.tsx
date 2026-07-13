@@ -30,7 +30,7 @@ export const EventCard: React.FC<{
       {flyerImage && typeof flyerImage !== 'number' && (
         <Link href={`/events/${slug}`} className="block">
           <div className="relative aspect-video overflow-hidden">
-            <Media resource={flyerImage} fill imgClassName="object-cover group-hover:scale-105 transition-transform duration-500" />
+            <Media resource={flyerImage} fill imgClassName="object-cover group-hover:scale-105 transition-transform duration-500" size="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" />
           </div>
         </Link>
       )}
