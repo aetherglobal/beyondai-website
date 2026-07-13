@@ -14,7 +14,12 @@ const ShowcaseMedia: React.FC<{ image: ProgramItem['image'] }> = ({ image }) => 
   return (
     <div className="relative aspect-4/3 overflow-hidden">
       {hasImage ? (
-        <Media resource={image} fill imgClassName="object-cover" />
+        <Media
+          resource={image}
+          fill
+          imgClassName="object-cover"
+          size="(min-width: 1024px) 624px, (min-width: 768px) 704px, 100vw"
+        />
       ) : (
         <div
           className="absolute inset-0 flex items-center justify-center border border-primary-deep/15"

@@ -34,7 +34,7 @@ const CollageCell: React.FC<{
 }> = ({ resource, className }) => (
   <div className={`relative overflow-hidden ${className ?? ''}`}>
     {resource && typeof resource !== 'number' ? (
-      <Media resource={resource} fill imgClassName="object-cover" />
+      <Media resource={resource} fill imgClassName="object-cover" size="(min-width: 1024px) 25vw, 50vw" />
     ) : (
       <div
         className="absolute inset-0 flex items-center justify-center border border-primary-deep/15"
@@ -179,7 +179,7 @@ export const StatementSectionBlock: React.FC<Props> = ({
 
         <div className="relative aspect-4/3 lg:aspect-auto lg:min-h-[400px] bg-gray-100 flex items-center justify-center overflow-hidden">
           {image && typeof image !== 'number' ? (
-            <Media resource={image} fill imgClassName="object-cover" />
+            <Media resource={image} fill imgClassName="object-cover" size="(min-width: 1024px) 50vw, 100vw" />
           ) : (
             <div className="text-gray-300 text-sm tracking-widest uppercase">Beyond AI</div>
           )}
