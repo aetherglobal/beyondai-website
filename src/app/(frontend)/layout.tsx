@@ -1,70 +1,13 @@
 import type { Metadata } from 'next'
 
-import { cn } from '@/utilities/ui'
-import {
-  Sora,
-  Inter,
-  Manrope,
-  DM_Sans,
-  Space_Grotesk,
-  IBM_Plex_Sans,
-  Space_Mono,
-  JetBrains_Mono,
-  IBM_Plex_Mono,
-} from 'next/font/google'
+import localFont from 'next/font/local'
 import React from 'react'
 
-const sora = Sora({ subsets: ['latin'], variable: '--font-sora', display: 'swap' })
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+const clashGrotesk = localFont({
+  src: './fonts/ClashGrotesk-Variable.woff2',
+  variable: '--font-clash-grotesk',
   display: 'swap',
-  preload: false,
-})
-const manrope = Manrope({
-  subsets: ['latin'],
-  variable: '--font-manrope',
-  display: 'swap',
-  preload: false,
-})
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
-  display: 'swap',
-  preload: false,
-})
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-  display: 'swap',
-  preload: false,
-})
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-ibm-plex-sans',
-  display: 'swap',
-  preload: false,
-})
-
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-space-mono',
-  display: 'swap',
-})
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-  preload: false,
-})
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-ibm-plex-mono',
-  display: 'swap',
-  preload: false,
+  weight: '200 700',
 })
 
 import { AdminBar } from '@/components/AdminBar'
@@ -91,20 +34,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       : null
   const faviconUrl = favicon?.url
 
-  const fontClasses = cn(
-    sora.variable,
-    inter.variable,
-    manrope.variable,
-    dmSans.variable,
-    spaceGrotesk.variable,
-    ibmPlexSans.variable,
-    spaceMono.variable,
-    jetbrainsMono.variable,
-    ibmPlexMono.variable,
-  )
-
   return (
-    <html className={fontClasses} lang="en" data-scroll-behavior="smooth">
+    <html className={clashGrotesk.variable} lang="en" data-scroll-behavior="smooth">
       <head>
         {themeCss && <style dangerouslySetInnerHTML={{ __html: themeCss }} />}
         {faviconUrl ? (
