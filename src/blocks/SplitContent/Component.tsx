@@ -70,7 +70,12 @@ export const SplitContentBlock: React.FC<Props> = ({
           <Reveal delay={120}>
             <div className="relative aspect-4/3 overflow-hidden">
               {hasImage ? (
-                <Media resource={image} fill imgClassName="object-cover" />
+                <Media
+                  resource={image}
+                  fill
+                  imgClassName="object-cover"
+                  size="(min-width: 1024px) 50vw, 100vw"
+                />
               ) : (
                 <div
                   className="absolute inset-0 flex items-center justify-center border border-primary-deep/15"

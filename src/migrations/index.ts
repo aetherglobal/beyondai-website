@@ -5,6 +5,8 @@ import * as migration_20260630_131427_add_sponsorship_tiers_and_contact_email fr
 import * as migration_20260630_192047_add_event_hosts from './20260630_192047_add_event_hosts';
 import * as migration_20260630_192546_add_author_name_to_posts from './20260630_192546_add_author_name_to_posts';
 import * as migration_20260713_152338_statement_section_collage from './20260713_152338_statement_section_collage';
+import * as migration_20260713_161533_programs_grid_showcase from './20260713_161533_programs_grid_showcase';
+import * as migration_20260713_192243_remove_programs_grid_item_link from './20260713_192243_remove_programs_grid_item_link';
 
 export const migrations = [
   {
@@ -40,6 +42,16 @@ export const migrations = [
   {
     up: migration_20260713_152338_statement_section_collage.up,
     down: migration_20260713_152338_statement_section_collage.down,
-    name: '20260713_152338_statement_section_collage'
+    name: '20260713_152338_statement_section_collage',
+  },
+  {
+    up: migration_20260713_161533_programs_grid_showcase.up,
+    down: migration_20260713_161533_programs_grid_showcase.down,
+    name: '20260713_161533_programs_grid_showcase',
+  },
+  {
+    up: migration_20260713_192243_remove_programs_grid_item_link.up,
+    down: migration_20260713_192243_remove_programs_grid_item_link.down,
+    name: '20260713_192243_remove_programs_grid_item_link'
   },
 ];

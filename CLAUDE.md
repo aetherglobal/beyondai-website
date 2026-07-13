@@ -92,7 +92,7 @@ Pages have a hero field with variants: `HighImpact`, `MediumImpact`, `LowImpact`
 
 - Tailwind CSS v4 with `@tailwindcss/typography` and `tw-animate-css`
 - shadcn/ui components in `src/components/ui/` (configured via `components.json`, utils alias points to `@/utilities/ui`)
-- Geist font (sans + mono)
+- Clash Grotesk site-wide — self-hosted variable font via `next/font/local` in `src/app/(frontend)/layout.tsx` (`src/app/(frontend)/fonts/`). Both `--font-sans` and `--font-mono` map to it in `globals.css`, so `font-mono` utilities (used decoratively for eyebrow labels/stat numbers) render Clash Grotesk, not a monospace face. The Site Settings → Theme → Typography font pickers are inert (`getThemeStyle` no longer applies them).
 - Dark mode via theme provider
 
 ### Database

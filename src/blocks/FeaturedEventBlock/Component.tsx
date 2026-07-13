@@ -53,7 +53,7 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
               <div className="lg:col-span-6">
                 <Link href={`/events/${slug}`} className="block">
                   <div className="relative aspect-video border-t-2 border-primary-deep overflow-hidden">
-                    <Media resource={flyerImage} fill imgClassName="object-cover" />
+                    <Media resource={flyerImage} fill imgClassName="object-cover" size="(min-width: 1024px) 50vw, 100vw" />
                   </div>
                 </Link>
               </div>

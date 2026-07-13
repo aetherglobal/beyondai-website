@@ -51,11 +51,12 @@ export const buildHomePage = (): PageInput => ({
     },
     {
       blockType: 'programsGrid',
+      layout: 'showcase',
       eyebrow: '[Programs]',
       heading: 'What We Do',
       subheading:
         'Four initiatives driving responsible AI governance, public awareness, and continental dialogue.',
-      background: 'primary',
+      background: 'white',
       columns: '2',
       items: [
         {
@@ -77,7 +78,6 @@ export const buildHomePage = (): PageInput => ({
           title: 'Nyansa Futures',
           description:
             'Our annual flagship conference gathering policymakers, innovators, and academics to shape Africa\'s AI future.',
-          link: { type: 'custom', url: '/nyansa-futures', label: 'Learn more' },
         },
       ],
     },
@@ -205,7 +205,6 @@ export const buildAboutPage = (): PageInput => ({
           title: 'AI Watch',
           description:
             'Monthly forums bringing together diverse voices to discuss pressing AI governance topics affecting Africa and the world.',
-          link: { type: 'custom', url: '/events', label: 'Learn more' },
         },
         {
           title: 'AI Pulse',
@@ -221,7 +220,6 @@ export const buildAboutPage = (): PageInput => ({
           title: 'Nyansa Futures',
           description:
             "Our annual flagship conference gathering policymakers, innovators, and academics to shape Africa\'s AI future.",
-          link: { type: 'custom', url: '/nyansa-futures', label: 'Learn more' },
         },
       ],
     },

@@ -78,8 +78,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: var(--font-sora);
-  --font-mono: var(--font-space-mono);
+  --font-sans: var(--font-clash-grotesk);
+  --font-mono: var(--font-clash-grotesk);
   --radius-sm: max(0px, calc(var(--radius) - 4px));
   --radius-md: max(0px, calc(var(--radius) - 2px));
   --radius-lg: var(--radius);
