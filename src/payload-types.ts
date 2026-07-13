@@ -928,6 +928,7 @@ export interface SplitContentBlock {
  * via the `definition` "StatementSectionBlock".
  */
 export interface StatementSectionBlock {
+  layout?: ('default' | 'collage') | null;
   eyebrow?: string | null;
   /**
    * Primary heading. Line breaks in the text become <br/> in the output.
@@ -977,6 +978,14 @@ export interface StatementSectionBlock {
    */
   showIcon?: boolean | null;
   image?: (number | null) | Media;
+  /**
+   * Three images for the collage: one tall image on the left, two stacked on the right.
+   */
+  collageImages?: {
+    main?: (number | null) | Media;
+    topRight?: (number | null) | Media;
+    bottomRight?: (number | null) | Media;
+  };
   background?: ('secondary' | 'white' | 'primary' | 'dark') | null;
   id?: string | null;
   blockName?: string | null;
@@ -2024,6 +2033,7 @@ export interface SplitContentBlockSelect<T extends boolean = true> {
  * via the `definition` "StatementSectionBlock_select".
  */
 export interface StatementSectionBlockSelect<T extends boolean = true> {
+  layout?: T;
   eyebrow?: T;
   heading?: T;
   sideCta?:
@@ -2043,6 +2053,13 @@ export interface StatementSectionBlockSelect<T extends boolean = true> {
   body?: T;
   showIcon?: T;
   image?: T;
+  collageImages?:
+    | T
+    | {
+        main?: T;
+        topRight?: T;
+        bottomRight?: T;
+      };
   background?: T;
   id?: T;
   blockName?: T;
