@@ -238,7 +238,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                             'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
                         }}
                       >
-                        <Media resource={host.photo} fill imgClassName="object-cover" />
+                        <Media resource={host.photo} fill imgClassName="object-cover" size="160px" />
                       </div>
                     ) : (
                       <div
@@ -288,7 +288,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                             'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
                         }}
                       >
-                        <Media resource={speaker.photo} fill imgClassName="object-cover" />
+                        <Media resource={speaker.photo} fill imgClassName="object-cover" size="160px" />
                       </div>
                     ) : (
                       <div
