@@ -32,6 +32,7 @@ export const buildHomePage = (): PageInput => ({
     },
     {
       blockType: 'statementSection',
+      layout: 'collage',
       eyebrow: '[About]',
       heading: 'Shaping AI\nGovernance in Africa',
       sideCta: {
