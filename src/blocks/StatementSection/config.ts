@@ -13,6 +13,15 @@ export const StatementSection: Block = {
   interfaceName: 'StatementSectionBlock',
   labels: { singular: 'Statement Section', plural: 'Statement Sections' },
   fields: [
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Default (text + single image)', value: 'default' },
+        { label: 'Collage (centered heading + 3-image collage)', value: 'collage' },
+      ],
+    },
     { name: 'eyebrow', type: 'text' },
     {
       name: 'heading',
@@ -46,6 +55,19 @@ export const StatementSection: Block = {
       admin: { description: 'Show the decorative chevron icon above the body.' },
     },
     { name: 'image', type: 'upload', relationTo: 'media' },
+    {
+      name: 'collageImages',
+      type: 'group',
+      admin: {
+        condition: (_, siblingData) => siblingData?.layout === 'collage',
+        description: 'Three images for the collage: one tall image on the left, two stacked on the right.',
+      },
+      fields: [
+        { name: 'main', type: 'upload', relationTo: 'media', label: 'Tall image (left)' },
+        { name: 'topRight', type: 'upload', relationTo: 'media', label: 'Top-right image' },
+        { name: 'bottomRight', type: 'upload', relationTo: 'media', label: 'Bottom-right image' },
+      ],
+    },
     {
       name: 'background',
       type: 'select',
