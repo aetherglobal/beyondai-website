@@ -4,6 +4,7 @@ import * as migration_20260621_235225_remove_hero_fallback_image from './2026062
 import * as migration_20260630_131427_add_sponsorship_tiers_and_contact_email from './20260630_131427_add_sponsorship_tiers_and_contact_email';
 import * as migration_20260630_192047_add_event_hosts from './20260630_192047_add_event_hosts';
 import * as migration_20260630_192546_add_author_name_to_posts from './20260630_192546_add_author_name_to_posts';
+import * as migration_20260713_152338_statement_section_collage from './20260713_152338_statement_section_collage';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260630_192546_add_author_name_to_posts.up,
     down: migration_20260630_192546_add_author_name_to_posts.down,
-    name: '20260630_192546_add_author_name_to_posts'
+    name: '20260630_192546_add_author_name_to_posts',
+  },
+  {
+    up: migration_20260713_152338_statement_section_collage.up,
+    down: migration_20260713_152338_statement_section_collage.down,
+    name: '20260713_152338_statement_section_collage'
   },
 ];
