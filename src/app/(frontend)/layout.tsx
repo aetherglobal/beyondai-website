@@ -15,19 +15,36 @@ import {
 import React from 'react'
 
 const sora = Sora({ subsets: ['latin'], variable: '--font-sora', display: 'swap' })
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
-const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope', display: 'swap' })
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', display: 'swap' })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+  preload: false,
+})
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+  preload: false,
+})
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+  preload: false,
+})
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
   display: 'swap',
+  preload: false,
 })
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-ibm-plex-sans',
   display: 'swap',
+  preload: false,
 })
 
 const spaceMono = Space_Mono({
@@ -40,12 +57,14 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains-mono',
   display: 'swap',
+  preload: false,
 })
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-ibm-plex-mono',
   display: 'swap',
+  preload: false,
 })
 
 import { AdminBar } from '@/components/AdminBar'
@@ -63,8 +82,8 @@ import type { SiteSetting } from '@/payload-types'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
-  const themeCss = await getThemeStyle()
   const settings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting | null
+  const themeCss = getThemeStyle(settings)
 
   const favicon =
     settings?.branding?.favicon && typeof settings.branding.favicon !== 'number'

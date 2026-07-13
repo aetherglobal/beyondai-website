@@ -1,11 +1,8 @@
 import type { SiteSetting } from '@/payload-types'
-import { getCachedGlobal } from './getGlobals'
 
 const camelToKebab = (s: string): string => s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
 
-export async function getThemeStyle(): Promise<string> {
-  const settings = (await getCachedGlobal('site-settings', 0)()) as SiteSetting | null
-
+export function getThemeStyle(settings: SiteSetting | null): string {
   const theme = settings?.theme
   if (!theme) return ''
 

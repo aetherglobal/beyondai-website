@@ -5,6 +5,8 @@ import { GalleryGrid } from '@/components/GalleryGrid'
 
 import type { Event } from '@/payload-types'
 
+export const revalidate = 3600
+
 export default async function GalleryPage() {
   const images = await getGalleryImages()
 
