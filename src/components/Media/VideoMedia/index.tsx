@@ -13,7 +13,8 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   if (resource && typeof resource === 'object') {
-    const { filename } = resource
+    const { url } = resource
+    const cacheTag = resource.updatedAt
 
     return (
       <video
@@ -26,7 +27,7 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
         playsInline
         ref={videoRef}
       >
-        <source src={getMediaUrl(`/media/${filename}`)} />
+        <source src={getMediaUrl(url, cacheTag)} />
       </video>
     )
   }
