@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
+      // Media served from CloudFront (private S3 origin). Custom domain via S3_PUBLIC_URL,
+      // with the default *.cloudfront.net host allowed until a custom domain is attached.
+      ...(process.env.S3_PUBLIC_URL
+        ? [{ hostname: new URL(process.env.S3_PUBLIC_URL).hostname, protocol: 'https' as const }]
+        : []),
+      {
+        hostname: '*.cloudfront.net',
+        protocol: 'https',
+      },
       {
         hostname: '*.blob.vercel-storage.com',
         protocol: 'https',
