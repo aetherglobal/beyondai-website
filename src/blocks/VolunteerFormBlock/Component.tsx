@@ -7,7 +7,7 @@ type Props = VolunteerFormBlockType & { disableInnerContainer?: boolean }
 
 export const VolunteerFormBlockComponent: React.FC<Props> = ({ eyebrow, heading, subheading }) => {
   return (
-    <section className="bg-secondary">
+    <section className="mt-16 bg-secondary">
       <div className="container py-16 md:py-20">
         <div className="max-w-2xl mb-10">
           {eyebrow && (
