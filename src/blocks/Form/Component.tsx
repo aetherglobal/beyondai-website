@@ -10,6 +10,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { trackEvent } from '@/utilities/analytics'
 
 export type FormBlockType = {
   blockName?: string
@@ -30,6 +31,8 @@ export const FormBlock: React.FC<
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
+
+  const formTitle = formFromProps?.title
 
   const formMethods = useForm({
     defaultValues: formFromProps.fields,
@@ -90,6 +93,7 @@ export const FormBlock: React.FC<
 
           setIsLoading(false)
           setHasSubmitted(true)
+          trackEvent('form_submit', { form_id: formID, form_name: formTitle })
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
@@ -109,7 +113,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [router, formID, redirect, confirmationType, formTitle],
   )
 
   return (

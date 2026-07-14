@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { trackEvent } from '@/utilities/analytics'
 
 export const ContactForm: React.FC<{ className?: string }> = ({ className }) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -41,6 +42,7 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
       }
 
       setStatus('success')
+      trackEvent('contact_submit', { source: 'contact-form' })
     } catch {
       setErrorMessage('Network error. Please try again.')
       setStatus('error')
