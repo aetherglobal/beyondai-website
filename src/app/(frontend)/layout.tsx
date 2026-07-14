@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import localFont from 'next/font/local'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const clashGrotesk = localFont({
   src: './fonts/ClashGrotesk-Variable.woff2',
@@ -22,11 +22,16 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { getThemeStyle } from '@/utilities/getThemeStyle'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { SiteSetting } from '@/payload-types'
+import Script from 'next/script'
+import { GoogleAnalytics } from '@next/third-parties/google'
+import { AnalyticsPageView } from '@/components/Analytics/AnalyticsPageView'
+import { CookieConsent } from '@/components/CookieConsent'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
   const settings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting | null
   const themeCss = getThemeStyle(settings)
+  const gaId = process.env.NEXT_PUBLIC_GA_ID
 
   const favicon =
     settings?.branding?.favicon && typeof settings.branding.favicon !== 'number'
@@ -48,6 +53,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         )}
       </head>
       <body>
+        {gaId ? (
+          <Script id="ga-consent-default" strategy="beforeInteractive">
+            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});`}
+          </Script>
+        ) : null}
         <Providers>
           <AdminBar
             adminBarProps={{
@@ -58,7 +68,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header />
           {children}
           <Footer />
+          {gaId ? <CookieConsent /> : null}
         </Providers>
+        {gaId ? (
+          <>
+            <Suspense fallback={null}>
+              <AnalyticsPageView />
+            </Suspense>
+            <GoogleAnalytics gaId={gaId} />
+          </>
+        ) : null}
       </body>
     </html>
   )
