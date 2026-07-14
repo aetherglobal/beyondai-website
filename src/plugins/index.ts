@@ -3,7 +3,7 @@ import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
@@ -25,11 +25,26 @@ const generateURL: GenerateURL<Post | Page | Event> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  vercelBlobStorage({
+  s3Storage({
+    enabled: Boolean(process.env.S3_BUCKET),
     collections: {
-      media: true,
+      media: {
+        // Serve directly from CloudFront instead of proxying through Payload.
+        disablePayloadAccessControl: true,
+        // Bucket is private; public reads go through CloudFront (OAC).
+        generateFileURL: ({ filename, prefix }) =>
+          `${process.env.S3_PUBLIC_URL}/${prefix ? `${prefix}/` : ''}${filename}`,
+      },
     },
-    token: process.env.BLOB_READ_WRITE_TOKEN || '',
+    bucket: process.env.S3_BUCKET || '',
+    config: {
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+      },
+      region: process.env.S3_REGION || '',
+    },
+    // Do NOT set acl: 'public-read' — the bucket stays private behind CloudFront OAC.
   }),
   redirectsPlugin({
     collections: ['pages', 'posts', 'events'],
