@@ -34,7 +34,7 @@
     "@payloadcms/plugin-search": "3.83.0",
     "@payloadcms/plugin-seo": "3.83.0",
     "@payloadcms/richtext-lexical": "3.83.0",
-    "@payloadcms/storage-vercel-blob": "3.83.0",
+    "@payloadcms/storage-s3": "3.83.0",
     "@payloadcms/ui": "3.83.0",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-label": "^2.0.2",
@@ -60,6 +60,7 @@
     "yet-another-react-lightbox": "^3.31.0"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1086.0",
     "@eslint/eslintrc": "^3.2.0",
     "@playwright/test": "1.58.2",
     "@tailwindcss/postcss": "^4.1.18",
@@ -69,6 +70,7 @@
     "@types/node": "22.19.9",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@vercel/blob": "^2.6.1",
     "@vitejs/plugin-react": "4.5.2",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.16.0",

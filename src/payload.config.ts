@@ -25,6 +25,29 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// SSL handling for the Postgres pool.
+// `pg-connection-string` maps `sslmode=require` to `verify-full` and lets the URL's ssl
+// settings override an explicit `ssl` object. That breaks against RDS, whose server cert is
+// signed by Amazon's private CA (not in Node's trust store). So when DATABASE_CA_CERT is set,
+// we verify against that bundle and strip `sslmode` from the URL so our ssl config wins.
+// Without DATABASE_CA_CERT, TLS is governed by the URL: Neon's `verify-full` (public CA) works
+// as-is, and RDS-without-verification can use `?sslmode=no-verify`.
+const databaseUrl = process.env.DATABASE_URL || ''
+const dbCaCert = process.env.DATABASE_CA_CERT
+const dbConnectionString =
+  dbCaCert && databaseUrl
+    ? (() => {
+        try {
+          const u = new URL(databaseUrl)
+          u.searchParams.delete('sslmode')
+          u.searchParams.delete('channel_binding')
+          return u.toString()
+        } catch {
+          return databaseUrl
+        }
+      })()
+    : databaseUrl
+
 export default buildConfig({
   onInit: async (payload) => {
     payload.db.bulkOperationsSingleTransaction = true
@@ -64,9 +87,13 @@ export default buildConfig({
   editor: defaultLexical,
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      connectionString: dbConnectionString,
+      max: 10,
+      // Verify the RDS server cert against its private-CA bundle when provided (see above).
+      ...(dbCaCert ? { ssl: { ca: dbCaCert, rejectUnauthorized: true } } : {}),
     },
-    push: true,
+    // Dev/test auto-sync the schema; production & staging rely on migrations (src/migrations/).
+    push: process.env.NODE_ENV !== 'production',
   }),
   collections: [Pages, Posts, Events, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
