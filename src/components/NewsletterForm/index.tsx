@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { trackEvent } from '@/utilities/analytics'
 
 export const NewsletterForm: React.FC<{ className?: string; compact?: boolean }> = ({
   className,
@@ -42,6 +43,7 @@ export const NewsletterForm: React.FC<{ className?: string; compact?: boolean }>
       }
 
       setStatus('success')
+      trackEvent('newsletter_subscribe')
     } catch {
       setErrorMessage('Network error. Please try again.')
       setStatus('error')

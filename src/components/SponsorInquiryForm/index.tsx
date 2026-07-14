@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { trackEvent } from '@/utilities/analytics'
 import {
   Select,
   SelectContent,
@@ -65,6 +66,7 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
       }
 
       setStatus('success')
+      trackEvent('sponsor_inquiry', { partnership_interest: partnershipInterest || undefined })
     } catch {
       setErrorMessage('Network error. Please try again.')
       setStatus('error')

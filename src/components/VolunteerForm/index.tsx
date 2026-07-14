@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { trackEvent } from '@/utilities/analytics'
 
 const AREAS_OF_INTEREST = [
   { label: 'Event Support', value: 'event-support' },
@@ -56,6 +57,7 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
       }
 
       setStatus('success')
+      trackEvent('volunteer_signup')
     } catch {
       setErrorMessage('Network error. Please try again.')
       setStatus('error')
