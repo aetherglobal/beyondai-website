@@ -8,6 +8,8 @@ const clashGrotesk = localFont({
   variable: '--font-clash-grotesk',
   display: 'swap',
   weight: '200 700',
+  fallback: ['system-ui', 'Arial', 'sans-serif'],
+  adjustFontFallback: 'Arial',
 })
 
 import { AdminBar } from '@/components/AdminBar'

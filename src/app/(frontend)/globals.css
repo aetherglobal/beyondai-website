@@ -53,6 +53,15 @@
   --ring: oklch(82% 0.17 85deg);
   --radius: 0;
   --container-max: 86rem;
+  --hero-h: 70vh;
+  --hero-h-compact: 50vh;
+}
+
+@supports (height: 1svh) {
+  :root {
+    --hero-h: 70svh;
+    --hero-h-compact: 50svh;
+  }
 }
 
 @theme inline {
@@ -160,6 +169,12 @@
   .prose h2 {
     font-size: 1.375rem;
   }
+}
+
+.hero-richtext h1 {
+  font-size: var(--text-hero);
+  line-height: var(--text-hero--line-height);
+  font-weight: 700;
 }
 
 html {

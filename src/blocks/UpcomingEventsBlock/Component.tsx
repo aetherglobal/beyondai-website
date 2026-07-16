@@ -50,7 +50,7 @@ export const UpcomingEventsBlockComponent: React.FC<Props> = async ({
               </p>
             )}
             {heading && (
-              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 {heading}
               </h2>
             )}

@@ -12,6 +12,7 @@ import type { Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
+import { getServerSideURL } from '@/utilities/getURL'
 import { ArticleClientComponents } from './page.client'
 import { AuthorBio } from '@/components/AuthorBio'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -55,7 +56,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   return (
     <article className="pt-16 pb-16 bg-white text-black">
-      <ArticleClientComponents title={post.title} />
+      <ArticleClientComponents title={post.title} url={getServerSideURL() + url} />
 
       <PayloadRedirects disableNotFound url={url} />
 
