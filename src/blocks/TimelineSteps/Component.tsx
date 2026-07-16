@@ -16,7 +16,7 @@ export const TimelineStepsBlock: React.FC<Props> = ({ eyebrow, heading, steps })
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">{eyebrow}</p>
             )}
             {heading && (
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1]">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1]">
                 {heading}
               </h2>
             )}

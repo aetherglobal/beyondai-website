@@ -41,7 +41,7 @@ export default async function NyansaFuturesPage() {
       {cmsPage?.hero ? (
         <RenderHero {...cmsPage.hero} />
       ) : (
-        <section className="relative min-h-[70vh] bg-dark flex items-center overflow-hidden">
+        <section className="relative min-h-[var(--hero-h)] bg-dark flex items-center overflow-hidden">
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -64,7 +64,7 @@ export default async function NyansaFuturesPage() {
               [Flagship Conference]
             </p>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-8">
+            <h1 className="text-hero text-foreground font-bold uppercase tracking-tight mb-8">
               Africa&apos;s Premier
               <br />
               Conference On
@@ -148,7 +148,7 @@ export default async function NyansaFuturesPage() {
                   <p className="text-sm tracking-widest uppercase text-primary-foreground mb-4">
                     [Purpose]
                   </p>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] text-primary-foreground">
+                  <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] text-primary-foreground">
                     Why It
                     <br />
                     Matters
@@ -170,7 +170,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Audience]</p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Who Should Attend
               </h2>
             </FadeIn>
@@ -195,7 +195,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Format]</p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-12 text-gray-900">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-12 text-gray-900">
                 Conference Format
               </h2>
             </FadeIn>
@@ -220,7 +220,7 @@ export default async function NyansaFuturesPage() {
           <div className="container">
             <FadeIn>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Themes]</p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Key Themes
               </h2>
             </FadeIn>
@@ -255,7 +255,7 @@ export default async function NyansaFuturesPage() {
                 <p className="text-sm tracking-widest uppercase text-primary-foreground mb-4">
                   [Outcomes]
                 </p>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] text-primary-foreground mb-10">
+                <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] text-primary-foreground mb-10">
                   Expected Outcomes
                 </h2>
               </div>
@@ -296,7 +296,7 @@ export default async function NyansaFuturesPage() {
       <section className="bg-dark py-16 md:py-20">
         <div className="container text-center max-w-2xl mx-auto">
           <FadeIn>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-4">
+            <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-4">
               Be Part of Africa&apos;s AI Future
             </h2>
             <p className="text-foreground/80 mb-8 leading-relaxed">
