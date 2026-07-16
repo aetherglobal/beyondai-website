@@ -15,10 +15,10 @@ const LinkedInIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 )
 
-export const ShareBar: React.FC<{ title: string }> = ({ title }) => {
+export const ShareBar: React.FC<{ title: string; url: string }> = ({ title, url }) => {
   const [copied, setCopied] = useState(false)
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+  const shareUrl = url
 
   const handleCopy = useCallback(async () => {
     try {

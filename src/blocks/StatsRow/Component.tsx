@@ -11,7 +11,7 @@ export const StatsRowBlock: React.FC<Props> = ({ heading, items }) => {
     <section className="bg-white">
       <div className="container py-16">
         {heading && (
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-10 max-w-2xl">
+          <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-10 max-w-2xl">
             {heading}
           </h2>
         )}
