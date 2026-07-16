@@ -100,7 +100,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
   return (
     <article>
-      <section className="relative min-h-[70vh] bg-dark flex items-end overflow-hidden">
+      <section className="relative min-h-[var(--hero-h)] bg-dark flex items-end overflow-hidden">
         {hasHeroImage && (
           <>
             <div className="absolute inset-0">
@@ -133,7 +133,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                 )}
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-8 max-w-4xl">
+              <h1 className="text-hero text-foreground font-bold uppercase tracking-tight mb-8 max-w-4xl">
                 {title}
               </h1>
 
@@ -222,7 +222,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Hosts]
               </p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Meet Your Hosts
               </h2>
             </FadeIn>
@@ -272,7 +272,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Speakers]
               </p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Who&apos;s Speaking
               </h2>
             </FadeIn>
@@ -322,7 +322,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Schedule]
               </p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-16 text-gray-900">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-16 text-gray-900">
                 Schedule
               </h2>
             </FadeIn>

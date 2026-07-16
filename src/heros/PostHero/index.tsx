@@ -27,7 +27,7 @@ export const PostHero: React.FC<{
       : undefined
 
   return (
-    <div className="relative -mt-[10.4rem] flex items-end min-h-[80vh] overflow-hidden">
+    <div className="relative -mt-[10.4rem] flex items-end min-h-[var(--hero-h)] overflow-hidden">
       <div className="container z-10 relative text-white pb-10 md:pb-14">
         <div className="max-w-3xl">
           {firstCategory && (
@@ -42,7 +42,7 @@ export const PostHero: React.FC<{
           )}
 
           <h1
-            className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6"
+            className="text-hero font-bold uppercase tracking-tight mb-6"
           >
             {title}
           </h1>

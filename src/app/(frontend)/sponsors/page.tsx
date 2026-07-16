@@ -3,6 +3,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SponsorGrid } from '@/components/SponsorGrid'
 
@@ -29,13 +30,42 @@ export default async function SponsorsPage() {
   return (
     <article className="pt-16 pb-24">
       <section className="container py-12">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
-          Sponsors & Partners
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl text-justify hyphens-auto">
-          Beyond AI is made possible through the support of our sponsors and partners who share our
-          commitment to responsible AI governance in Africa.
-        </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="lg:col-span-7">
+            <p className="flex items-center gap-3 text-sm tracking-widest uppercase mb-6 font-mono text-primary-deep">
+              <span aria-hidden="true" className="h-px w-8 bg-primary-deep/60" />
+              Partnership
+            </p>
+            <h1 className="text-section font-bold uppercase tracking-tight leading-[1.1] text-balance mb-6">
+              Sponsors & <span className="text-primary-deep">Partners</span>
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl text-justify hyphens-auto">
+              Beyond AI is made possible through the support of our sponsors and partners who share
+              our commitment to responsible AI governance in Africa.
+            </p>
+          </div>
+
+          <div className="lg:col-span-5">
+            <div className="border border-border border-t-2 border-t-primary-deep bg-card p-8">
+              <p className="text-sm tracking-widest uppercase font-mono text-primary-deep mb-3">
+                Support the mission
+              </p>
+              <p className="text-base text-muted-foreground mb-6 leading-relaxed">
+                Partner with Beyond AI and help shape responsible AI governance across Africa.
+              </p>
+              <Link
+                href="/become-a-sponsor"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-semibold text-sm uppercase tracking-wider hover:brightness-110 transition-all"
+              >
+                Become a Sponsor
+                <ArrowRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       {sponsors.length > 0 && (

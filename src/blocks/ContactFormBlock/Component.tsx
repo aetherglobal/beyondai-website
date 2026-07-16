@@ -24,7 +24,7 @@ export const ContactFormBlockComponent: React.FC<Props> = async ({ eyebrow, head
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">{eyebrow}</p>
             )}
             {headingLines.length > 0 && (
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-6">
                 {headingLines.map((line: string, i: number) => (
                   <React.Fragment key={i}>
                     {line}
