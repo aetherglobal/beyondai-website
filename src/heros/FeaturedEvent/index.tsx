@@ -57,7 +57,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
 
   return (
     <>
-      <section className="relative bg-dark flex items-center overflow-hidden">
+      <section className="relative bg-dark flex items-center overflow-hidden min-h-[var(--hero-h)]">
         <div className="absolute inset-0 hidden lg:block">
           <div className="absolute top-0 right-0 bottom-0 w-[55%]">
             {heroImage ? (
@@ -79,7 +79,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
               )}
 
               {title && (
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground font-bold tracking-tight leading-[1.1] mb-6">
+                <h1 className="text-hero text-foreground font-bold tracking-tight mb-6">
                   {title}
                 </h1>
               )}

@@ -24,7 +24,7 @@ export default async function GalleryPage() {
   return (
     <article className="pt-16 pb-24">
       <section className="container py-12">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-6">
+        <h1 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-6">
           Gallery
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl text-justify hyphens-auto">

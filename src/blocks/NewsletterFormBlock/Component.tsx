@@ -15,7 +15,7 @@ export const NewsletterFormBlockComponent: React.FC<Props> = ({
       <div className="container py-16 md:py-20">
         <div className="max-w-2xl">
           {heading && (
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-4">{heading}</h2>
+            <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-4">{heading}</h2>
           )}
           {subheading && <p className="text-muted-foreground leading-relaxed mb-8 text-justify hyphens-auto">{subheading}</p>}
           <NewsletterForm compact={variant === 'compact'} />

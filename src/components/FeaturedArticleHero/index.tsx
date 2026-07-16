@@ -35,7 +35,7 @@ export const FeaturedArticleHero: React.FC<{
     <article
       ref={cardRef}
       className={cn(
-        'relative overflow-hidden min-h-[40vh] md:min-h-[50vh] flex items-end',
+        'relative overflow-hidden min-h-[var(--hero-h-compact)] flex items-end',
         'hover:cursor-pointer transition-all duration-300 hover:-translate-y-1 group',
         className,
       )}
@@ -61,7 +61,7 @@ export const FeaturedArticleHero: React.FC<{
         )}
 
         <h2
-          className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight mb-4"
+          className="text-section font-bold mb-4"
         >
           <Link href={href} ref={linkRef} className="hover:underline">
             {title}

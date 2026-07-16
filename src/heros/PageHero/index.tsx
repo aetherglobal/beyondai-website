@@ -29,7 +29,7 @@ export const PageHero: React.FC<HeroProps> = (props) => {
   const hasMedia = media && typeof media !== 'number'
 
   return (
-    <section className="relative min-h-[72vh] bg-dark flex items-center overflow-hidden">
+    <section className="relative min-h-[var(--hero-h)] bg-dark flex items-center overflow-hidden">
       {hasMedia ? (
         <div className="absolute inset-0">
           <Media resource={media} fill imgClassName="object-cover" />
