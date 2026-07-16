@@ -64,7 +64,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     <div className="pt-24 pb-24 bg-white text-black">
       <div className="container mb-16">
         <h1
-          className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] text-center mb-8 lg:mb-12"
+          className="text-section font-bold uppercase tracking-tight leading-[1.1] text-center mb-8 lg:mb-12"
         >
           Search
         </h1>

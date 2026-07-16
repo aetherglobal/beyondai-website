@@ -68,7 +68,7 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
                 {EVENT_TYPE_LABELS[eventType] || eventType}
               </span>
 
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-4 text-gray-900">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-4 text-gray-900">
                 <Link
                   href={`/events/${slug}`}
                   className="hover:text-primary-deep transition-colors"

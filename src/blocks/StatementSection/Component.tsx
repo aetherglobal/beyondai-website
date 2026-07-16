@@ -81,7 +81,7 @@ export const StatementSectionBlock: React.FC<Props> = ({
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">{eyebrow}</p>
             )}
             {heading && (
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.1] text-foreground">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] text-foreground">
                 {renderHeadingWithBreaks(heading)}
               </h2>
             )}
@@ -139,7 +139,7 @@ export const StatementSectionBlock: React.FC<Props> = ({
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">{eyebrow}</p>
             )}
             {heading && (
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.1] text-foreground">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] text-foreground">
                 {renderHeadingWithBreaks(heading)}
               </h2>
             )}

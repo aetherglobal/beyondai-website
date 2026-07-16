@@ -24,7 +24,7 @@ export const ContactInfoBlockComponent: React.FC<Props> = async ({
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">{eyebrow}</p>
             )}
             {heading && (
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[1.1] mb-4">
+              <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-4">
                 {heading}
               </h2>
             )}

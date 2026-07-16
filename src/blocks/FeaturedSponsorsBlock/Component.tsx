@@ -18,7 +18,7 @@ export const FeaturedSponsorsBlockComponent: React.FC<Props> = async ({
     <section className="bg-secondary">
       <div className="container py-20">
         {heading && (
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-foreground text-center mb-12">
+          <h2 className="text-section font-bold uppercase tracking-tight text-foreground text-center mb-12">
             {heading}
           </h2>
         )}
