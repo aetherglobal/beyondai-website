@@ -27,11 +27,10 @@ const generateURL: GenerateURL<Post | Page | Event> = ({ doc }) => {
 export const plugins: Plugin[] = [
   s3Storage({
     enabled: Boolean(process.env.S3_BUCKET),
+    clientUploads: true,
     collections: {
       media: {
-        // Serve directly from CloudFront instead of proxying through Payload.
         disablePayloadAccessControl: true,
-        // Bucket is private; public reads go through CloudFront (OAC).
         generateFileURL: ({ filename, prefix }) =>
           `${process.env.S3_PUBLIC_URL}/${prefix ? `${prefix}/` : ''}${filename}`,
       },
@@ -44,7 +43,6 @@ export const plugins: Plugin[] = [
       },
       region: process.env.S3_REGION || '',
     },
-    // Do NOT set acl: 'public-read' — the bucket stays private behind CloudFront OAC.
   }),
   redirectsPlugin({
     collections: ['pages', 'posts', 'events'],
