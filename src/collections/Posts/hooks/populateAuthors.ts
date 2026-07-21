@@ -1,6 +1,8 @@
 import type { CollectionAfterReadHook } from 'payload'
 import { User } from 'src/payload-types'
 
+const DEFAULT_AUTHOR_NAME = 'Beyond AI'
+
 export const populateAuthors: CollectionAfterReadHook = async ({ doc, req: { payload } }) => {
   if (doc?.authorName) {
     doc.populatedAuthors = [{ id: 'manual', name: doc.authorName }]
@@ -30,6 +32,10 @@ export const populateAuthors: CollectionAfterReadHook = async ({ doc, req: { pay
         }
       } catch {}
     }
+  }
+
+  if (doc && (!doc.populatedAuthors || doc.populatedAuthors.length === 0)) {
+    doc.populatedAuthors = [{ id: 'manual', name: DEFAULT_AUTHOR_NAME }]
   }
 
   return doc
