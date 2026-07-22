@@ -9,6 +9,13 @@ import type { Event, GalleryImage, Post, Sponsor } from '@/payload-types'
 
 const DEFAULT_LIMIT = 3
 
+// Backstop TTL for the persistent Data Cache. Content changes still refresh
+// immediately via revalidateTag(...) in each collection's hooks; this ensures a
+// missed tag revalidation (e.g. a DB/infra swap, or a direct DB write) self-heals
+// within the hour instead of freezing indefinitely. It also keeps the date-based
+// event queries below from caching a stale "now".
+const CACHE_TTL_SECONDS = 3600
+
 export const getUpcomingEvents = cache(async (limit: number = DEFAULT_LIMIT): Promise<Event[]> => {
   const fetcher = unstable_cache(
     async () => {
@@ -27,7 +34,7 @@ export const getUpcomingEvents = cache(async (limit: number = DEFAULT_LIMIT): Pr
       return result.docs as Event[]
     },
     ['upcoming-events', String(limit)],
-    { tags: ['events'] },
+    { tags: ['events'], revalidate: CACHE_TTL_SECONDS },
   )
   return fetcher()
 })
@@ -50,7 +57,7 @@ export const getPastEvents = cache(async (limit: number = 20): Promise<Event[]> 
       return result.docs as Event[]
     },
     ['past-events', String(limit)],
-    { tags: ['events'] },
+    { tags: ['events'], revalidate: CACHE_TTL_SECONDS },
   )
   return fetcher()
 })
@@ -69,7 +76,7 @@ export const getLatestPosts = cache(async (limit: number = DEFAULT_LIMIT): Promi
       return result.docs as Post[]
     },
     ['latest-posts', String(limit)],
-    { tags: ['posts'] },
+    { tags: ['posts'], revalidate: CACHE_TTL_SECONDS },
   )
   return fetcher()
 })
@@ -89,7 +96,7 @@ export const getFeaturedSponsors = cache(
         return result.docs as Sponsor[]
       },
       ['featured-sponsors', String(limit), String(featuredOnly)],
-      { tags: ['sponsors'] },
+      { tags: ['sponsors'], revalidate: CACHE_TTL_SECONDS },
     )
     return fetcher()
   },
@@ -108,7 +115,7 @@ export const getGalleryImages = cache(async (limit: number = 100): Promise<Galle
       return result.docs as GalleryImage[]
     },
     ['gallery-images', String(limit)],
-    { tags: ['gallery-images'] },
+    { tags: ['gallery-images'], revalidate: CACHE_TTL_SECONDS },
   )
   return fetcher()
 })
