@@ -42,7 +42,7 @@ export const PostHero: React.FC<{
           )}
 
           <h1
-            className="text-hero font-bold uppercase tracking-tight mb-6"
+            className="text-hero font-bold tracking-tight mb-6"
           >
             {title}
           </h1>
