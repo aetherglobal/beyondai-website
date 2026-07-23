@@ -39,6 +39,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { 
 
     revalidatePath(path)
     revalidateTag('posts-sitemap', 'max')
+    revalidateTag('posts', 'max')
   }
 
   return doc

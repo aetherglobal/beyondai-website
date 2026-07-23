@@ -77,7 +77,7 @@ export const PageHero: React.FC<HeroProps> = (props) => {
 
           {(headingLines.length > 0 || headingAccent) && (
             <h1
-              className={`text-hero font-bold uppercase tracking-tight text-balance mb-8 ${
+              className={`text-hero font-bold tracking-tight text-balance mb-8 ${
                 hasMedia ? 'text-white' : 'text-foreground'
               }`}
             >
