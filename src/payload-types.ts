@@ -173,7 +173,7 @@ export interface Page {
   id: number;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'featuredEvent' | 'pageHero';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'featuredEvent' | 'heroCarousel' | 'pageHero';
     richText?: {
       root: {
         type: string;
@@ -243,6 +243,43 @@ export interface Page {
            * If enabled and an upcoming event is found, this button links to that event's Luma URL.
            */
           useEventLumaUrl?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Each row is a full hero panel shown in the rotating slider. Add at least one slide.
+     */
+    slides?:
+      | {
+          /**
+           * Small label above the title (e.g. "Govern / Innovate / Transform").
+           */
+          eyebrow?: string | null;
+          title: string;
+          /**
+           * Optional final line of the title, rendered in the accent color.
+           */
+          headingAccent?: string | null;
+          subtitle?: string | null;
+          /**
+           * Slide background image.
+           */
+          media?: (number | null) | Media;
+          ctas?:
+            | {
+                label: string;
+                /**
+                 * Internal path (e.g. /events) or external URL.
+                 */
+                href?: string | null;
+                variant?: ('primary' | 'outline') | null;
+                /**
+                 * If enabled and an upcoming event is found, this button links to that event's Luma URL.
+                 */
+                useEventLumaUrl?: boolean | null;
+                id?: string | null;
+              }[]
+            | null;
           id?: string | null;
         }[]
       | null;
@@ -1857,6 +1894,25 @@ export interface PagesSelect<T extends boolean = true> {
               href?: T;
               variant?: T;
               useEventLumaUrl?: T;
+              id?: T;
+            };
+        slides?:
+          | T
+          | {
+              eyebrow?: T;
+              title?: T;
+              headingAccent?: T;
+              subtitle?: T;
+              media?: T;
+              ctas?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    variant?: T;
+                    useEventLumaUrl?: T;
+                    id?: T;
+                  };
               id?: T;
             };
         bindNextEvent?: T;

@@ -9,6 +9,38 @@ import {
 
 import { linkGroup } from '@/fields/linkGroup'
 
+const ctaFields: Field[] = [
+  {
+    name: 'label',
+    type: 'text',
+    required: true,
+  },
+  {
+    name: 'href',
+    type: 'text',
+    admin: { description: 'Internal path (e.g. /events) or external URL.' },
+  },
+  {
+    name: 'variant',
+    type: 'select',
+    defaultValue: 'primary',
+    options: [
+      { label: 'Primary (filled)', value: 'primary' },
+      { label: 'Outline', value: 'outline' },
+    ],
+  },
+  {
+    name: 'useEventLumaUrl',
+    type: 'checkbox',
+    label: 'Use next event Luma URL',
+    defaultValue: false,
+    admin: {
+      description:
+        "If enabled and an upcoming event is found, this button links to that event's Luma URL.",
+    },
+  },
+]
+
 export const hero: Field = {
   name: 'hero',
   type: 'group',
@@ -24,6 +56,7 @@ export const hero: Field = {
         { label: 'Medium Impact', value: 'mediumImpact' },
         { label: 'Low Impact', value: 'lowImpact' },
         { label: 'Featured Event', value: 'featuredEvent' },
+        { label: 'Hero Carousel', value: 'heroCarousel' },
         { label: 'Page Hero', value: 'pageHero' },
       ],
       required: true,
@@ -112,35 +145,54 @@ export const hero: Field = {
       admin: {
         condition: (_, { type } = {}) => ['featuredEvent', 'pageHero'].includes(type),
       },
+      fields: ctaFields,
+    },
+    {
+      name: 'slides',
+      type: 'array',
+      minRows: 1,
+      labels: { singular: 'Slide', plural: 'Slides' },
+      admin: {
+        condition: (_, { type } = {}) => type === 'heroCarousel',
+        description:
+          'Each row is a full hero panel shown in the rotating slider. Add at least one slide.',
+        initCollapsed: true,
+      },
       fields: [
         {
-          name: 'label',
+          name: 'eyebrow',
+          type: 'text',
+          admin: {
+            description: 'Small label above the title (e.g. "Govern / Innovate / Transform").',
+          },
+        },
+        {
+          name: 'title',
           type: 'text',
           required: true,
         },
         {
-          name: 'href',
+          name: 'headingAccent',
           type: 'text',
-          admin: { description: 'Internal path (e.g. /events) or external URL.' },
-        },
-        {
-          name: 'variant',
-          type: 'select',
-          defaultValue: 'primary',
-          options: [
-            { label: 'Primary (filled)', value: 'primary' },
-            { label: 'Outline', value: 'outline' },
-          ],
-        },
-        {
-          name: 'useEventLumaUrl',
-          type: 'checkbox',
-          label: 'Use next event Luma URL',
-          defaultValue: false,
           admin: {
-            description:
-              "If enabled and an upcoming event is found, this button links to that event's Luma URL.",
+            description: 'Optional final line of the title, rendered in the accent color.',
           },
+        },
+        {
+          name: 'subtitle',
+          type: 'textarea',
+        },
+        {
+          name: 'media',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Slide background image.' },
+        },
+        {
+          name: 'ctas',
+          type: 'array',
+          maxRows: 2,
+          fields: ctaFields,
         },
       ],
     },
@@ -150,7 +202,7 @@ export const hero: Field = {
       label: 'Show next upcoming event',
       defaultValue: true,
       admin: {
-        condition: (_, { type } = {}) => type === 'featuredEvent',
+        condition: (_, { type } = {}) => ['featuredEvent', 'heroCarousel'].includes(type),
         description: 'Displays date, location and countdown for the next upcoming event.',
       },
     },
