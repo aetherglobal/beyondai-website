@@ -11,16 +11,32 @@ export const buildHomePage = (): PageInput => ({
   slug: 'home',
   _status: 'published',
   hero: {
-    type: 'featuredEvent',
-    eyebrow: 'Govern / Innovate / Transform',
-    title: 'Shaping the Future of AI in Africa',
-    subtitle:
-      'A civic platform bringing together policymakers, innovators, and citizens to shape responsible AI governance and digital transformation across the continent.',
-    ctas: [
-      { label: 'Register for Next Event', href: '/events', variant: 'primary', useEventLumaUrl: true },
-      { label: 'Join Newsletter', href: '#footer-newsletter', variant: 'outline', useEventLumaUrl: false },
-    ],
+    type: 'heroCarousel',
     bindNextEvent: true,
+    slides: [
+      {
+        eyebrow: 'Govern / Innovate / Transform',
+        title: 'Shaping the Future of',
+        headingAccent: 'AI in Africa',
+        subtitle:
+          'A civic platform bringing together policymakers, innovators, and citizens to shape responsible AI governance and digital transformation across the continent.',
+        ctas: [
+          { label: 'Register for Next Event', href: '/events', variant: 'primary', useEventLumaUrl: true },
+          { label: 'Join Newsletter', href: '#footer-newsletter', variant: 'outline', useEventLumaUrl: false },
+        ],
+      },
+      {
+        eyebrow: '[Flagship Conference]',
+        title: 'Nyansa Futures —',
+        headingAccent: 'Africa’s AI Governance Summit',
+        subtitle:
+          'A two-day hybrid conference gathering policymakers, innovators, academics, and civil society to shape the continent’s technological future.',
+        ctas: [
+          { label: 'Explore Nyansa Futures', href: '/nyansa-futures', variant: 'primary', useEventLumaUrl: false },
+          { label: 'Become a Sponsor', href: '/become-a-sponsor', variant: 'outline', useEventLumaUrl: false },
+        ],
+      },
+    ],
   } as Page['hero'],
   layout: [
     {
