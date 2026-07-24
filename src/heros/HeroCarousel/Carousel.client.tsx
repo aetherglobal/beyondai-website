@@ -37,7 +37,7 @@ const HeroSlide: React.FC<{ slide: CarouselSlide; first: boolean }> = ({ slide, 
   const Heading = first ? 'h1' : 'h2'
 
   return (
-    <section className="relative bg-dark flex items-center overflow-hidden min-h-[var(--hero-h)]">
+    <section className="relative bg-dark flex items-center overflow-hidden min-h-[var(--hero-h)] pb-24 md:pb-0">
       <div className="absolute inset-0 select-none">
         {media ? (
           <Media resource={media} fill imgClassName="object-cover" size="100vw" priority={first} />
