@@ -6,14 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeader } from '@/components/SectionHeader'
 
-/**
- * Several hundred URLs from the pre-2026 WordPress site are still indexed and correctly 404,
- * so real visitors from search land here regularly — hence the routes onward.
- *
- * The plain GET form is deliberate over the client-side `Search` component: it keeps this a
- * server component and navigates on submit rather than on every keystroke.
- */
-
 const DESTINATIONS: { href: string; label: string; description: string }[] = [
   {
     href: '/about',

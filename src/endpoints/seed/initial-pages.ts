@@ -754,12 +754,7 @@ export const buildContactPage = (): PageInput => ({
   },
 })
 
-/**
- * Describes what the site actually does: submissions stored in Payload, newsletter signups
- * forwarded to Mailchimp, GA4 gated behind consent.
- *
- * NOT legal advice — a factual first draft. Have it reviewed before relying on it.
- */
+// NOT legal advice — a factual first draft. Have it reviewed before relying on it.
 export const buildPrivacyPage = (): PageInput => ({
   title: 'Privacy Policy',
   slug: 'privacy',
@@ -902,10 +897,8 @@ export async function seedBecomeSponsorPage({
   return { slug: page.slug!, id }
 }
 
-/**
- * Prefer this over `seedInitialPages` on a live database — that upserts all eight pages and
- * would overwrite editor changes with the seed defaults.
- */
+// Use this on a live database, not `seedInitialPages` — that upserts all eight pages and
+// would overwrite editor changes with the seed defaults.
 export async function seedPrivacyPage({
   payload,
   req,
@@ -981,7 +974,6 @@ const lexicalHeading = (text: string) => ({
   children: [lexicalTextNode(text)],
 })
 
-/** Build a Lexical document from `{ heading, paragraphs }` sections, for long-form copy. */
 function richTextFromSections(sections: { heading?: string; paragraphs: string[] }[]): LexicalRoot {
   return {
     root: {

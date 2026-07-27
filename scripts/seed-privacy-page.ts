@@ -1,12 +1,6 @@
-/**
- * Create (or update) the `/privacy` page the cookie consent banner links to.
- *
- * Seeds ONLY that page. Never run `seedInitialPages` against a live database — it upserts
- * all eight pages and would overwrite editor changes with the seed defaults.
- *
- *   DRY_RUN=1 NODE_ENV=production npx tsx scripts/seed-privacy-page.ts
- *   NODE_ENV=production npx tsx scripts/seed-privacy-page.ts
- */
+// DRY_RUN=1 NODE_ENV=production npx tsx scripts/seed-privacy-page.ts
+// Seeds only /privacy. Never run `seedInitialPages` against a live database — it upserts all
+// eight pages and would overwrite editor changes with the seed defaults.
 import 'dotenv/config'
 import { createLocalReq, getPayload } from 'payload'
 import config from '@payload-config'
@@ -47,8 +41,8 @@ const main = async () => {
     return
   }
 
-  // Without this, the afterChange hook's `revalidatePath` throws outside a request context
-  // and takes the write down with it. The following redeploy refreshes the cache.
+  // Required: the afterChange hook's `revalidatePath` throws outside a request context and
+  // rolls the write back with it.
   const req = await createLocalReq({ context: { disableRevalidate: true } }, payload)
   const result = await seedPrivacyPage({ payload, req })
 

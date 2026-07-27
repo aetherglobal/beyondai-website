@@ -1,11 +1,8 @@
-// `test.env` first so it wins, letting tests target a local database without editing .env.
 import dotenv from 'dotenv'
 
 dotenv.config({ path: 'test.env' })
 dotenv.config()
 
-// With only `.env` loaded, DATABASE_URL is production — `test:int` then reads live data, and
-// any future test that writes would mutate it. CI points this at a local postgres service.
 const dbUrl = process.env.DATABASE_URL
 
 if (dbUrl) {

@@ -1,5 +1,5 @@
-// CommonJS postbuild step, so it can't import `normaliseOrigin` from src/utilities/getURL.ts
-// — the scheme handling below duplicates it deliberately. Keep the two in sync.
+// The scheme handling below duplicates `normaliseOrigin` in src/utilities/getURL.ts on
+// purpose — this file is CommonJS and cannot import it. Keep the two in sync.
 const configured = process.env.NEXT_PUBLIC_SERVER_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 if (!configured) {

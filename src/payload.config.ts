@@ -25,10 +25,9 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// `pg-connection-string` maps `sslmode=require` to `verify-full` and lets it override an
-// explicit `ssl` object — which breaks RDS, whose cert is signed by Amazon's private CA.
-// So with DATABASE_CA_CERT set we strip `sslmode` and verify against that bundle instead.
-// Without it, TLS follows the URL: Neon's `verify-full` works as-is, RDS needs `no-verify`.
+// `sslmode` must be stripped when DATABASE_CA_CERT is set: pg maps `sslmode=require` to
+// `verify-full` and lets it override the explicit `ssl` object, which fails against RDS's
+// private CA. Without the cert var, RDS needs `?sslmode=no-verify` in the URL instead.
 const databaseUrl = process.env.DATABASE_URL || ''
 const dbCaCert = process.env.DATABASE_CA_CERT
 const dbConnectionString =
@@ -86,23 +85,19 @@ export default buildConfig({
     pool: {
       connectionString: dbConnectionString,
       max: 10,
-      // Verify the RDS server cert against its private-CA bundle when provided (see above).
       ...(dbCaCert ? { ssl: { ca: dbCaCert, rejectUnauthorized: true } } : {}),
     },
-    // Dev/test auto-sync the schema; production & staging rely on migrations (src/migrations/).
     push: process.env.NODE_ENV !== 'production',
   }),
   collections: [Pages, Posts, Events, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  // Seeds Payload's CSRF allowlist. Unset, that allowlist is empty — and an empty one makes
+  // Do not remove: this seeds Payload's CSRF allowlist, and an empty allowlist makes
   // `extractJWT` accept the session cookie from any Origin.
   serverURL: getServerSideURL(),
   upload: {
     limits: {
       fileSize: 20 * 1024 * 1024, // 20 MB
     },
-    // The default silently stores a truncated file instead. Note `clientUploads` sends media
-    // browser → S3 via presigned PUT, bypassing this ceiling — cap at the bucket too.
     abortOnLimit: true,
   },
   globals: [Header, Footer, SiteSettings, NyansaFutures],

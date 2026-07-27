@@ -28,7 +28,6 @@ export const buildTitle = (value?: string | null): string | undefined => {
   return /^beyond ai\b/i.test(core) ? core : `${SITE_NAME} | ${core}`
 }
 
-/** Resolved against `metadataBase` (frontend layout), so a relative path emits as absolute. */
 export const resolveCanonicalPath = (path?: string | null): string => {
   if (!path || path === '/') return '/'
 
