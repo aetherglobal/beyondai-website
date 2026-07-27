@@ -330,8 +330,9 @@ export default async function NyansaFuturesPage() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await queryNyansaFuturesPage()
-  if (page) return generateMeta({ doc: page })
+  if (page) return generateMeta({ doc: page, path: '/nyansa-futures' })
   return {
+    alternates: { canonical: '/nyansa-futures' },
     title: 'Nyansa Futures Conference',
     description:
       'Nyansa Futures gathers policymakers, innovators, academics, and civil society to discuss AI governance and digital transformation in Africa.',

@@ -102,6 +102,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       title: post?.title,
       image: post?.heroImage,
     },
+    path: `/posts/${decodedSlug}`,
   })
 }
 

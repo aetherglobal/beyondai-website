@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import React, { Suspense } from 'react'
 import { getGalleryImages } from '@/blocks/_data/cached-queries'
 import { GalleryGrid } from '@/components/GalleryGrid'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 import type { Event } from '@/payload-types'
 
@@ -41,6 +42,8 @@ export default async function GalleryPage() {
 }
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/gallery' },
+  openGraph: mergeOpenGraph({ title: 'Gallery', url: '/gallery' }),
   title: 'Gallery',
   description:
     'Photos from Beyond AI events — panels, workshops, and community gatherings advancing AI governance in Africa.',
