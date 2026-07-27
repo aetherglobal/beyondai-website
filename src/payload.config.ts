@@ -25,13 +25,10 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// SSL handling for the Postgres pool.
-// `pg-connection-string` maps `sslmode=require` to `verify-full` and lets the URL's ssl
-// settings override an explicit `ssl` object. That breaks against RDS, whose server cert is
-// signed by Amazon's private CA (not in Node's trust store). So when DATABASE_CA_CERT is set,
-// we verify against that bundle and strip `sslmode` from the URL so our ssl config wins.
-// Without DATABASE_CA_CERT, TLS is governed by the URL: Neon's `verify-full` (public CA) works
-// as-is, and RDS-without-verification can use `?sslmode=no-verify`.
+// `pg-connection-string` maps `sslmode=require` to `verify-full` and lets it override an
+// explicit `ssl` object — which breaks RDS, whose cert is signed by Amazon's private CA.
+// So with DATABASE_CA_CERT set we strip `sslmode` and verify against that bundle instead.
+// Without it, TLS follows the URL: Neon's `verify-full` works as-is, RDS needs `no-verify`.
 const databaseUrl = process.env.DATABASE_URL || ''
 const dbCaCert = process.env.DATABASE_CA_CERT
 const dbConnectionString =
@@ -97,17 +94,15 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Events, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  // Payload seeds its CSRF allowlist from `serverURL`. With it unset the allowlist stayed
-  // empty, and an empty allowlist makes `extractJWT` accept the session cookie regardless
-  // of the request's Origin — leaving SameSite as the only CSRF defence.
+  // Seeds Payload's CSRF allowlist. Unset, that allowlist is empty — and an empty one makes
+  // `extractJWT` accept the session cookie from any Origin.
   serverURL: getServerSideURL(),
   upload: {
     limits: {
       fileSize: 20 * 1024 * 1024, // 20 MB
     },
-    // Reject oversized uploads outright; the default silently stores a truncated file.
-    // Note: `clientUploads` is enabled, so media bytes go browser → S3 via a presigned
-    // PUT and bypass this ceiling. Enforce at the bucket/CloudFront layer too if needed.
+    // The default silently stores a truncated file instead. Note `clientUploads` sends media
+    // browser → S3 via presigned PUT, bypassing this ceiling — cap at the bucket too.
     abortOnLimit: true,
   },
   globals: [Header, Footer, SiteSettings, NyansaFutures],

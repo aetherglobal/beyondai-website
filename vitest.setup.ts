@@ -1,16 +1,11 @@
-// Any setup scripts you might need go here
-
-// Load .env files. `test.env` is applied first so it wins where it defines a value, letting
-// tests be pointed at a local database without touching .env — see the safety check below.
+// `test.env` first so it wins, letting tests target a local database without editing .env.
 import dotenv from 'dotenv'
 
 dotenv.config({ path: 'test.env' })
 dotenv.config()
 
-// The integration tests open a real Payload/Postgres connection using DATABASE_URL. With
-// only `.env` loaded that is the production database, so `bun run test:int` reads live data
-// — and any future test that writes would mutate it. Warn loudly; set DATABASE_URL in
-// `test.env` (CI points it at a local postgres service) to silence this.
+// With only `.env` loaded, DATABASE_URL is production — `test:int` then reads live data, and
+// any future test that writes would mutate it. CI points this at a local postgres service.
 const dbUrl = process.env.DATABASE_URL
 
 if (dbUrl) {
@@ -22,7 +17,7 @@ if (dbUrl) {
     host = parsed.hostname
     dbName = parsed.pathname
   } catch {
-    // leave the defaults
+    /* keep the defaults */
   }
 
   const looksLocal = /^(localhost|127\.0\.0\.1|::1|postgres)$/.test(host)

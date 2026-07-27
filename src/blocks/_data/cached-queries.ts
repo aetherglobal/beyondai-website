@@ -9,11 +9,9 @@ import type { Event, GalleryImage, Post, Sponsor } from '@/payload-types'
 
 const DEFAULT_LIMIT = 3
 
-// Backstop TTL for the persistent Data Cache. Content changes still refresh
-// immediately via revalidateTag(...) in each collection's hooks; this ensures a
-// missed tag revalidation (e.g. a DB/infra swap, or a direct DB write) self-heals
-// within the hour instead of freezing indefinitely. It also keeps the date-based
-// event queries below from caching a stale "now".
+// Backstop for the persistent Data Cache, which survives deploys. Hooks handle the normal
+// path via revalidateTag; this stops a missed revalidation (infra swap, direct DB write)
+// freezing indefinitely, and keeps the date-based queries below off a stale "now".
 const CACHE_TTL_SECONDS = 3600
 
 export const getUpcomingEvents = cache(async (limit: number = DEFAULT_LIMIT): Promise<Event[]> => {

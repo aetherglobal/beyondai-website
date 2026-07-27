@@ -1,17 +1,10 @@
 /**
- * Rewrite WordPress-era self-links inside CMS content to site-relative paths.
+ * Rewrite WordPress-era absolute self-links (`https://www.beyondai.africa/...`) inside CMS
+ * content to relative paths, removing a redirect hop.
  *
- * Content migrated from the old WordPress site carries absolute links to
- * `https://www.beyondai.africa/...`. They still resolve, but only via a 3-hop chain
- * (307 www -> apex, 308 trailing-slash strip, then the page), and they pin content to a
- * hostname the site no longer canonicalises to. Rewriting them to relative paths removes
- * the hops and keeps content portable.
+ * Only self-links are touched. External citations are left alone, including ones that
+ * answer 401/402/403 to bots — those are paywalls, not broken links.
  *
- * Only self-links are touched. External citations are left alone — including ones that
- * answer 401/402/403 to bots (Reuters, Le Monde, Stanford), which are paywalls and
- * bot-walls rather than broken links.
- *
- * Usage:
  *   DRY_RUN=1 NODE_ENV=production npx tsx scripts/fix-legacy-content-links.ts
  *   NODE_ENV=production npx tsx scripts/fix-legacy-content-links.ts
  */
@@ -21,7 +14,6 @@ import config from '@payload-config'
 
 const DRY_RUN = process.env.DRY_RUN === '1'
 
-/** Collections whose rich-text content may contain migrated links. */
 const TARGETS = ['posts', 'pages', 'events'] as const
 
 const LEGACY_HOST = /^https?:\/\/(?:www\.)?beyondai\.africa(\/[^\s]*)?$/i
@@ -38,10 +30,7 @@ const toRelative = (url: string): string | null => {
 
 type Rewrite = { collection: string; slug: string; id: number | string; from: string; to: string }
 
-/**
- * Walk a Lexical tree (or any nested value) and rewrite link-node URLs in place.
- * Returns the rewrites applied.
- */
+/** Rewrites link-node URLs in place, anywhere in a nested Lexical tree. */
 const rewriteLinks = (node: unknown, onRewrite: (from: string, to: string) => void): void => {
   if (Array.isArray(node)) {
     for (const child of node) rewriteLinks(child, onRewrite)
