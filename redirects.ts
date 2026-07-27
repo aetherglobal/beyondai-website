@@ -18,26 +18,9 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   '/home': '/',
 }
 
-export const redirects: NextConfig['redirects'] = async () => {
-  const internetExplorerRedirect = {
-    destination: '/ie-incompatible.html',
-    has: [
-      {
-        type: 'header' as const,
-        key: 'user-agent',
-        value: '(.*Trident.*)',
-      },
-    ],
-    permanent: false,
-    source: '/:path((?!ie-incompatible.html$).*)',
-  }
-
-  const legacyRedirects = Object.entries(LEGACY_PATH_MAP).map(([source, destination]) => ({
+export const redirects: NextConfig['redirects'] = async () =>
+  Object.entries(LEGACY_PATH_MAP).map(([source, destination]) => ({
     source,
     destination,
     permanent: true,
   }))
-
-  // `internetExplorerRedirect` matches every path, so it must stay last.
-  return [...legacyRedirects, internetExplorerRedirect]
-}
