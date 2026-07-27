@@ -39,9 +39,7 @@ export function CookieConsent() {
   const choose = (value: ConsentValue) => {
     try {
       localStorage.setItem(STORAGE_KEY, value)
-    } catch {
-      // localStorage unavailable — apply for this session only
-    }
+    } catch {}
     updateConsent(value)
     setVisible(false)
   }

@@ -1,38 +1,19 @@
 import type { NextConfig } from 'next'
 
-/**
- * Security response headers.
- *
- * The site previously sent none of these — only the HSTS header Vercel adds at the edge.
- * Most visibly, `/admin` was framable by any origin, exposing an authenticated editor
- * session to clickjacking.
- */
-
-/** Headers safe to enforce everywhere — none of them affect what the page may load. */
 const baselineHeaders = [
-  // Defence in depth alongside CSP `frame-ancestors`, for older browsers.
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
 ]
 
-/**
- * CSP is shipped as report-only to start with: the Payload admin panel and Next's
- * dev/hydration runtime both need inline scripts and styles, so enforcing a policy
- * blind risks breaking the admin. Promote `Content-Security-Policy-Report-Only` to
- * `Content-Security-Policy` once the browser console is confirmed clean on both the
- * frontend and `/admin`.
- *
- * `frame-ancestors` is the one directive that is enforced immediately (below), because
- * it is what actually stops the clickjacking case and it cannot break page rendering.
- */
+// Report-only: enforcing blind risks breaking /admin, which needs inline scripts and styles.
+// Promote once the console is clean there, adding `upgrade-insecure-requests` at that point.
 const buildContentSecurityPolicy = () => {
   const mediaOrigin = process.env.S3_PUBLIC_URL ? new URL(process.env.S3_PUBLIC_URL).origin : ''
 
   return [
     "default-src 'self'",
-    // Next.js inlines its bootstrap and Payload's admin bundle evaluates at runtime.
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob: ${mediaOrigin} https://www.googletagmanager.com https://www.google-analytics.com`,
@@ -43,7 +24,6 @@ const buildContentSecurityPolicy = () => {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'self'",
-    'upgrade-insecure-requests',
   ]
     .filter(Boolean)
     .join('; ')
@@ -55,7 +35,6 @@ export const headers: NextConfig['headers'] = async () => {
       source: '/:path*',
       headers: [
         ...baselineHeaders,
-        // Enforced: blocks cross-origin framing of any page, including /admin.
         { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
         { key: 'Content-Security-Policy-Report-Only', value: buildContentSecurityPolicy() },
       ],

@@ -754,15 +754,7 @@ export const buildContactPage = (): PageInput => ({
   },
 })
 
-/**
- * The cookie consent banner (src/components/CookieConsent) links to `/privacy`, which had
- * no page behind it — the link 404'd, and the GA4 consent flow had nowhere to point.
- *
- * This describes what the site actually does today: form submissions stored in Payload,
- * newsletter signups forwarded to Mailchimp, and GA4 analytics gated behind consent.
- * NOTE: this is a factual first draft, not legal advice — have it reviewed before relying
- * on it, and set the contact address to match Site Settings → contactEmail.
- */
+// NOT legal advice — a factual first draft. Have it reviewed before relying on it.
 export const buildPrivacyPage = (): PageInput => ({
   title: 'Privacy Policy',
   slug: 'privacy',
@@ -905,10 +897,8 @@ export async function seedBecomeSponsorPage({
   return { slug: page.slug!, id }
 }
 
-/**
- * Seed only the privacy page. Use this rather than `seedInitialPages` on a live database:
- * that upserts all eight pages and would overwrite editor changes with the seed defaults.
- */
+// Use this on a live database, not `seedInitialPages` — that upserts all eight pages and
+// would overwrite editor changes with the seed defaults.
 export async function seedPrivacyPage({
   payload,
   req,
@@ -984,7 +974,6 @@ const lexicalHeading = (text: string) => ({
   children: [lexicalTextNode(text)],
 })
 
-/** Build a Lexical document from `{ heading, paragraphs }` sections, for long-form copy. */
 function richTextFromSections(sections: { heading?: string; paragraphs: string[] }[]): LexicalRoot {
   return {
     root: {
