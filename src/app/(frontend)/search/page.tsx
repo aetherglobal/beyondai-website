@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
 import { ArticleCard } from '@/components/ArticleCard'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import type { ArticleCardPost } from '@/components/ArticleCard'
 import Link from 'next/link'
 import { SearchX } from 'lucide-react'
@@ -109,6 +110,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
+    alternates: { canonical: '/search' },
+    openGraph: mergeOpenGraph({ title: 'Search', url: '/search' }),
     title: 'Search',
   }
 }

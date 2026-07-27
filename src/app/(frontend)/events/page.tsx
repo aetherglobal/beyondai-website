@@ -40,7 +40,7 @@ export default async function EventsPage() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await queryEventsPage()
-  return generateMeta({ doc: page })
+  return generateMeta({ doc: page, path: '/events' })
 }
 
 const queryEventsPage = cache(
