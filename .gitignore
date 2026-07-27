@@ -2,7 +2,9 @@ build
 dist / media
 node_modules
 .DS_Store
-.env
+# Cover .env.local / .env.production too, not just a bare .env
+.env*
+!.env.example
 .next
 next-env.d.ts
 .vercel

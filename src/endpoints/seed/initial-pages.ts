@@ -754,6 +754,83 @@ export const buildContactPage = (): PageInput => ({
   },
 })
 
+/**
+ * The cookie consent banner (src/components/CookieConsent) links to `/privacy`, which had
+ * no page behind it — the link 404'd, and the GA4 consent flow had nowhere to point.
+ *
+ * This describes what the site actually does today: form submissions stored in Payload,
+ * newsletter signups forwarded to Mailchimp, and GA4 analytics gated behind consent.
+ * NOTE: this is a factual first draft, not legal advice — have it reviewed before relying
+ * on it, and set the contact address to match Site Settings → contactEmail.
+ */
+export const buildPrivacyPage = (): PageInput => ({
+  title: 'Privacy Policy',
+  slug: 'privacy',
+  _status: 'published',
+  hero: {
+    type: 'pageHero',
+    eyebrow: '[Privacy]',
+    heading: 'How We Handle',
+    headingAccent: 'Your Data',
+    subtitle:
+      'What we collect when you use beyondai.africa, why we collect it, and the choices you have.',
+  } as Page['hero'],
+  layout: [
+    {
+      blockType: 'content',
+      columns: [
+        {
+          size: 'full',
+          richText: richTextFromSections([
+            {
+              paragraphs: [
+                'Beyond AI is an initiative of Aether Strategies. This policy explains what personal data beyondai.africa collects, how it is used, and how you can control it.',
+              ],
+            },
+            {
+              heading: 'Information You Give Us',
+              paragraphs: [
+                'When you submit the contact, volunteer, or sponsorship forms, we store the details you provide — such as your name, email address, organisation, and message — so that we can respond and keep a record of the enquiry.',
+                'When you subscribe to our newsletter, we pass your email address and any optional details you supply (name, phone, city, country) to Mailchimp, which delivers our mailings on our behalf. You can unsubscribe from any email we send, at any time.',
+              ],
+            },
+            {
+              heading: 'Analytics And Cookies',
+              paragraphs: [
+                'We use Google Analytics to understand which pages are read and how visitors reach the site. Analytics cookies are only set after you accept them in the cookie banner; if you decline, no analytics data is collected. You can change your choice at any time by clearing this site\'s data in your browser.',
+                'We do not use advertising cookies and we do not sell personal data.',
+              ],
+            },
+            {
+              heading: 'How Long We Keep It',
+              paragraphs: [
+                'Form submissions are retained for as long as needed to handle your enquiry and to maintain a record of our work. Newsletter subscriptions are kept until you unsubscribe.',
+              ],
+            },
+            {
+              heading: 'Your Rights',
+              paragraphs: [
+                'You can ask us what personal data we hold about you, ask us to correct it, or ask us to delete it. Contact us using the details on our contact page and we will respond as promptly as we can.',
+              ],
+            },
+            {
+              heading: 'Changes To This Policy',
+              paragraphs: [
+                'If we change how we handle personal data, we will update this page. Please check back occasionally for the current version.',
+              ],
+            },
+          ]),
+        },
+      ],
+    },
+  ] as Page['layout'],
+  meta: {
+    title: 'Privacy Policy — Beyond AI',
+    description:
+      'How Beyond AI collects, uses, and protects personal data on beyondai.africa, including forms, newsletter signups, and analytics cookies.',
+  },
+})
+
 async function upsertPageBySlug(
   payload: Payload,
   req: PayloadRequest,
@@ -805,6 +882,7 @@ export async function seedInitialPages({
     buildEventsPage(),
     buildArticlesPage(),
     buildNyansaFuturesPage(),
+    buildPrivacyPage(),
   ]
 
   const results: { slug: string; id: number }[] = []
@@ -823,6 +901,22 @@ export async function seedBecomeSponsorPage({
   req: PayloadRequest
 }): Promise<{ slug: string; id: number }> {
   const page = buildBecomeSponsorPage()
+  const id = await upsertPageBySlug(payload, req, page)
+  return { slug: page.slug!, id }
+}
+
+/**
+ * Seed only the privacy page. Use this rather than `seedInitialPages` on a live database:
+ * that upserts all eight pages and would overwrite editor changes with the seed defaults.
+ */
+export async function seedPrivacyPage({
+  payload,
+  req,
+}: {
+  payload: Payload
+  req: PayloadRequest
+}): Promise<{ slug: string; id: number }> {
+  const page = buildPrivacyPage()
   const id = await upsertPageBySlug(payload, req, page)
   return { slug: page.slug!, id }
 }
@@ -861,24 +955,37 @@ function richTextFromParagraph(text: string): LexicalRoot {
   } as LexicalRoot
 }
 
-function richTextFromTwoParagraphs(text1: string, text2: string): LexicalRoot {
-  const textNode = (text: string) => ({
-    type: 'text' as const,
-    detail: 0,
-    format: 0,
-    mode: 'normal' as const,
-    style: '',
-    text,
-    version: 1,
-  })
-  const paragraph = (text: string) => ({
-    type: 'paragraph' as const,
-    direction: null,
-    format: '' as const,
-    indent: 0,
-    version: 1,
-    children: [textNode(text)],
-  })
+const lexicalTextNode = (text: string) => ({
+  type: 'text' as const,
+  detail: 0,
+  format: 0,
+  mode: 'normal' as const,
+  style: '',
+  text,
+  version: 1,
+})
+
+const lexicalParagraph = (text: string) => ({
+  type: 'paragraph' as const,
+  direction: null,
+  format: '' as const,
+  indent: 0,
+  version: 1,
+  children: [lexicalTextNode(text)],
+})
+
+const lexicalHeading = (text: string) => ({
+  type: 'heading' as const,
+  direction: null,
+  format: '' as const,
+  indent: 0,
+  version: 1,
+  tag: 'h2' as const,
+  children: [lexicalTextNode(text)],
+})
+
+/** Build a Lexical document from `{ heading, paragraphs }` sections, for long-form copy. */
+function richTextFromSections(sections: { heading?: string; paragraphs: string[] }[]): LexicalRoot {
   return {
     root: {
       type: 'root',
@@ -886,19 +993,17 @@ function richTextFromTwoParagraphs(text1: string, text2: string): LexicalRoot {
       format: '',
       indent: 0,
       version: 1,
-      children: [
-        paragraph(text1),
-        {
-          type: 'heading',
-          direction: null,
-          format: '',
-          indent: 0,
-          version: 1,
-          tag: 'h2',
-          children: [textNode('Why It Exists')],
-        },
-        paragraph(text2),
-      ],
+      children: sections.flatMap((section) => [
+        ...(section.heading ? [lexicalHeading(section.heading)] : []),
+        ...section.paragraphs.map(lexicalParagraph),
+      ]),
     },
   } as LexicalRoot
+}
+
+function richTextFromTwoParagraphs(text1: string, text2: string): LexicalRoot {
+  return richTextFromSections([
+    { paragraphs: [text1] },
+    { heading: 'Why It Exists', paragraphs: [text2] },
+  ])
 }

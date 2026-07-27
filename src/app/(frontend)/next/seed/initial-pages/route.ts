@@ -21,14 +21,8 @@ export async function POST(): Promise<Response> {
     return Response.json({ success: true, ...result })
   } catch (e) {
     const err = e instanceof Error ? e : new Error(String(e))
+    // Logged server-side only — the stack used to be returned in the response body.
     payload.logger.error({ err, message: 'Error seeding initial pages' })
-    return Response.json(
-      {
-        success: false,
-        error: err.message,
-        stack: err.stack?.split('\n').slice(0, 10).join('\n'),
-      },
-      { status: 500 },
-    )
+    return Response.json({ success: false, error: 'Error seeding initial pages.' }, { status: 500 })
   }
 }
