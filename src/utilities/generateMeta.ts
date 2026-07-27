@@ -28,13 +28,6 @@ export const buildTitle = (value?: string | null): string | undefined => {
   return /^beyond ai\b/i.test(core) ? core : `${SITE_NAME} | ${core}`
 }
 
-/**
- * Site-relative path for the canonical URL and `og:url`, normalised to a leading slash
- * and no trailing slash (the site's own redirects strip trailing slashes).
- *
- * Resolved against `metadataBase` (set in the frontend layout), so a relative path is
- * emitted as an absolute URL.
- */
 export const resolveCanonicalPath = (path?: string | null): string => {
   if (!path || path === '/') return '/'
 
@@ -50,11 +43,7 @@ export const generateMeta = async (args: {
     description?: string | null
     image?: Media | Config['db']['defaultIDType'] | null
   }
-  /**
-   * Path this page is served from, e.g. `/about`, `/posts/my-post`, `/events/my-event`.
-   * Required for a correct canonical: a doc's slug alone does not imply its URL, since
-   * posts and events are nested under a prefix. Defaults to `/`.
-   */
+  /** Must be passed: a doc's slug alone does not imply its URL, as posts and events nest. */
   path?: string | null
 }): Promise<Metadata> => {
   const { doc, fallback, path } = args
