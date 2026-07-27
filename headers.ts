@@ -43,7 +43,9 @@ const buildContentSecurityPolicy = () => {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'self'",
-    'upgrade-insecure-requests',
+    // NOTE: `upgrade-insecure-requests` is deliberately absent — browsers ignore it in a
+    // report-only policy and log a console warning on every page. Add it when this policy
+    // is promoted to enforcing. HSTS (set at the Vercel edge) already covers the case.
   ]
     .filter(Boolean)
     .join('; ')
