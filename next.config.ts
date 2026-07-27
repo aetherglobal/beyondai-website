@@ -32,10 +32,8 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-      // Media served from CloudFront (private S3 origin), whose host is derived from
-      // S3_PUBLIC_URL — the same env var `generateFileURL` builds media URLs from, so this
-      // always matches what the CMS emits. Deliberately no `*.cloudfront.net` wildcard:
-      // that would let any CloudFront distribution be proxied through the image optimiser.
+      // Do not add a `*.cloudfront.net` wildcard here: it would let any distribution be
+      // proxied through the image optimiser.
       ...(process.env.S3_PUBLIC_URL
         ? [{ hostname: new URL(process.env.S3_PUBLIC_URL).hostname, protocol: 'https' as const }]
         : []),
@@ -59,7 +57,6 @@ const nextConfig: NextConfig = {
   },
   redirects,
   headers,
-  // Don't advertise the stack in every response.
   poweredByHeader: false,
   turbopack: {
     root: path.resolve(dirname),

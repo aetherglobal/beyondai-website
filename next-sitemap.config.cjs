@@ -1,7 +1,5 @@
-// Mirrors `normaliseOrigin` in src/utilities/getURL.ts. This file is CommonJS and runs as a
-// postbuild step, so it cannot import the TS utility — keep the two in sync.
-// `VERCEL_PROJECT_PRODUCTION_URL` is a bare hostname; emitting it unprefixed produced
-// protocol-less URLs in robots.txt and sitemap.xml, which search engines discard.
+// The scheme handling below duplicates `normaliseOrigin` in src/utilities/getURL.ts on
+// purpose — this file is CommonJS and cannot import it. Keep the two in sync.
 const configured = process.env.NEXT_PUBLIC_SERVER_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 if (!configured) {

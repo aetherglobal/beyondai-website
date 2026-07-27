@@ -24,8 +24,8 @@ export function getThemeStyle(settings: SiteSetting | null): string {
     declarations.push(`--container-max: ${theme.layout.containerMaxWidth}px;`)
   }
 
-  // Typography is fixed to Clash Grotesk site-wide (see globals.css); the Site
-  // Settings font selectors are intentionally not applied here.
+  // The Site Settings font selectors are intentionally inert: type is fixed to Clash
+  // Grotesk site-wide in globals.css.
 
   if (declarations.length === 0) return ''
 
