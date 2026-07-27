@@ -13,9 +13,7 @@ if (dbUrl) {
     const parsed = new URL(dbUrl)
     host = parsed.hostname
     dbName = parsed.pathname
-  } catch {
-    /* keep the defaults */
-  }
+  } catch {}
 
   const looksLocal = /^(localhost|127\.0\.0\.1|::1|postgres)$/.test(host)
   const looksLikeTestDb = /test/i.test(dbName)
