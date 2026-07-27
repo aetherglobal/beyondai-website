@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SponsorGrid } from '@/components/SponsorGrid'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 import type { Sponsor } from '@/payload-types'
 
@@ -113,6 +114,8 @@ export default async function SponsorsPage() {
 }
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/sponsors' },
+  openGraph: mergeOpenGraph({ title: 'Sponsors & Partners', url: '/sponsors' }),
   title: 'Sponsors & Partners',
   description:
     'Meet the sponsors and partners supporting the Beyond AI initiative in advancing AI governance in Africa.',

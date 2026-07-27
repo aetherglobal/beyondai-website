@@ -40,6 +40,22 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     staticDir: path.resolve(dirname, '../../public/media'),
+    // Enumerated rather than `image/*` on purpose: that wildcard would admit
+    // `image/svg+xml`, and SVGs can carry script. Files are served straight from
+    // CloudFront (`disablePayloadAccessControl`), with whatever Content-Type S3 stored,
+    // so an uploaded SVG or HTML file would execute on the media origin.
+    mimeTypes: [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/avif',
+      'image/gif',
+      'image/heic',
+      'image/heif',
+      'application/pdf',
+    ],
+    // The size ceiling lives on the top-level config's `upload` (src/payload.config.ts) —
+    // Payload's collection UploadConfig has no `limits`.
     // With the S3 adapter's `disablePayloadAccessControl`, Payload does NOT route the
     // top-level `thumbnailURL` through `generateFileURL`, so the string form would emit a
     // dead `/api/media/file/...` path. Build the CloudFront URL for the thumbnail size

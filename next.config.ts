@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 import { redirects } from './redirects'
+import { headers } from './headers'
 
 const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
@@ -31,19 +32,13 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-      // Media served from CloudFront (private S3 origin). Custom domain via S3_PUBLIC_URL,
-      // with the default *.cloudfront.net host allowed until a custom domain is attached.
+      // Media served from CloudFront (private S3 origin), whose host is derived from
+      // S3_PUBLIC_URL — the same env var `generateFileURL` builds media URLs from, so this
+      // always matches what the CMS emits. Deliberately no `*.cloudfront.net` wildcard:
+      // that would let any CloudFront distribution be proxied through the image optimiser.
       ...(process.env.S3_PUBLIC_URL
         ? [{ hostname: new URL(process.env.S3_PUBLIC_URL).hostname, protocol: 'https' as const }]
         : []),
-      {
-        hostname: '*.cloudfront.net',
-        protocol: 'https',
-      },
-      {
-        hostname: '*.blob.vercel-storage.com',
-        protocol: 'https',
-      },
     ],
   },
   webpack: (webpackConfig) => {
@@ -63,6 +58,9 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   redirects,
+  headers,
+  // Don't advertise the stack in every response.
+  poweredByHeader: false,
   turbopack: {
     root: path.resolve(dirname),
   },
