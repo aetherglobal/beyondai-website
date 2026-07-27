@@ -7,14 +7,11 @@ import { Reveal } from '@/components/Reveal'
 import { SectionHeader } from '@/components/SectionHeader'
 
 /**
- * The site was migrated off WordPress in April 2026 and a few hundred old URLs are still
- * indexed — including ~174 pages of the previous theme's demo content that were never
- * Beyond AI's. Those URLs correctly 404, so this page is where a steady trickle of real
- * visitors from search lands. It needs to offer a way onward rather than a dead end.
+ * Several hundred URLs from the pre-2026 WordPress site are still indexed and correctly 404,
+ * so real visitors from search land here regularly — hence the routes onward.
  *
- * A plain GET form to /search is used rather than the client-side `Search` component: it
- * keeps this a server component, works without hydration, and navigates only on submit
- * (the client one pushes a new route on every keystroke).
+ * The plain GET form is deliberate over the client-side `Search` component: it keeps this a
+ * server component and navigates on submit rather than on every keystroke.
  */
 
 const DESTINATIONS: { href: string; label: string; description: string }[] = [

@@ -755,13 +755,10 @@ export const buildContactPage = (): PageInput => ({
 })
 
 /**
- * The cookie consent banner (src/components/CookieConsent) links to `/privacy`, which had
- * no page behind it — the link 404'd, and the GA4 consent flow had nowhere to point.
+ * Describes what the site actually does: submissions stored in Payload, newsletter signups
+ * forwarded to Mailchimp, GA4 gated behind consent.
  *
- * This describes what the site actually does today: form submissions stored in Payload,
- * newsletter signups forwarded to Mailchimp, and GA4 analytics gated behind consent.
- * NOTE: this is a factual first draft, not legal advice — have it reviewed before relying
- * on it, and set the contact address to match Site Settings → contactEmail.
+ * NOT legal advice — a factual first draft. Have it reviewed before relying on it.
  */
 export const buildPrivacyPage = (): PageInput => ({
   title: 'Privacy Policy',
@@ -906,8 +903,8 @@ export async function seedBecomeSponsorPage({
 }
 
 /**
- * Seed only the privacy page. Use this rather than `seedInitialPages` on a live database:
- * that upserts all eight pages and would overwrite editor changes with the seed defaults.
+ * Prefer this over `seedInitialPages` on a live database — that upserts all eight pages and
+ * would overwrite editor changes with the seed defaults.
  */
 export async function seedPrivacyPage({
   payload,

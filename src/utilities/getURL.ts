@@ -1,12 +1,9 @@
 import canUseDOM from './canUseDOM'
 
 /**
- * Normalise an env-supplied origin into an absolute URL with no trailing slash.
- *
- * `VERCEL_PROJECT_PRODUCTION_URL` is a bare hostname (`beyondai.africa`), and
- * `NEXT_PUBLIC_SERVER_URL` is sometimes configured the same way. Emitting either
- * one unprefixed produces protocol-less URLs, which are invalid in sitemaps and
- * robots.txt — search engines discard them.
+ * `VERCEL_PROJECT_PRODUCTION_URL` is a bare hostname, and `NEXT_PUBLIC_SERVER_URL` is
+ * sometimes set the same way. Emitting either unprefixed yields protocol-less URLs, which
+ * are invalid in sitemaps and robots.txt — search engines discard them.
  */
 const normaliseOrigin = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, '')

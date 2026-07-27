@@ -1,22 +1,12 @@
 /**
- * Create (or update) the `/privacy` page.
+ * Create (or update) the `/privacy` page the cookie consent banner links to.
  *
- * The cookie consent banner links to `/privacy`; without this page the link 404s and the
- * GA4 consent flow has nowhere to point.
+ * Seeds ONLY that page. Never run `seedInitialPages` against a live database — it upserts
+ * all eight pages and would overwrite editor changes with the seed defaults.
  *
- * Deliberately seeds ONLY the privacy page. Do not reach for `seedInitialPages` against a
- * live database — it upserts all eight pages and would overwrite editor changes with the
- * seed defaults.
- *
- * Usage (DRY_RUN first — `payload run` forwards positional args only, not flags, so the
- * mode is env-gated):
- *   DRY_RUN=1 NODE_ENV=production bun payload run scripts/seed-privacy-page.ts
- *   NODE_ENV=production bun payload run scripts/seed-privacy-page.ts
- *
- * NODE_ENV=production keeps the dev schema-push out of the way; this script makes no
- * schema changes.
+ *   DRY_RUN=1 NODE_ENV=production npx tsx scripts/seed-privacy-page.ts
+ *   NODE_ENV=production npx tsx scripts/seed-privacy-page.ts
  */
-// `payload run` loads .env for you; this makes the script work under plain `tsx` too.
 import 'dotenv/config'
 import { createLocalReq, getPayload } from 'payload'
 import config from '@payload-config'
@@ -57,9 +47,8 @@ const main = async () => {
     return
   }
 
-  // `revalidatePage` (Pages afterChange) calls Next's `revalidatePath`, which throws
-  // "static generation store missing" outside a request context and rolls the write back.
-  // Skip it here; the cache is refreshed by the redeploy that follows.
+  // Without this, the afterChange hook's `revalidatePath` throws outside a request context
+  // and takes the write down with it. The following redeploy refreshes the cache.
   const req = await createLocalReq({ context: { disableRevalidate: true } }, payload)
   const result = await seedPrivacyPage({ payload, req })
 
