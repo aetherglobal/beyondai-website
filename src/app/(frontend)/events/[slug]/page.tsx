@@ -412,6 +412,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
         : `Join us for ${event.title}.`,
       image: event.heroImage || event.flyerImage,
     },
+    path: `/events/${slug}`,
   })
 }
 

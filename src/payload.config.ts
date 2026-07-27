@@ -97,6 +97,19 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Events, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
+  // Payload seeds its CSRF allowlist from `serverURL`. With it unset the allowlist stayed
+  // empty, and an empty allowlist makes `extractJWT` accept the session cookie regardless
+  // of the request's Origin — leaving SameSite as the only CSRF defence.
+  serverURL: getServerSideURL(),
+  upload: {
+    limits: {
+      fileSize: 20 * 1024 * 1024, // 20 MB
+    },
+    // Reject oversized uploads outright; the default silently stores a truncated file.
+    // Note: `clientUploads` is enabled, so media bytes go browser → S3 via a presigned
+    // PUT and bypass this ceiling. Enforce at the bucket/CloudFront layer too if needed.
+    abortOnLimit: true,
+  },
   globals: [Header, Footer, SiteSettings, NyansaFutures],
   plugins,
   secret: process.env.PAYLOAD_SECRET,

@@ -147,8 +147,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await queryArticlesPage()
-  if (page) return generateMeta({ doc: page })
-  return { title: 'Articles' }
+  if (page) return generateMeta({ doc: page, path: '/posts' })
+  return { alternates: { canonical: '/posts' }, title: 'Articles' }
 }
 
 const queryArticlesPage = cache(
