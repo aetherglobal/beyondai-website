@@ -1,13 +1,4 @@
-/**
- * Rewrite WordPress-era absolute self-links (`https://www.beyondai.africa/...`) inside CMS
- * content to relative paths, removing a redirect hop.
- *
- * Only self-links are touched. External citations are left alone, including ones that
- * answer 401/402/403 to bots — those are paywalls, not broken links.
- *
- *   DRY_RUN=1 NODE_ENV=production npx tsx scripts/fix-legacy-content-links.ts
- *   NODE_ENV=production npx tsx scripts/fix-legacy-content-links.ts
- */
+// DRY_RUN=1 NODE_ENV=production npx tsx scripts/fix-legacy-content-links.ts
 import 'dotenv/config'
 import { createLocalReq, getPayload } from 'payload'
 import config from '@payload-config'
@@ -18,7 +9,6 @@ const TARGETS = ['posts', 'pages', 'events'] as const
 
 const LEGACY_HOST = /^https?:\/\/(?:www\.)?beyondai\.africa(\/[^\s]*)?$/i
 
-/** `https://www.beyondai.africa/foo/` -> `/foo`; the bare host -> `/`. */
 const toRelative = (url: string): string | null => {
   const m = LEGACY_HOST.exec(url.trim())
   if (!m) return null
@@ -30,7 +20,6 @@ const toRelative = (url: string): string | null => {
 
 type Rewrite = { collection: string; slug: string; id: number | string; from: string; to: string }
 
-/** Rewrites link-node URLs in place, anywhere in a nested Lexical tree. */
 const rewriteLinks = (node: unknown, onRewrite: (from: string, to: string) => void): void => {
   if (Array.isArray(node)) {
     for (const child of node) rewriteLinks(child, onRewrite)
@@ -81,7 +70,6 @@ const main = async () => {
 
     for (const doc of docs) {
       const found: { from: string; to: string }[] = []
-      // Clone so a dry run never mutates anything we might later persist by accident.
       const copy = JSON.parse(JSON.stringify(doc))
       rewriteLinks(copy, (from, to) => found.push({ from, to }))
 

@@ -8,8 +8,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     include: ['tests/int/**/*.int.spec.ts'],
-    // `getPayload()` in beforeAll pulls the schema over the network — ~18s against a remote
-    // database, well past Vitest's 10s hook default.
     hookTimeout: 120_000,
     testTimeout: 30_000,
   },

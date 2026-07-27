@@ -32,8 +32,7 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-      // Derived from S3_PUBLIC_URL, the same var `generateFileURL` builds media URLs from.
-      // No `*.cloudfront.net` wildcard on purpose — that would let any distribution be
+      // Do not add a `*.cloudfront.net` wildcard here: it would let any distribution be
       // proxied through the image optimiser.
       ...(process.env.S3_PUBLIC_URL
         ? [{ hostname: new URL(process.env.S3_PUBLIC_URL).hostname, protocol: 'https' as const }]

@@ -7,13 +7,8 @@ const baselineHeaders = [
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
 ]
 
-/**
- * Report-only to begin with: the Payload admin and Next's hydration runtime both need
- * inline scripts and styles, so enforcing blind risks breaking `/admin`. Promote to
- * `Content-Security-Policy` once the console is clean on both the frontend and `/admin`,
- * and add `upgrade-insecure-requests` at that point — browsers ignore it in a report-only
- * policy and warn on every page load.
- */
+// Report-only: enforcing blind risks breaking /admin, which needs inline scripts and styles.
+// Promote once the console is clean there, adding `upgrade-insecure-requests` at that point.
 const buildContentSecurityPolicy = () => {
   const mediaOrigin = process.env.S3_PUBLIC_URL ? new URL(process.env.S3_PUBLIC_URL).origin : ''
 
@@ -40,7 +35,6 @@ export const headers: NextConfig['headers'] = async () => {
       source: '/:path*',
       headers: [
         ...baselineHeaders,
-        // Enforced ahead of the rest of the policy: this is what stops clickjacking on /admin.
         { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
         { key: 'Content-Security-Policy-Report-Only', value: buildContentSecurityPolicy() },
       ],

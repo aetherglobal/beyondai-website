@@ -17,7 +17,6 @@ export const Users: CollectionConfig = {
   },
   auth: {
     cookies: {
-      // Payload defaults this to false; gated on env so http://localhost dev still works.
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'Lax',
     },
