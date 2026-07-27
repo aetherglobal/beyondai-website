@@ -19,7 +19,6 @@
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
 
-  /* Fluid type scale — smooth scaling instead of stepping at breakpoints. */
   --text-hero: clamp(2.5rem, 1.55rem + 4.2vw, 4.5rem);
   --text-hero--line-height: 1.04;
   --text-section: clamp(1.65rem, 1.15rem + 1.95vw, 2.75rem);

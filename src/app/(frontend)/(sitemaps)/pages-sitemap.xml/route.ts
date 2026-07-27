@@ -4,10 +4,6 @@ import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getServerSideURL } from '@/utilities/getURL'
 
-/**
- * Routes that exist as hardcoded React pages rather than Pages-collection docs,
- * so they never appear in the query below and have to be listed explicitly.
- */
 const STATIC_ROUTES = ['/search', '/posts', '/gallery', '/sponsors']
 
 const getPagesSitemap = unstable_cache(
@@ -51,9 +47,6 @@ const getPagesSitemap = unstable_cache(
           })
       : []
 
-    // A Pages doc can share a slug with a hardcoded route (e.g. `posts`), which would
-    // otherwise emit the same <loc> twice. Docs come first so their real `updatedAt`
-    // wins over the static entry's fallback timestamp.
     return [...sitemap, ...defaultSitemap].filter(
       (entry, index, all) => all.findIndex((other) => other.loc === entry.loc) === index,
     )

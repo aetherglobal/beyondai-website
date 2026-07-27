@@ -21,7 +21,6 @@ export async function POST(): Promise<Response> {
     return Response.json({ success: true, ...result })
   } catch (e) {
     const err = e instanceof Error ? e : new Error(String(e))
-    // Logged server-side only — the stack used to be returned in the response body.
     payload.logger.error({ err, message: 'Error seeding become-a-sponsor page' })
     return Response.json(
       { success: false, error: 'Error seeding become-a-sponsor page.' },
