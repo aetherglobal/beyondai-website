@@ -4,13 +4,13 @@ import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getServerSideURL } from '@/utilities/getURL'
 
-const getPostsSitemap = unstable_cache(
+const getEventsSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const SITE_URL = getServerSideURL()
 
     const results = await payload.find({
-      collection: 'posts',
+      collection: 'events',
       overrideAccess: false,
       draft: false,
       depth: 0,
@@ -31,23 +31,23 @@ const getPostsSitemap = unstable_cache(
 
     const sitemap = results.docs
       ? results.docs
-          .filter((post) => Boolean(post?.slug))
-          .map((post) => ({
-            loc: `${SITE_URL}/posts/${post?.slug}`,
-            lastmod: post.updatedAt || dateFallback,
+          .filter((event) => Boolean(event?.slug))
+          .map((event) => ({
+            loc: `${SITE_URL}/events/${event?.slug}`,
+            lastmod: event.updatedAt || dateFallback,
           }))
       : []
 
     return sitemap
   },
-  ['posts-sitemap'],
+  ['events-sitemap'],
   {
-    tags: ['posts-sitemap'],
+    tags: ['events-sitemap'],
   },
 )
 
 export async function GET() {
-  const sitemap = await getPostsSitemap()
+  const sitemap = await getEventsSitemap()
 
   return getServerSideSitemap(sitemap)
 }
