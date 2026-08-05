@@ -1561,7 +1561,7 @@ export interface ContactSubmission {
 export interface Redirect {
   id: number;
   /**
-   * You will need to rebuild the website when changing this field.
+   * A path on this site, e.g. /nyansa2026. Paste a full URL and it is trimmed to its path. Saved changes go live immediately — no rebuild needed.
    */
   from: string;
   to?: {
