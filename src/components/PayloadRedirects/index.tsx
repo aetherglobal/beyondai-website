@@ -3,6 +3,7 @@ import type { Page, Post } from '@/payload-types'
 
 import { getCachedDocument } from '@/utilities/getDocument'
 import { getCachedRedirects } from '@/utilities/getRedirects'
+import { normalizeRedirectPath } from '@/utilities/normalizeRedirectPath'
 import { notFound, redirect } from 'next/navigation'
 
 interface Props {
@@ -13,7 +14,12 @@ interface Props {
 export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }) => {
   const redirects = await getCachedRedirects()()
 
-  const redirectItem = redirects.find((redirect) => redirect.from === url)
+  // Normalized on both sides: rows saved before the beforeValidate hook existed can still
+  // hold an origin, a trailing slash, or mixed case.
+  const requestedPath = normalizeRedirectPath(url)
+  const redirectItem = redirects.find(
+    (redirect) => normalizeRedirectPath(redirect.from) === requestedPath,
+  )
 
   if (redirectItem) {
     if (redirectItem.to?.url) {
