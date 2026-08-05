@@ -6,6 +6,7 @@ import { searchPlugin } from '@payloadcms/plugin-search'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
+import { normalizeRedirectPath } from '@/utilities/normalizeRedirectPath'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
@@ -54,7 +55,14 @@ export const plugins: Plugin[] = [
             return {
               ...field,
               admin: {
-                description: 'You will need to rebuild the website when changing this field.',
+                description:
+                  'A path on this site, e.g. /nyansa2026. Paste a full URL and it is trimmed to its path. Saved changes go live immediately — no rebuild needed.',
+              },
+              hooks: {
+                beforeValidate: [
+                  ({ value }: { value?: unknown }) =>
+                    typeof value === 'string' ? normalizeRedirectPath(value) : value,
+                ],
               },
             }
           }
