@@ -1,6 +1,6 @@
 'use client'
 
-import type { StaticImageData } from 'next/image'
+import type { ImageLoader, StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
 import NextImage from 'next/image'
@@ -9,6 +9,7 @@ import React from 'react'
 import type { Props as MediaProps } from '../types'
 
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { buildMediaLoader } from '@/utilities/payloadImageLoader'
 
 export const ImageMedia: React.FC<MediaProps> = (props) => {
   const {
@@ -27,6 +28,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let height: number | undefined
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
+  let loader: ImageLoader | undefined
 
   if (!src && resource && typeof resource === 'object') {
     const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
@@ -38,6 +40,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     const cacheTag = resource.updatedAt
 
     src = getMediaUrl(url, cacheTag)
+    loader = buildMediaLoader(resource)
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
@@ -55,6 +58,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         className={cn(imgClassName)}
         fill={fill}
         height={!fill ? height : undefined}
+        loader={loader}
         priority={priority}
         loading={loading}
         sizes={sizes}
