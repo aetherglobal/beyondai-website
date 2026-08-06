@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { MasonryPhotoAlbum, RenderImageContext, RenderImageProps } from 'react-photo-album'
 import { cn } from '@/utilities/ui'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { buildMediaLoader } from '@/utilities/payloadImageLoader'
 
 import 'react-photo-album/masonry.css'
 
@@ -31,8 +32,11 @@ function toPhoto(img: GalleryImage) {
     height: media.height ?? 600,
     alt: media.alt || img.caption || '',
     key: String(img.id),
+    loader: buildMediaLoader(media),
   }
 }
+
+type GalleryPhoto = ReturnType<typeof toPhoto>
 
 function toSlide(img: GalleryImage) {
   const media = img.image as Media
@@ -48,7 +52,7 @@ function toSlide(img: GalleryImage) {
 
 function renderNextImage(
   { alt = '', title, sizes }: RenderImageProps,
-  { photo, width, height }: RenderImageContext,
+  { photo, width, height }: RenderImageContext<GalleryPhoto>,
 ) {
   return (
     <div
@@ -61,6 +65,7 @@ function renderNextImage(
       <Image
         fill
         src={photo.src}
+        loader={photo.loader}
         alt={alt}
         title={title}
         sizes={sizes}

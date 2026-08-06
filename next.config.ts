@@ -22,7 +22,10 @@ const nextConfig: NextConfig = {
         pathname: '/media/**',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/webp'],
+    deviceSizes: [600, 900, 1400, 1920],
+    imageSizes: [300],
+    minimumCacheTTL: 2678400,
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
