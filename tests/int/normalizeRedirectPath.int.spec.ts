@@ -8,8 +8,6 @@ describe('normalizeRedirectPath', () => {
   })
 
   it('reduces the forms an editor is likely to paste to the same path', () => {
-    // All four are what someone actually types when adding a short link; each one
-    // used to save cleanly and then never match a request.
     expect(normalizeRedirectPath('https://beyondai.africa/nyansa2026')).toBe('/nyansa2026')
     expect(normalizeRedirectPath('nyansa2026')).toBe('/nyansa2026')
     expect(normalizeRedirectPath('/nyansa2026/')).toBe('/nyansa2026')

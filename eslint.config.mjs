@@ -26,7 +26,31 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ['.next/', 'src/payload-types.ts', 'src/payload-generated-schema.ts'],
+    files: ['src/components/Logo/Logo.tsx', 'src/components/SiteLogo.tsx'],
+    rules: {
+      '@next/next/no-img-element': 'off',
+    },
+  },
+  {
+    files: ['src/components/CookieConsent/index.tsx'],
+    rules: {
+      'react-hooks/set-state-in-effect': 'off',
+    },
+  },
+  {
+    files: ['src/blocks/Form/Component.tsx', 'tests/helpers/seedFixture.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    ignores: [
+      '.next/',
+      'src/payload-types.ts',
+      'src/payload-generated-schema.ts',
+      'src/migrations/',
+      'src/app/(payload)/admin/importMap.js',
+    ],
   },
 ]
 

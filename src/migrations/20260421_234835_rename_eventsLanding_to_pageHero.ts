@@ -1,8 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db }: MigrateUpArgs): Promise<void> {
-  // Dev push already created the new enum with 'pageHero'.
-  // Update any rows still holding the old text value.
   await db.execute(sql`
     UPDATE "pages"
       SET "hero_type" = 'pageHero'

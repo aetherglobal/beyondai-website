@@ -7,10 +7,13 @@ import { Calendar, MapPin, Globe } from 'lucide-react'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { LumaEmbed } from '@/components/LumaEmbed'
-import { FadeIn } from '@/components/FadeIn'
+import { Reveal } from '@/components/Reveal'
 import { generateMeta } from '@/utilities/generateMeta'
 
 import type { Event } from '@/payload-types'
+import { eventDate, eventDateShort, eventTime } from '@/utilities/formatEventDate'
+import { StructuredData, eventSchema } from '@/components/StructuredData'
+import { collectSlugs } from '@/utilities/staticParams'
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   'ai-watch': 'AI Watch — Monthly Forum',
@@ -45,17 +48,7 @@ type Args = {
 export const revalidate = 3600
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const events = await payload.find({
-    collection: 'events',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: { slug: true },
-  })
-
-  return events.docs.map(({ slug }) => ({ slug }))
+  return collectSlugs('events')
 }
 
 export default async function EventPage({ params: paramsPromise }: Args) {
@@ -83,23 +76,16 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     eventType,
   } = event
 
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-
-  const formattedTime = new Date(date).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  })
+  const formattedDate = eventDate(date)
+  const formattedTime = eventTime(date)
 
   const hasHeroImage = heroImage && typeof heroImage !== 'number'
   const hasFlyer = flyerImage && typeof flyerImage !== 'number'
 
   return (
     <article>
+      <StructuredData data={eventSchema(event)} />
+
       <section className="relative min-h-[var(--hero-h)] bg-dark flex items-end overflow-hidden">
         {hasHeroImage && (
           <>
@@ -145,10 +131,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                 {endDate && (
                   <span>
                     &mdash;{' '}
-                    {new Date(endDate).toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                    {eventDate(endDate, { weekday: false })}
                   </span>
                 )}
                 {location && (
@@ -193,7 +176,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
       {description && (
         <section className="bg-white py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 <div className="lg:col-span-4">
                   <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
@@ -210,122 +193,26 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                   </div>
                 </div>
               </div>
-            </FadeIn>
+            </Reveal>
           </div>
         </section>
       )}
 
-      {hosts && hosts.length > 0 && (
-        <section className="bg-dark py-16 md:py-20">
-          <div className="container">
-            <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
-                [Hosts]
-              </p>
-              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
-                Meet Your Hosts
-              </h2>
-            </FadeIn>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {hosts.map((host, i) => (
-                <FadeIn key={i} delay={i * 0.05}>
-                  <div className="text-center group">
-                    {host.photo && typeof host.photo !== 'number' ? (
-                      <div
-                        className="relative w-40 h-40 mx-auto mb-4 overflow-hidden border-2 border-transparent group-hover:border-primary-deep transition-colors"
-                        style={{
-                          clipPath:
-                            'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                        }}
-                      >
-                        <Media resource={host.photo} fill imgClassName="object-cover" size="160px" />
-                      </div>
-                    ) : (
-                      <div
-                        className="w-40 h-40 mx-auto mb-4 bg-card flex items-center justify-center"
-                        style={{
-                          clipPath:
-                            'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                        }}
-                      >
-                        <span className="text-2xl font-bold text-primary-deep/40">
-                          {host.name.charAt(0)}
-                        </span>
-                      </div>
-                    )}
-                    <h3 className="font-semibold text-foreground text-sm">{host.name}</h3>
-                    {host.title && (
-                      <p className="text-xs text-muted-foreground mt-1">{host.title}</p>
-                    )}
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <PeopleGrid eyebrow="[Hosts]" heading="Meet Your Hosts" rows={hosts} />
 
-      {speakers && speakers.length > 0 && (
-        <section className="bg-dark py-16 md:py-20">
-          <div className="container">
-            <FadeIn>
-              <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
-                [Speakers]
-              </p>
-              <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
-                Who&apos;s Speaking
-              </h2>
-            </FadeIn>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {speakers.map((speaker, i) => (
-                <FadeIn key={i} delay={i * 0.05}>
-                  <div className="text-center group">
-                    {speaker.photo && typeof speaker.photo !== 'number' ? (
-                      <div
-                        className="relative w-40 h-40 mx-auto mb-4 overflow-hidden border-2 border-transparent group-hover:border-primary-deep transition-colors"
-                        style={{
-                          clipPath:
-                            'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                        }}
-                      >
-                        <Media resource={speaker.photo} fill imgClassName="object-cover" size="160px" />
-                      </div>
-                    ) : (
-                      <div
-                        className="w-40 h-40 mx-auto mb-4 bg-card flex items-center justify-center"
-                        style={{
-                          clipPath:
-                            'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                        }}
-                      >
-                        <span className="text-2xl font-bold text-primary-deep/40">
-                          {speaker.name.charAt(0)}
-                        </span>
-                      </div>
-                    )}
-                    <h3 className="font-semibold text-foreground text-sm">{speaker.name}</h3>
-                    {speaker.title && (
-                      <p className="text-xs text-muted-foreground mt-1">{speaker.title}</p>
-                    )}
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <PeopleGrid eyebrow="[Speakers]" heading="Who's Speaking" rows={speakers} />
 
       {agenda && agenda.length > 0 && (
         <section className="bg-white py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
                 [Schedule]
               </p>
               <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-16 text-gray-900">
                 Schedule
               </h2>
-            </FadeIn>
+            </Reveal>
 
             <div>
               {agenda.map((item, i) => {
@@ -333,7 +220,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
                 if (isBreak) {
                   return (
-                    <FadeIn key={i} delay={i * 0.04}>
+                    <Reveal key={i} delay={i * 40}>
                       <div className="my-6">
                         <div className="bg-gray-100 py-8 px-8 md:px-12 rounded-lg">
                           <h3 className="text-lg md:text-xl font-bold uppercase tracking-tight text-gray-900">
@@ -344,12 +231,12 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                           )}
                         </div>
                       </div>
-                    </FadeIn>
+                    </Reveal>
                   )
                 }
 
                 return (
-                  <FadeIn key={i} delay={i * 0.04}>
+                  <Reveal key={i} delay={i * 40}>
                     <div className="border-t border-gray-200 py-8 md:py-10">
                       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-[220px_1fr_120px] gap-4 md:gap-8 items-start">
                         <div className="text-sm font-mono text-gray-400">
@@ -370,7 +257,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                         <div className="hidden lg:block" />
                       </div>
                     </div>
-                  </FadeIn>
+                  </Reveal>
                 )
               })}
             </div>
@@ -381,7 +268,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
       {(lumaEmbedUrl || lumaEventUrl) && (
         <section className="bg-dark py-16 md:py-20">
           <div className="container max-w-3xl mx-auto">
-            <FadeIn>
+            <Reveal>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono text-center">
                 [Registration]
               </p>
@@ -389,7 +276,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                 Register Now
               </h2>
               <LumaEmbed className="text-center" embedUrl={lumaEmbedUrl} eventUrl={lumaEventUrl} />
-            </FadeIn>
+            </Reveal>
           </div>
         </section>
       )}
@@ -408,7 +295,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     fallback: {
       title: event.title,
       description: event.date
-        ? `Join us for ${event.title} on ${new Date(event.date).toLocaleDateString()}.`
+        ? `Join us for ${event.title} on ${eventDateShort(event.date)}.`
         : `Join us for ${event.title}.`,
       image: event.heroImage || event.flyerImage,
     },
@@ -431,3 +318,66 @@ const queryEventBySlug = cache(async ({ slug }: { slug: string }) => {
 
   return (result.docs?.[0] as Event) || null
 })
+
+const PERSON_CLIP_PATH =
+  'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
+
+function PeopleGrid({
+  eyebrow,
+  heading,
+  rows,
+}: {
+  eyebrow: string
+  heading: string
+  rows?: NonNullable<Event['speakers']> | null
+}) {
+  const people = (rows ?? []).flatMap(({ person, role }) =>
+    person && typeof person !== 'number' ? [{ person, role }] : [],
+  )
+
+  if (people.length === 0) return null
+
+  return (
+    <section className="bg-dark py-16 md:py-20">
+      <div className="container">
+        <Reveal>
+          <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
+            {eyebrow}
+          </p>
+          <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
+            {heading}
+          </h2>
+        </Reveal>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          {people.map(({ person, role }, i) => (
+            <Reveal key={person.id} delay={i * 50}>
+              <div className="text-center group">
+                {person.photo && typeof person.photo !== 'number' ? (
+                  <div
+                    className="relative w-40 h-40 mx-auto mb-4 overflow-hidden border-2 border-transparent group-hover:border-primary-deep transition-colors"
+                    style={{ clipPath: PERSON_CLIP_PATH }}
+                  >
+                    <Media resource={person.photo} fill imgClassName="object-cover" size="160px" />
+                  </div>
+                ) : (
+                  <div
+                    className="w-40 h-40 mx-auto mb-4 bg-card flex items-center justify-center"
+                    style={{ clipPath: PERSON_CLIP_PATH }}
+                  >
+                    <span aria-hidden="true" className="text-2xl font-bold text-primary-deep/40">
+                      {person.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
+                <h3 className="font-semibold text-foreground text-sm">{person.name}</h3>
+                {(role || person.title) && (
+                  <p className="text-xs text-muted-foreground mt-1">{role || person.title}</p>
+                )}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

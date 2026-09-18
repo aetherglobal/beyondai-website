@@ -1,4 +1,3 @@
-// DRY_RUN=1 NODE_ENV=production npx tsx scripts/fix-legacy-content-links.ts
 import 'dotenv/config'
 import { createLocalReq, getPayload } from 'payload'
 import config from '@payload-config'

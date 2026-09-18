@@ -1,0 +1,46 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      # Grouped so a weekly cadence produces a handful of reviewable PRs rather than
+      # thirty. Majors stay separate because they need a human to read the changelog.
+      payload:
+        patterns:
+          - '@payloadcms/*'
+          - payload
+        update-types:
+          - minor
+          - patch
+      next:
+        patterns:
+          - next
+          - react
+          - react-dom
+          - eslint-config-next
+        update-types:
+          - minor
+          - patch
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      production-minor-patch:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+    labels:
+      - dependencies
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies

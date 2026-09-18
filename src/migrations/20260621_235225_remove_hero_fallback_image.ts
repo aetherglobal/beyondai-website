@@ -1,17 +1,5 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-/**
- * Remove the `hero.fallbackImage` upload field from Pages.
- *
- * The Featured Event hero no longer borrows the upcoming event's image (or a
- * fallback) — it now renders its own dedicated `hero.media` image, which
- * already exists in the schema. This drops the obsolete `fallbackImage`
- * relationship on both the `pages` table and the `_pages_v` versions table.
- *
- * Every statement is guarded so the migration is idempotent: correct when run
- * linearly on a fresh/production DB, and a safe no-op on a DB that `push` has
- * already reconciled (e.g. the dev database).
- */
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     DROP INDEX IF EXISTS "pages_hero_hero_fallback_image_idx";

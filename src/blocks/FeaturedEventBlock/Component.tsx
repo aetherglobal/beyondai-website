@@ -4,27 +4,15 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react'
 
 import type { FeaturedEventBlockType } from '@/payload-types'
 import { Media } from '@/components/Media'
-import { FadeIn } from '@/components/FadeIn'
+import { Reveal } from '@/components/Reveal'
 import { getUpcomingEvents } from '@/blocks/_data/cached-queries'
+import { eventDate, eventTime } from '@/utilities/formatEventDate'
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   'ai-watch': 'AI Watch — Monthly Forum',
   'nyansa-futures': 'Nyansa Futures — Conference',
   'beyond-the-algorithm': 'Beyond the Algorithm',
   other: 'Event',
-}
-
-function formatEventDate(dateStr: string) {
-  const d = new Date(dateStr)
-  return {
-    full: d.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }),
-    time: d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-  }
 }
 
 type Props = FeaturedEventBlockType & { disableInnerContainer?: boolean }
@@ -35,19 +23,19 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
   if (!event) return null
 
   const { title, slug, date, location, isVirtual, flyerImage, lumaEventUrl, eventType } = event
-  const d = formatEventDate(date)
+  const d = { full: eventDate(date), time: eventTime(date) }
 
   return (
     <section className="bg-white py-16 md:py-20">
       <div className="container">
         {eyebrow && (
-          <FadeIn>
+          <Reveal>
             <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
               {eyebrow}
             </p>
-          </FadeIn>
+          </Reveal>
         )}
-        <FadeIn delay={0.1}>
+        <Reveal delay={100}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {flyerImage && typeof flyerImage !== 'number' && (
               <div className="lg:col-span-6">
@@ -113,7 +101,7 @@ export const FeaturedEventBlockComponent: React.FC<Props> = async ({ eyebrow }) 
               </div>
             </div>
           </div>
-        </FadeIn>
+        </Reveal>
       </div>
     </section>
   )

@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { FormError, FormSuccess, HoneypotField, PrivacyNotice } from '@/components/FormStatus'
 import { trackEvent } from '@/utilities/analytics'
+import { useFormSubmit } from '@/utilities/useFormSubmit'
 
 const AREAS_OF_INTEREST = [
   { label: 'Event Support', value: 'event-support' },
@@ -16,8 +18,6 @@ const AREAS_OF_INTEREST = [
 ]
 
 export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
   const [selectedAreas, setSelectedAreas] = useState<string[]>([])
 
   const toggleArea = (value: string) => {
@@ -26,87 +26,84 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
     )
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setStatus('loading')
-    setErrorMessage('')
-
-    const formData = new FormData(e.currentTarget)
-
-    try {
-      const res = await fetch('/api/volunteer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.get('name'),
-          email: formData.get('email'),
-          phone: formData.get('phone'),
-          city: formData.get('city'),
-          country: formData.get('country'),
-          areasOfInterest: selectedAreas,
-          message: formData.get('message'),
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setErrorMessage(data.error || 'Something went wrong')
-        setStatus('error')
-        return
-      }
-
-      setStatus('success')
-      trackEvent('volunteer_signup')
-    } catch {
-      setErrorMessage('Network error. Please try again.')
-      setStatus('error')
-    }
-  }
+  const { status, errorMessage, onSubmit } = useFormSubmit(
+    '/api/volunteer',
+    (formData) => ({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      city: formData.get('city'),
+      country: formData.get('country'),
+      areasOfInterest: selectedAreas,
+      message: formData.get('message'),
+      website: formData.get('website'),
+    }),
+    () => trackEvent('volunteer_signup'),
+  )
 
   if (status === 'success') {
     return (
-      <div className={className}>
+      <FormSuccess className={className}>
         <p className="text-lg font-medium">Thank you for volunteering!</p>
         <p className="text-muted-foreground mt-1">
           We&apos;ll be in touch with opportunities that match your interests.
         </p>
-      </div>
+      </FormSuccess>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className={className}>
+    <form onSubmit={onSubmit} className={className}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <Label htmlFor="vol-name">Name *</Label>
-          <Input id="vol-name" name="name" placeholder="Your name" required />
+          <Input id="vol-name" name="name" placeholder="Your name" autoComplete="name" required />
         </div>
         <div>
           <Label htmlFor="vol-email">Email *</Label>
-          <Input id="vol-email" name="email" type="email" placeholder="you@example.com" required />
+          <Input
+            id="vol-email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autoComplete="email"
+            required
+          />
         </div>
         <div>
           <Label htmlFor="vol-phone">Phone</Label>
-          <Input id="vol-phone" name="phone" type="tel" placeholder="Phone number" />
+          <Input
+            id="vol-phone"
+            name="phone"
+            type="tel"
+            placeholder="Phone number"
+            autoComplete="tel"
+          />
         </div>
         <div>
           <Label htmlFor="vol-city">City</Label>
-          <Input id="vol-city" name="city" placeholder="City" />
+          <Input id="vol-city" name="city" placeholder="City" autoComplete="address-level2" />
         </div>
         <div className="md:col-span-2">
           <Label htmlFor="vol-country">Country</Label>
-          <Input id="vol-country" name="country" placeholder="Country" />
+          <Input
+            id="vol-country"
+            name="country"
+            placeholder="Country"
+            autoComplete="country-name"
+          />
         </div>
-        <div className="md:col-span-2">
-          <Label>Areas of Interest</Label>
+        {}
+        <fieldset className="md:col-span-2">
+          <legend className="text-sm font-medium leading-none">Areas of Interest</legend>
           <div className="flex flex-wrap gap-2 mt-2">
             {AREAS_OF_INTEREST.map((area) => (
               <button
                 key={area.value}
                 type="button"
+                aria-pressed={selectedAreas.includes(area.value)}
                 onClick={() => toggleArea(area.value)}
-                className={`px-3 py-1.5 text-sm rounded-none border transition-colors ${
+                className={`min-h-[44px] px-3 py-1.5 text-sm rounded-none border transition-colors ${
                   selectedAreas.includes(area.value)
                     ? 'bg-primary text-primary-foreground border-primary-deep'
                     : 'border-border text-foreground hover:bg-accent'
@@ -116,7 +113,7 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
               </button>
             ))}
           </div>
-        </div>
+        </fieldset>
         <div className="md:col-span-2">
           <Label htmlFor="vol-message">Short Message</Label>
           <Textarea
@@ -127,10 +124,15 @@ export const VolunteerForm: React.FC<{ className?: string }> = ({ className }) =
           />
         </div>
       </div>
+      <HoneypotField />
       <Button type="submit" className="mt-4" disabled={status === 'loading'}>
         {status === 'loading' ? 'Submitting...' : 'Sign Up to Volunteer'}
       </Button>
-      {status === 'error' && <p className="text-sm text-destructive mt-2">{errorMessage}</p>}
+      <PrivacyNotice
+        className="mt-3"
+        purpose="We'll only use these details to contact you about volunteering."
+      />
+      {status === 'error' && <FormError className="mt-2" message={errorMessage} />}
     </form>
   )
 }

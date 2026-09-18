@@ -1,15 +1,5 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-/**
- * Adds the `sponsorshipTiers` layout block (used on the Become a Sponsor page)
- * and an optional `contact_email` field on the `sponsorInquiryForm` block.
- *
- * The block introduces a `tiers` array, each tier holding a nested `features`
- * array, mirrored on the `_pages_v` versions tables.
- *
- * Every statement is guarded so the migration is idempotent: it is correct
- * whether or not `push: true` has already created the tables in development.
- */
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     DO $$ BEGIN

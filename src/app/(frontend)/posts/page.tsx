@@ -123,7 +123,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         </div>
       )}
 
-      <CategoryFilter categories={categories.docs} />
+      <CategoryFilter categories={categories.docs} activeCategory={category} />
 
       {featuredPost && (
         <div className="container mt-8">

@@ -1,118 +1,83 @@
 import 'server-only'
 
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, type Payload } from 'payload'
 import { unstable_cache } from 'next/cache'
 import { cache } from 'react'
 
 import type { Event, GalleryImage, Post, Sponsor } from '@/payload-types'
+import { CACHE_TTL_SECONDS } from './cache'
 
-const DEFAULT_LIMIT = 3
-
-// Do not remove: the Data Cache survives deploys, so without a TTL a missed revalidateTag
-// freezes content indefinitely, and the date-based queries below cache a stale "now".
-const CACHE_TTL_SECONDS = 3600
-
-export const getUpcomingEvents = cache(async (limit: number = DEFAULT_LIMIT): Promise<Event[]> => {
-  const fetcher = unstable_cache(
+const findCached = <T>(
+  key: string[],
+  tag: string,
+  args: Parameters<Payload['find']>[0],
+): Promise<T[]> =>
+  unstable_cache(
     async () => {
       const payload = await getPayload({ config: configPromise })
-      const result = await payload.find({
-        collection: 'events',
-        where: {
-          date: { greater_than_equal: new Date().toISOString() },
-          eventStatus: { not_equals: 'cancelled' },
-          _status: { equals: 'published' },
-        },
-        sort: 'date',
-        limit,
-        depth: 1,
-      })
-      return result.docs as Event[]
+      const { docs } = await payload.find(args)
+      return docs as T[]
     },
-    ['upcoming-events', String(limit)],
-    { tags: ['events'], revalidate: CACHE_TTL_SECONDS },
-  )
-  return fetcher()
-})
+    key,
+    { tags: [tag], revalidate: CACHE_TTL_SECONDS },
+  )()
 
-export const getPastEvents = cache(async (limit: number = 20): Promise<Event[]> => {
-  const fetcher = unstable_cache(
-    async () => {
-      const payload = await getPayload({ config: configPromise })
-      const result = await payload.find({
-        collection: 'events',
-        where: {
-          date: { less_than: new Date().toISOString() },
-          eventStatus: { not_equals: 'cancelled' },
-          _status: { equals: 'published' },
-        },
-        sort: '-date',
-        limit,
-        depth: 1,
-      })
-      return result.docs as Event[]
+const published = { _status: { equals: 'published' } }
+
+export const getUpcomingEvents = cache((limit: number = 3) =>
+  findCached<Event>(['upcoming-events', String(limit)], 'events', {
+    collection: 'events',
+    where: {
+      date: { greater_than_equal: new Date().toISOString() },
+      eventStatus: { not_equals: 'cancelled' },
+      ...published,
     },
-    ['past-events', String(limit)],
-    { tags: ['events'], revalidate: CACHE_TTL_SECONDS },
-  )
-  return fetcher()
-})
-
-export const getLatestPosts = cache(async (limit: number = DEFAULT_LIMIT): Promise<Post[]> => {
-  const fetcher = unstable_cache(
-    async () => {
-      const payload = await getPayload({ config: configPromise })
-      const result = await payload.find({
-        collection: 'posts',
-        where: { _status: { equals: 'published' } },
-        sort: '-publishedAt',
-        limit,
-        depth: 1,
-      })
-      return result.docs as Post[]
-    },
-    ['latest-posts', String(limit)],
-    { tags: ['posts'], revalidate: CACHE_TTL_SECONDS },
-  )
-  return fetcher()
-})
-
-export const getFeaturedSponsors = cache(
-  async (limit: number = 10, featuredOnly = true): Promise<Sponsor[]> => {
-    const fetcher = unstable_cache(
-      async () => {
-        const payload = await getPayload({ config: configPromise })
-        const result = await payload.find({
-          collection: 'sponsors',
-          where: featuredOnly ? { featured: { equals: true } } : {},
-          sort: 'sortOrder',
-          limit,
-          depth: 1,
-        })
-        return result.docs as Sponsor[]
-      },
-      ['featured-sponsors', String(limit), String(featuredOnly)],
-      { tags: ['sponsors'], revalidate: CACHE_TTL_SECONDS },
-    )
-    return fetcher()
-  },
+    sort: 'date',
+    limit,
+    depth: 1,
+  }),
 )
 
-export const getGalleryImages = cache(async (limit: number = 100): Promise<GalleryImage[]> => {
-  const fetcher = unstable_cache(
-    async () => {
-      const payload = await getPayload({ config: configPromise })
-      const result = await payload.find({
-        collection: 'gallery-images',
-        sort: 'sortOrder',
-        limit,
-        depth: 2,
-      })
-      return result.docs as GalleryImage[]
+export const getPastEvents = cache((limit: number = 20) =>
+  findCached<Event>(['past-events', String(limit)], 'events', {
+    collection: 'events',
+    where: {
+      date: { less_than: new Date().toISOString() },
+      eventStatus: { not_equals: 'cancelled' },
+      ...published,
     },
-    ['gallery-images', String(limit)],
-    { tags: ['gallery-images'], revalidate: CACHE_TTL_SECONDS },
-  )
-  return fetcher()
-})
+    sort: '-date',
+    limit,
+    depth: 1,
+  }),
+)
+
+export const getLatestPosts = cache((limit: number = 3) =>
+  findCached<Post>(['latest-posts', String(limit)], 'posts', {
+    collection: 'posts',
+    where: published,
+    sort: '-publishedAt',
+    limit,
+    depth: 1,
+  }),
+)
+
+export const getFeaturedSponsors = cache((limit: number = 10, featuredOnly = true) =>
+  findCached<Sponsor>(['featured-sponsors', String(limit), String(featuredOnly)], 'sponsors', {
+    collection: 'sponsors',
+    where: featuredOnly ? { featured: { equals: true } } : {},
+    sort: 'sortOrder',
+    limit,
+    depth: 1,
+  }),
+)
+
+export const getGalleryImages = cache((limit: number = 100) =>
+  findCached<GalleryImage>(['gallery-images', String(limit)], 'gallery-images', {
+    collection: 'gallery-images',
+    sort: 'sortOrder',
+    limit,
+    depth: 2,
+  }),
+)

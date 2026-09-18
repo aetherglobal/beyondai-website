@@ -1,13 +1,5 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-/**
- * Adds the `hosts` array field on the Events collection, mirroring the existing
- * `speakers` field. Each host holds name/title/bio and an optional `photo`
- * upload, with a parallel table on the `_events_v` versions/drafts side.
- *
- * Every statement is guarded so the migration is idempotent: it is correct
- * whether or not `push: true` has already created the tables in development.
- */
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     CREATE TABLE IF NOT EXISTS "events_hosts" (

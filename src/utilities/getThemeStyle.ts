@@ -2,6 +2,11 @@ import type { SiteSetting } from '@/payload-types'
 
 const camelToKebab = (s: string): string => s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
 
+const SAFE_CSS_VALUE = /^[#a-zA-Z0-9(),.%\s/\-]+$/
+
+const isSafeCssValue = (value: string): boolean =>
+  SAFE_CSS_VALUE.test(value) && !/[<>;{}@]/.test(value)
+
 export function getThemeStyle(settings: SiteSetting | null): string {
   const theme = settings?.theme
   if (!theme) return ''
@@ -10,22 +15,21 @@ export function getThemeStyle(settings: SiteSetting | null): string {
 
   if (theme.colors) {
     for (const [key, value] of Object.entries(theme.colors)) {
-      if (typeof value === 'string' && value.trim()) {
+      if (typeof value === 'string' && value.trim() && isSafeCssValue(value.trim())) {
         declarations.push(`--${camelToKebab(key)}: ${value.trim()};`)
       }
     }
   }
 
-  if (theme.layout?.radius != null) {
-    declarations.push(`--radius: ${theme.layout.radius}px;`)
+  const radius = Number(theme.layout?.radius)
+  if (Number.isFinite(radius)) {
+    declarations.push(`--radius: ${radius}px;`)
   }
 
-  if (theme.layout?.containerMaxWidth != null) {
-    declarations.push(`--container-max: ${theme.layout.containerMaxWidth}px;`)
+  const containerMax = Number(theme.layout?.containerMaxWidth)
+  if (Number.isFinite(containerMax)) {
+    declarations.push(`--container-max: ${containerMax}px;`)
   }
-
-  // The Site Settings font selectors are intentionally inert: type is fixed to Clash
-  // Grotesk site-wide in globals.css.
 
   if (declarations.length === 0) return ''
 

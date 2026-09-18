@@ -256,7 +256,7 @@ export const Posts: CollectionConfig<'posts'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 1000,
       },
       schedulePublish: true,
     },

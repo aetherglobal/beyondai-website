@@ -1,15 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
+import { isAdmin } from '../../access/isAdmin'
 import { anyone } from '../../access/anyone'
 
 export const Volunteers: CollectionConfig<'volunteers'> = {
   slug: 'volunteers',
   access: {
     create: anyone,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    delete: isAdmin,
+    read: isAdmin,
+    update: isAdmin,
   },
   admin: {
     defaultColumns: ['name', 'email', 'city', 'country', 'createdAt'],
@@ -20,6 +20,7 @@ export const Volunteers: CollectionConfig<'volunteers'> = {
       name: 'name',
       type: 'text',
       required: true,
+      maxLength: 120,
     },
     {
       name: 'email',
@@ -29,6 +30,7 @@ export const Volunteers: CollectionConfig<'volunteers'> = {
     {
       name: 'phone',
       type: 'text',
+      maxLength: 40,
     },
     {
       type: 'row',
@@ -36,6 +38,7 @@ export const Volunteers: CollectionConfig<'volunteers'> = {
         {
           name: 'city',
           type: 'text',
+          maxLength: 100,
           admin: {
             width: '50%',
           },
@@ -43,6 +46,7 @@ export const Volunteers: CollectionConfig<'volunteers'> = {
         {
           name: 'country',
           type: 'text',
+          maxLength: 100,
           admin: {
             width: '50%',
           },
@@ -65,6 +69,7 @@ export const Volunteers: CollectionConfig<'volunteers'> = {
     {
       name: 'message',
       type: 'textarea',
+      maxLength: 5000,
     },
   ],
 }

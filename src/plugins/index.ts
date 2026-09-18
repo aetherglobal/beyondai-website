@@ -1,14 +1,12 @@
-import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { s3Storage } from '@payloadcms/storage-s3'
-import { Plugin } from 'payload'
+import { Field, Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { normalizeRedirectPath } from '@/utilities/normalizeRedirectPath'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
@@ -48,7 +46,6 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts', 'events'],
     overrides: {
-      // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'from') {
@@ -67,7 +64,7 @@ export const plugins: Plugin[] = [
             }
           }
           return field
-        })
+        }) as Field[]
       },
       hooks: {
         afterChange: [revalidateRedirects],
@@ -81,32 +78,6 @@ export const plugins: Plugin[] = [
   seoPlugin({
     generateTitle,
     generateURL,
-  }),
-  formBuilderPlugin({
-    fields: {
-      payment: false,
-    },
-    formOverrides: {
-      fields: ({ defaultFields }) => {
-        return defaultFields.map((field) => {
-          if ('name' in field && field.name === 'confirmationMessage') {
-            return {
-              ...field,
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                  ]
-                },
-              }),
-            }
-          }
-          return field
-        })
-      },
-    },
   }),
   searchPlugin({
     collections: ['posts', 'events'],

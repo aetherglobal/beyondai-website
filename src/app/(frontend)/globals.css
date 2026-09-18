@@ -38,17 +38,17 @@
   --popover-foreground: oklch(16.5% 0.02 260deg);
   --primary: oklch(82% 0.17 85deg);
   --primary-foreground: oklch(16.5% 0.02 260deg);
-  --primary-deep: oklch(58% 0.15 78deg);
+  --primary-deep: oklch(52% 0.15 78deg);
   --secondary: oklch(96.5% 0.005 260deg);
   --secondary-foreground: oklch(16.5% 0.02 260deg);
   --muted: oklch(96.5% 0.005 260deg);
-  --muted-foreground: oklch(55% 0.01 260deg);
+  --muted-foreground: oklch(52% 0.01 260deg);
   --accent: oklch(96.5% 0.005 260deg);
   --accent-foreground: oklch(16.5% 0.02 260deg);
   --destructive: oklch(57.7% 0.245 27.325deg);
   --destructive-foreground: oklch(100% 0 0deg);
   --border: oklch(92% 0.005 260deg);
-  --input: oklch(92% 0.005 260deg);
+  --input: oklch(64% 0.01 260deg);
   --ring: oklch(82% 0.17 85deg);
   --radius: 0;
   --container-max: 86rem;
@@ -138,8 +138,6 @@
   --tw-prose-headings: var(--foreground);
 }
 
-/* Left-aligned body prose for a clean editorial reading column.
-   (Justified text created uneven word-spacing / rivers on the web.) */
 .prose :where(p, li) {
   text-align: left;
 }
@@ -205,5 +203,26 @@ html {
 @media (min-width: 48rem) {
   .site-logo {
     height: var(--logo-h, 56px);
+  }
+}
+
+.reading-progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @keyframes reading-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .reading-progress {
+    display: block;
+    animation: reading-progress linear;
+    animation-timeline: scroll(root block);
   }
 }

@@ -5,7 +5,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import RichText from '@/components/RichText'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
+import { ArticleCard } from '@/components/ArticleCard'
 
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
@@ -59,7 +59,11 @@ export const ArchiveBlock: React.FC<
           <RichText className="ms-0 max-w-[48rem]" data={introContent} enableGutter={false} />
         </div>
       )}
-      <CollectionArchive posts={posts} />
+      <div className="container grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <ArticleCard key={post.id} post={post} />
+        ))}
+      </div>
     </div>
   )
 }

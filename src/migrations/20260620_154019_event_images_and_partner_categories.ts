@@ -1,29 +1,7 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-/**
- * Consolidated migration (supersedes the earlier split pair: the hand-written
- * event-image rename and the auto-generated partner-category restructure).
- *
- * It performs, in one coherent step, the transform from the baseline schema
- * (snapshot 20260421) to the current config:
- *
- *   1. Events image split — rename `hero_image_id` -> `flyer_image_id` (so the
- *      original single image becomes the Flyer and existing data is preserved),
- *      then add a new, empty `hero_image_id` for the Hero/background image.
- *      Mirrored on the `_events_v` versions table.
- *   2. Sponsors taxonomy — remap `knowledge-partner` -> `collaborator`,
- *      `community-partner` -> `media-partner`, and rebuild `enum_sponsors_type`.
- *   3. Contact submissions — same remap for `partnership_interest`.
- *   4. Gallery — create the `gallery_images` table and its
- *      `payload_locked_documents_rels` relationship.
- *
- * Every statement is guarded so the migration is idempotent: correct when run
- * linearly on a fresh/production DB, and a safe no-op on a DB that `push` has
- * already reconciled (e.g. the dev database).
- */
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-    -- 1. Events image split: rename hero_image_id -> flyer_image_id (preserves data) ----------
     DO $$ BEGIN
       IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='events' AND column_name='hero_image_id')
         AND NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='events' AND column_name='flyer_image_id')
@@ -55,7 +33,6 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       THEN ALTER INDEX "_events_v_version_version_hero_image_idx" RENAME TO "_events_v_version_version_flyer_image_idx"; END IF;
     END $$;
 
-    -- add the new (empty) hero_image_id for the Hero/background image
     ALTER TABLE "events" ADD COLUMN IF NOT EXISTS "hero_image_id" integer;
     DO $$ BEGIN
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='events_hero_image_id_media_id_fk')
@@ -71,7 +48,6 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     END $$;
     CREATE INDEX IF NOT EXISTS "_events_v_version_version_hero_image_idx" ON "_events_v" USING btree ("version_hero_image_id");
 
-    -- 2. Sponsors taxonomy -------------------------------------------------------------------
     DO $$ BEGIN
       IF EXISTS (SELECT 1 FROM pg_enum e JOIN pg_type t ON e.enumtypid = t.oid
                  WHERE t.typname = 'enum_sponsors_type' AND e.enumlabel IN ('knowledge-partner','community-partner'))
@@ -87,7 +63,6 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       END IF;
     END $$;
 
-    -- 3. Contact submissions partnership interest --------------------------------------------
     DO $$ BEGIN
       IF EXISTS (SELECT 1 FROM pg_enum e JOIN pg_type t ON e.enumtypid = t.oid
                  WHERE t.typname = 'enum_contact_submissions_partnership_interest' AND e.enumlabel IN ('knowledge-partnership','community-partnership'))
@@ -101,7 +76,6 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       END IF;
     END $$;
 
-    -- 4. Gallery images ----------------------------------------------------------------------
     CREATE TABLE IF NOT EXISTS "gallery_images" (
       "id" serial PRIMARY KEY NOT NULL,
       "image_id" integer NOT NULL,
@@ -138,13 +112,11 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 
 export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
-    -- 4. Gallery images (reverse) ------------------------------------------------------------
     ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_gallery_images_fk";
     DROP INDEX IF EXISTS "payload_locked_documents_rels_gallery_images_id_idx";
     ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "gallery_images_id";
     DROP TABLE IF EXISTS "gallery_images" CASCADE;
 
-    -- 3. Contact submissions (reverse) -------------------------------------------------------
     DO $$ BEGIN
       IF EXISTS (SELECT 1 FROM pg_enum e JOIN pg_type t ON e.enumtypid = t.oid
                  WHERE t.typname = 'enum_contact_submissions_partnership_interest' AND e.enumlabel IN ('collaboration','media-partnership'))
@@ -158,7 +130,6 @@ export async function down({ db }: MigrateDownArgs): Promise<void> {
       END IF;
     END $$;
 
-    -- 2. Sponsors taxonomy (reverse) ---------------------------------------------------------
     DO $$ BEGIN
       IF EXISTS (SELECT 1 FROM pg_enum e JOIN pg_type t ON e.enumtypid = t.oid
                  WHERE t.typname = 'enum_sponsors_type' AND e.enumlabel IN ('collaborator','media-partner'))
@@ -174,7 +145,6 @@ export async function down({ db }: MigrateDownArgs): Promise<void> {
       END IF;
     END $$;
 
-    -- 1. Events image split (reverse): drop new hero_image_id, rename flyer_image_id back -----
     DROP INDEX IF EXISTS "events_hero_image_idx";
     DROP INDEX IF EXISTS "_events_v_version_version_hero_image_idx";
     ALTER TABLE "events" DROP CONSTRAINT IF EXISTS "events_hero_image_id_media_id_fk";

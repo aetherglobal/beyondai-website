@@ -1,21 +1,13 @@
 import { HeaderClient } from './Component.client'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import type { SiteSetting } from '@/payload-types'
+import { getBranding } from '@/utilities/getBranding'
 import React from 'react'
 
 export async function Header() {
-  const [headerData, siteSettings] = await Promise.all([
+  const [headerData, { logoUrl, logoAlt, logoHeight }] = await Promise.all([
     getCachedGlobal('header', 1)(),
-    getCachedGlobal('site-settings', 1)() as Promise<SiteSetting | null>,
+    getBranding(),
   ])
-
-  const branding = siteSettings?.branding
-  const logoDark = branding?.logoDark && typeof branding.logoDark !== 'number' ? branding.logoDark : null
-  const logoLight = branding?.logo && typeof branding.logo !== 'number' ? branding.logo : null
-  const preferredLogo = logoDark || logoLight
-  const logoUrl = preferredLogo?.url || null
-  const logoAlt = preferredLogo?.alt || siteSettings?.siteName || 'Beyond AI'
-  const logoHeight = branding?.logoHeight ?? 56
 
   return (
     <HeaderClient

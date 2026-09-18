@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 
 import {
   FixedToolbarFeature,
@@ -13,6 +13,8 @@ import { slugField } from 'payload'
 import { revalidateEvent, revalidateDeleteEvent } from './hooks/revalidateEvent'
 import { syncEventStatus } from './hooks/syncEventStatus'
 
+import { validateHostedUrlField } from '@/fields/validateUrlField'
+
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -20,6 +22,33 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+
+const peopleArray = (name: 'hosts' | 'speakers', label: string): Field => ({
+  name,
+  type: 'array',
+  label,
+  admin: {
+    initCollapsed: true,
+  },
+  fields: [
+    {
+      name: 'person',
+      type: 'relationship',
+      relationTo: 'people',
+    },
+    {
+      name: 'role',
+      type: 'text',
+      admin: {
+        description: "Optional. Overrides the person's own title for this event only.",
+      },
+    },
+    { name: 'name', type: 'text', admin: { hidden: true } },
+    { name: 'title', type: 'text', admin: { hidden: true } },
+    { name: 'bio', type: 'textarea', admin: { hidden: true } },
+    { name: 'photo', type: 'upload', relationTo: 'media', admin: { hidden: true } },
+  ],
+})
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -149,64 +178,8 @@ export const Events: CollectionConfig<'events'> = {
         {
           label: 'Hosts, Speakers & Agenda',
           fields: [
-            {
-              name: 'hosts',
-              type: 'array',
-              label: 'Hosts',
-              admin: {
-                initCollapsed: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  type: 'text',
-                  required: true,
-                },
-                {
-                  name: 'title',
-                  type: 'text',
-                  label: 'Title / Role',
-                },
-                {
-                  name: 'bio',
-                  type: 'textarea',
-                },
-                {
-                  name: 'photo',
-                  type: 'upload',
-                  relationTo: 'media',
-                },
-              ],
-            },
-            {
-              name: 'speakers',
-              type: 'array',
-              label: 'Speakers',
-              admin: {
-                initCollapsed: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  type: 'text',
-                  required: true,
-                },
-                {
-                  name: 'title',
-                  type: 'text',
-                  label: 'Title / Role',
-                },
-                {
-                  name: 'bio',
-                  type: 'textarea',
-                },
-                {
-                  name: 'photo',
-                  type: 'upload',
-                  relationTo: 'media',
-                },
-              ],
-            },
+            peopleArray('hosts', 'Hosts'),
+            peopleArray('speakers', 'Speakers'),
             {
               name: 'agenda',
               type: 'array',
@@ -240,6 +213,7 @@ export const Events: CollectionConfig<'events'> = {
               name: 'lumaEventUrl',
               type: 'text',
               label: 'Luma Event URL',
+              validate: validateHostedUrlField(['lu.ma', 'www.lu.ma']),
               admin: {
                 description: 'Link to the Luma event page for registration',
               },
@@ -248,6 +222,7 @@ export const Events: CollectionConfig<'events'> = {
               name: 'lumaEmbedUrl',
               type: 'text',
               label: 'Luma Embed URL',
+              validate: validateHostedUrlField(['lu.ma', 'www.lu.ma']),
               admin: {
                 description: 'Optional: Luma embed URL for inline registration widget',
               },
@@ -321,7 +296,7 @@ export const Events: CollectionConfig<'events'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 1000,
       },
       schedulePublish: true,
     },

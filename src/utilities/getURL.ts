@@ -1,7 +1,5 @@
 import canUseDOM from './canUseDOM'
 
-// Required: `VERCEL_PROJECT_PRODUCTION_URL` is a bare hostname, and emitting it unprefixed
-// yields protocol-less URLs, which are invalid in sitemaps and robots.txt.
 const normaliseOrigin = (value: string) => {
   const trimmed = value.trim().replace(/\/+$/, '')
 
