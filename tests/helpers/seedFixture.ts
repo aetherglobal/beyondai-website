@@ -43,7 +43,7 @@ export async function seedFixture(): Promise<void> {
         slug: 'home',
         _status: 'published',
         hero: {
-          type: 'lowImpact',
+          type: 'pageHero',
           heading: 'Beyond AI',
           subtitle: 'Fixture hero for the end-to-end suite.',
         },
