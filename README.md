@@ -81,8 +81,12 @@ confirm the migration actually captures it before merging.
 ### Required Vercel configuration
 
 - Every variable in `.env.example` that has no default.
-- `CRON_SECRET` must be set, or the cron in `vercel.json` cannot run scheduled
-  publishing — Vercel passes it as a bearer token automatically when present.
+- `CRON_SECRET` must be set, or scheduled publishing cannot run. It is needed in two
+  places: as a Vercel environment variable, so `/api/payload-jobs/run` accepts the call,
+  and as a GitHub Actions repository secret, since the `Payload Jobs` workflow
+  (`.github/workflows/payload-jobs.yml`) is what invokes that endpoint every five
+  minutes. A Vercel cron is not used — an every-5-minute schedule exceeds the account's
+  cron allowance and Vercel rejects the whole deployment.
 - A WAF rate-limit rule on `/api/*`. The application has a small in-process throttle, but
   on serverless each instance counts separately; the edge rule is the real limit.
 

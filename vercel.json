@@ -3,11 +3,5 @@
     "deploymentEnabled": {
       "testing": false
     }
-  },
-  "crons": [
-    {
-      "path": "/api/payload-jobs/run",
-      "schedule": "*/5 * * * *"
-    }
-  ]
+  }
 }
