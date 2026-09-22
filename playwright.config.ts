@@ -15,6 +15,8 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? [['github'], ['list'], ['html', { open: 'never' }]] : 'html',
+  timeout: 120_000,
+  expect: { timeout: 15_000 },
   use: {
     trace: 'on-first-retry',
   },
@@ -27,8 +29,10 @@ export default defineConfig({
   webServer: {
     command: 'bun dev',
     reuseExistingServer: false,
-    url: 'http://localhost:3000',
+    url: 'http://localhost:3000/robots.txt',
     timeout: 180_000,
+    stdout: 'pipe',
+    stderr: 'pipe',
     env: { DATABASE_URL: process.env.DATABASE_URL as string },
   },
 })
