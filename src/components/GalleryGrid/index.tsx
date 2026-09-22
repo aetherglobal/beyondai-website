@@ -5,12 +5,9 @@ import dynamic from 'next/dynamic'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { MasonryPhotoAlbum, RenderImageContext, RenderImageProps } from 'react-photo-album'
 import { cn } from '@/utilities/ui'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { buildMediaLoader } from '@/utilities/payloadImageLoader'
-
-import 'react-photo-album/masonry.css'
 
 import type { Event, GalleryImage, Media } from '@/payload-types'
 
@@ -36,8 +33,6 @@ function toPhoto(img: GalleryImage) {
   }
 }
 
-type GalleryPhoto = ReturnType<typeof toPhoto>
-
 function toSlide(img: GalleryImage) {
   const media = img.image as Media
   const src = getMediaUrl(media.url, media.updatedAt)
@@ -48,31 +43,6 @@ function toSlide(img: GalleryImage) {
     alt: media.alt || img.caption || '',
     description: img.caption || undefined,
   }
-}
-
-function renderNextImage(
-  { alt = '', title, sizes }: RenderImageProps,
-  { photo, width, height }: RenderImageContext<GalleryPhoto>,
-) {
-  return (
-    <div
-      style={{
-        width: '100%',
-        position: 'relative',
-        aspectRatio: `${width} / ${height}`,
-      }}
-    >
-      <Image
-        fill
-        src={photo.src}
-        loader={photo.loader}
-        alt={alt}
-        title={title}
-        sizes={sizes}
-        className="object-cover"
-      />
-    </div>
-  )
 }
 
 export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, events }) => {
@@ -165,29 +135,30 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, events }) => {
             transition={{ duration: 0.25 }}
           >
             {filteredImages.length > 0 ? (
-              <MasonryPhotoAlbum
-                photos={photos}
-                columns={(containerWidth) => {
-                  if (containerWidth < 640) return 1
-                  if (containerWidth < 768) return 2
-                  if (containerWidth < 1024) return 3
-                  return 4
-                }}
-                spacing={12}
-                onClick={({ index }) => {
-                  setLightboxReady(true)
-                  setLightboxIndex(index)
-                }}
-                render={{ image: renderNextImage }}
-                defaultContainerWidth={1200}
-                sizes={{
-                  size: '1168px',
-                  sizes: [
-                    { viewport: '(max-width: 640px)', size: 'calc(100vw - 32px)' },
-                    { viewport: '(max-width: 1200px)', size: 'calc(100vw - 32px)' },
-                  ],
-                }}
-              />
+              <div className="columns-1 gap-3 sm:columns-2 md:columns-3 lg:columns-4 [&>*]:mb-3">
+                {photos.map((photo, index) => (
+                  <button
+                    key={photo.key}
+                    type="button"
+                    aria-label={photo.alt || `Open photo ${index + 1}`}
+                    onClick={() => {
+                      setLightboxReady(true)
+                      setLightboxIndex(index)
+                    }}
+                    className="relative block w-full break-inside-avoid overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
+                  >
+                    <Image
+                      fill
+                      src={photo.src}
+                      loader={photo.loader}
+                      alt={photo.alt}
+                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 292px"
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
             ) : (
               <div className="text-center py-20">
                 <p className="text-muted-foreground">No photos found for this event.</p>

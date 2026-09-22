@@ -2,7 +2,7 @@ import React from 'react'
 
 import type { PastEventsBlockType } from '@/payload-types'
 import { EventCard } from '@/components/EventCard'
-import { FadeIn } from '@/components/FadeIn'
+import { Reveal } from '@/components/Reveal'
 import { getPastEvents } from '@/blocks/_data/cached-queries'
 
 type Props = PastEventsBlockType & { disableInnerContainer?: boolean }
@@ -14,7 +14,7 @@ export const PastEventsBlockComponent: React.FC<Props> = async ({ eyebrow, headi
   return (
     <section className="bg-white py-16 md:py-20">
       <div className="container">
-        <FadeIn>
+        <Reveal>
           {eyebrow && (
             <p className="text-sm tracking-widest uppercase text-primary-deep mb-4 font-mono">
               {eyebrow}
@@ -25,7 +25,7 @@ export const PastEventsBlockComponent: React.FC<Props> = async ({ eyebrow, headi
               {heading}
             </h2>
           )}
-        </FadeIn>
+        </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event) => (
             <EventCard key={event.id} event={event} />

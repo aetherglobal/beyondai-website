@@ -9,6 +9,9 @@ import * as migration_20260713_161533_programs_grid_showcase from './20260713_16
 import * as migration_20260713_192243_remove_programs_grid_item_link from './20260713_192243_remove_programs_grid_item_link';
 import * as migration_20260723_140619_hero_carousel_slides from './20260723_140619_hero_carousel_slides';
 import * as migration_20260723_194627_hero_slide_heading_accent from './20260723_194627_hero_slide_heading_accent';
+import * as migration_20260917_205000_add_people_collection from './20260917_205000_add_people_collection';
+import * as migration_20260917_212436_add_user_roles from './20260917_212436_add_user_roles';
+import * as migration_20260918_103036_remove_form_builder_and_template_heroes from './20260918_103036_remove_form_builder_and_template_heroes';
 
 export const migrations = [
   {
@@ -64,6 +67,21 @@ export const migrations = [
   {
     up: migration_20260723_194627_hero_slide_heading_accent.up,
     down: migration_20260723_194627_hero_slide_heading_accent.down,
-    name: '20260723_194627_hero_slide_heading_accent'
+    name: '20260723_194627_hero_slide_heading_accent',
+  },
+  {
+    up: migration_20260917_205000_add_people_collection.up,
+    down: migration_20260917_205000_add_people_collection.down,
+    name: '20260917_205000_add_people_collection',
+  },
+  {
+    up: migration_20260917_212436_add_user_roles.up,
+    down: migration_20260917_212436_add_user_roles.down,
+    name: '20260917_212436_add_user_roles',
+  },
+  {
+    up: migration_20260918_103036_remove_form_builder_and_template_heroes.up,
+    down: migration_20260918_103036_remove_form_builder_and_template_heroes.down,
+    name: '20260918_103036_remove_form_builder_and_template_heroes'
   },
 ];

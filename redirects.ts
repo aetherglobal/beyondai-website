@@ -1,7 +1,5 @@
 import type { NextConfig } from 'next'
 
-// Add an entry only when a genuine equivalent exists today; otherwise prefer a 404. A
-// redirect to a page that does not serve the same need reads as a soft 404.
 const LEGACY_PATH_MAP: Record<string, string> = {
   '/ambition': '/about',
   '/conference': '/nyansa-futures',
@@ -18,9 +16,14 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   '/home': '/',
 }
 
-export const redirects: NextConfig['redirects'] = async () =>
-  Object.entries(LEGACY_PATH_MAP).map(([source, destination]) => ({
+export const redirects: NextConfig['redirects'] = async () => [
+  ...Object.entries(LEGACY_PATH_MAP).map(([source, destination]) => ({
     source,
     destination,
     permanent: true,
-  }))
+  })),
+  { source: '/posts/page/:pageNumber', destination: '/posts', permanent: true },
+  { source: '/pages-sitemap.xml', destination: '/sitemap.xml', permanent: true },
+  { source: '/posts-sitemap.xml', destination: '/sitemap.xml', permanent: true },
+  { source: '/events-sitemap.xml', destination: '/sitemap.xml', permanent: true },
+]

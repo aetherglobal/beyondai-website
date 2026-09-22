@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { trackEvent } from '@/utilities/analytics'
+import { useFormSubmit } from '@/utilities/useFormSubmit'
+import { FormError, FormSuccess, HoneypotField, PrivacyNotice } from '@/components/FormStatus'
 import {
   Select,
   SelectContent,
@@ -29,74 +31,42 @@ const labelCls = 'text-xs font-mono uppercase tracking-wider text-muted-foregrou
 const fieldCls = 'mt-1.5 h-11'
 
 export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className }) => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
   const [partnershipInterest, setPartnershipInterest] = useState('')
   const reduceMotion = useReducedMotion()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setStatus('loading')
-    setErrorMessage('')
-
-    const formData = new FormData(e.currentTarget)
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.get('name'),
-          email: formData.get('email'),
-          subject: `Sponsor Inquiry – ${PARTNERSHIP_OPTIONS.find((o) => o.value === partnershipInterest)?.label || 'General'}`,
-          message: formData.get('message'),
-          source: 'sponsor-inquiry',
-          organization: formData.get('organization'),
-          jobTitle: formData.get('jobTitle'),
-          partnershipInterest: partnershipInterest || undefined,
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setErrorMessage(data.error || 'Something went wrong')
-        setStatus('error')
-        return
-      }
-
-      setStatus('success')
-      trackEvent('sponsor_inquiry', { partnership_interest: partnershipInterest || undefined })
-    } catch {
-      setErrorMessage('Network error. Please try again.')
-      setStatus('error')
-    }
-  }
+  const { status, errorMessage, onSubmit } = useFormSubmit(
+    '/api/contact',
+    (formData) => ({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: `Sponsor Inquiry – ${PARTNERSHIP_OPTIONS.find((o) => o.value === partnershipInterest)?.label || 'General'}`,
+      message: formData.get('message'),
+      source: 'sponsor-inquiry',
+      organization: formData.get('organization'),
+      jobTitle: formData.get('jobTitle'),
+      website: formData.get('website'),
+      partnershipInterest: partnershipInterest || undefined,
+    }),
+    () => trackEvent('sponsor_inquiry', { partnership_interest: partnershipInterest || undefined }),
+  )
 
   const transition = reduceMotion ? { duration: 0 } : { duration: 0.3 }
 
   return (
     <AnimatePresence mode="wait">
       {status === 'success' ? (
-        <motion.div
-          key="success"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={transition}
-          className={className}
-        >
+        <FormSuccess key="success" className={className}>
           <CheckCircle className="h-8 w-8 text-primary-deep" aria-hidden="true" />
           <p className="mt-4 text-lg font-semibold text-foreground">Inquiry received</p>
           <p className="text-muted-foreground mt-1 leading-relaxed">
             Thank you for your interest in partnering with Beyond AI. Our team will respond within 2
             business days.
           </p>
-        </motion.div>
+        </FormSuccess>
       ) : (
         <motion.form
           key="form"
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
           className={className}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,7 +78,14 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
               <Label htmlFor="sponsor-name" className={labelCls}>
                 Name *
               </Label>
-              <Input id="sponsor-name" name="name" placeholder="Your name" required className={fieldCls} />
+              <Input
+                id="sponsor-name"
+                name="name"
+                placeholder="Your name"
+                autoComplete="name"
+                required
+                className={fieldCls}
+              />
             </div>
             <div>
               <Label htmlFor="sponsor-email" className={labelCls}>
@@ -119,6 +96,7 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
                 name="email"
                 type="email"
                 placeholder="you@example.com"
+                autoComplete="email"
                 required
                 className={fieldCls}
               />
@@ -131,6 +109,7 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
                 id="sponsor-org"
                 name="organization"
                 placeholder="Organization name"
+                autoComplete="organization"
                 required
                 className={fieldCls}
               />
@@ -139,12 +118,20 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
               <Label htmlFor="sponsor-title" className={labelCls}>
                 Job Title
               </Label>
-              <Input id="sponsor-title" name="jobTitle" placeholder="Your role" className={fieldCls} />
+              <Input
+                id="sponsor-title"
+                name="jobTitle"
+                placeholder="Your role"
+                autoComplete="organization-title"
+                className={fieldCls}
+              />
             </div>
             <div className="md:col-span-2">
-              <Label className={labelCls}>Partnership Interest</Label>
+              <Label className={labelCls} htmlFor="sponsor-interest">
+                Partnership Interest
+              </Label>
               <Select value={partnershipInterest} onValueChange={setPartnershipInterest}>
-                <SelectTrigger className="mt-1.5 h-11">
+                <SelectTrigger id="sponsor-interest" className="mt-1.5 h-11">
                   <SelectValue placeholder="Select partnership type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -170,6 +157,7 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
               />
             </div>
           </div>
+          <HoneypotField />
           <Button
             type="submit"
             size="lg"
@@ -178,7 +166,11 @@ export const SponsorInquiryForm: React.FC<{ className?: string }> = ({ className
           >
             {status === 'loading' ? 'Sending...' : 'Submit Partnership Inquiry'}
           </Button>
-          {status === 'error' && <p className="text-sm text-destructive mt-2">{errorMessage}</p>}
+          <PrivacyNotice
+            className="mt-3"
+            purpose="We'll only use these details to respond to your enquiry."
+          />
+          {status === 'error' && <FormError className="mt-2" message={errorMessage} />}
         </motion.form>
       )}
     </AnimatePresence>

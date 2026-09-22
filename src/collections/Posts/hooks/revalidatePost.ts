@@ -20,6 +20,14 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
       revalidateTag('posts', 'max')
     }
 
+    if (
+      previousDoc?.slug &&
+      previousDoc.slug !== doc.slug &&
+      previousDoc._status === 'published'
+    ) {
+      revalidatePath(`/posts/${previousDoc.slug}`)
+    }
+
     if (previousDoc._status === 'published' && doc._status !== 'published') {
       const oldPath = `/posts/${previousDoc.slug}`
 

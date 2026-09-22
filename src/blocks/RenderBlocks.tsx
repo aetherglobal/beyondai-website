@@ -5,7 +5,6 @@ import type { Page } from '@/payload-types'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
-import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { SplitContentBlock } from '@/blocks/SplitContent/Component'
 import { StatementSectionBlock } from '@/blocks/StatementSection/Component'
@@ -32,7 +31,6 @@ const blockComponents = {
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
-  formBlock: FormBlock,
   mediaBlock: MediaBlock,
   splitContent: SplitContentBlock,
   statementSection: StatementSectionBlock,
@@ -56,13 +54,7 @@ const blockComponents = {
   sponsorInquiryForm: SponsorInquiryFormBlockComponent,
 }
 
-const WRAPPED_BLOCKS = new Set([
-  'archive',
-  'content',
-  'cta',
-  'formBlock',
-  'mediaBlock',
-])
+const WRAPPED_BLOCKS = new Set(['archive', 'content', 'cta', 'mediaBlock'])
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
@@ -78,14 +70,13 @@ export const RenderBlocks: React.FC<{
           const { blockType } = block
 
           if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType as keyof typeof blockComponents]
+            const Block = blockComponents[
+              blockType as keyof typeof blockComponents
+            ] as unknown as React.FC<Record<string, unknown>>
 
             if (Block) {
               const needsWrapper = WRAPPED_BLOCKS.has(blockType)
-              const content = (
-                // @ts-expect-error there may be some mismatch between the expected types here
-                <Block {...block} disableInnerContainer />
-              )
+              const content = <Block {...block} disableInnerContainer />
               return needsWrapper ? (
                 <div className="my-16" key={index}>
                   {content}

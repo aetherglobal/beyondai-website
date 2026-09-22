@@ -1,4 +1,5 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -27,7 +28,7 @@ const nextConfig: NextConfig = {
     imageSizes: [300],
     minimumCacheTTL: 2678400,
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
+      ...[NEXT_PUBLIC_SERVER_URL ].map((item) => {
         const url = new URL(item)
 
         return {
@@ -35,8 +36,6 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-      // Do not add a `*.cloudfront.net` wildcard here: it would let any distribution be
-      // proxied through the image optimiser.
       ...(process.env.S3_PUBLIC_URL
         ? [{ hostname: new URL(process.env.S3_PUBLIC_URL).hostname, protocol: 'https' as const }]
         : []),
@@ -66,4 +65,10 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+export default withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  sourcemaps: { deleteSourcemapsAfterUpload: true },
+})

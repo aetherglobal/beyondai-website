@@ -1,4 +1,5 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import { getBranding } from '@/utilities/getBranding'
 import { resolveLinkHref } from '@/utilities/resolveLinkHref'
 import Link from 'next/link'
 import React from 'react'
@@ -6,14 +7,16 @@ import React from 'react'
 import { NewsletterForm } from '@/components/NewsletterForm'
 import { SiteLogo } from '@/components/SiteLogo'
 import { SocialLinks } from '@/components/SocialLinks'
+import { CookieSettingsLink } from '@/components/CookieConsent/ReopenLink'
 
 import type { Footer as FooterGlobal, SiteSetting } from '@/payload-types'
 import { DEFAULT_FOOTER_COLUMNS } from './defaults'
 
 export async function Footer() {
-  const [siteSettings, footerData] = await Promise.all([
-    getCachedGlobal('site-settings', 0)() as Promise<SiteSetting | null>,
+  const [siteSettings, footerData, { logoUrl, logoAlt, logoHeight }] = await Promise.all([
+    getCachedGlobal('site-settings', 1)() as Promise<SiteSetting | null>,
     getCachedGlobal('footer', 1)() as Promise<FooterGlobal | null>,
+    getBranding(),
   ])
 
   const columnsFromCMS = (footerData?.linkColumns ?? []).map((col) => ({
@@ -38,14 +41,6 @@ export async function Footer() {
   const copyrightTemplate =
     footerData?.copyrightText || '© {year} Beyond AI. All rights reserved.'
   const copyright = copyrightTemplate.replace('{year}', String(new Date().getFullYear()))
-
-  const branding = siteSettings?.branding
-  const logoDark = branding?.logoDark && typeof branding.logoDark !== 'number' ? branding.logoDark : null
-  const logoLight = branding?.logo && typeof branding.logo !== 'number' ? branding.logo : null
-  const preferredLogo = logoDark || logoLight
-  const logoUrl = preferredLogo?.url || null
-  const logoAlt = preferredLogo?.alt || siteSettings?.siteName || 'Beyond AI'
-  const logoHeight = branding?.logoHeight ?? 56
 
   return (
     <footer className="mt-16 border-t border-border bg-dark text-dark-foreground">
@@ -128,7 +123,13 @@ export async function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">{copyright}</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            <p>{copyright}</p>
+            <Link href="/privacy" className="hover:text-primary-deep transition-colors">
+              Privacy
+            </Link>
+            <CookieSettingsLink className="hover:text-primary-deep transition-colors" />
+          </div>
           <SocialLinks
             twitter={siteSettings?.socialLinks?.twitter}
             linkedin={siteSettings?.socialLinks?.linkedin}

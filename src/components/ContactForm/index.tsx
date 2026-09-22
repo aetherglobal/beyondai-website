@@ -1,69 +1,36 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { FormError, FormSuccess, HoneypotField, PrivacyNotice } from '@/components/FormStatus'
 import { trackEvent } from '@/utilities/analytics'
+import { useFormSubmit } from '@/utilities/useFormSubmit'
 
 export const ContactForm: React.FC<{ className?: string }> = ({ className }) => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setStatus('loading')
-    setErrorMessage('')
-
-    const formData = new FormData(e.currentTarget)
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.get('name'),
-          email: formData.get('email'),
-          subject: formData.get('subject'),
-          message: formData.get('message'),
-          source: 'contact-form',
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setErrorMessage(data.error || 'Something went wrong')
-        setStatus('error')
-        return
-      }
-
-      setStatus('success')
-      trackEvent('contact_submit', { source: 'contact-form' })
-    } catch {
-      setErrorMessage('Network error. Please try again.')
-      setStatus('error')
-    }
-  }
-
-  const handleReset = () => {
-    setStatus('idle')
-    setErrorMessage('')
-  }
+  const { status, errorMessage, onSubmit, reset } = useFormSubmit(
+    '/api/contact',
+    (formData) => ({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+      source: 'contact-form',
+      website: formData.get('website'),
+    }),
+    () => trackEvent('contact_submit', { source: 'contact-form' }),
+  )
 
   return (
     <div className={className}>
       <AnimatePresence mode="wait">
         {status === 'success' ? (
-          <motion.div
+          <FormSuccess
             key="success"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3 }}
             className="flex flex-col items-center justify-center py-12 text-center"
           >
             <motion.div
@@ -80,12 +47,12 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
               Thank you for reaching out. We typically respond within 48 hours.
             </p>
             <button
-              onClick={handleReset}
+              onClick={reset}
               className="text-sm text-primary-deep uppercase tracking-wider hover:brightness-110 transition-all"
             >
               Send Another Message
             </button>
-          </motion.div>
+          </FormSuccess>
         ) : (
           <motion.form
             key="form"
@@ -93,16 +60,29 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <Label htmlFor="contact-name">Name *</Label>
-                <Input id="contact-name" name="name" placeholder="Your name" required />
+                <Input
+                  id="contact-name"
+                  name="name"
+                  placeholder="Your name"
+                  autoComplete="name"
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="contact-email">Email *</Label>
-                <Input id="contact-email" name="email" type="email" placeholder="you@example.com" required />
+                <Input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  required
+                />
               </div>
               <div className="md:col-span-2">
                 <Label htmlFor="contact-subject">Subject</Label>
@@ -119,6 +99,7 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
                 />
               </div>
             </div>
+            <HoneypotField />
             <Button
               type="submit"
               className="mt-6 w-full uppercase tracking-wider font-semibold"
@@ -126,9 +107,11 @@ export const ContactForm: React.FC<{ className?: string }> = ({ className }) => 
             >
               {status === 'loading' ? 'Sending...' : 'Send Message'}
             </Button>
-            {status === 'error' && (
-              <p className="text-sm text-destructive mt-3">{errorMessage}</p>
-            )}
+            <PrivacyNotice
+              className="mt-3"
+              purpose="We'll only use these details to reply to you."
+            />
+            {status === 'error' && <FormError className="mt-3" message={errorMessage} />}
           </motion.form>
         )}
       </AnimatePresence>

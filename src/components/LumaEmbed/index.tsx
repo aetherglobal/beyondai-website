@@ -1,12 +1,25 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 
+import { isSafeHref } from '@/utilities/resolveLinkHref'
+
+const LUMA_HOSTS = new Set(['lu.ma', 'www.lu.ma'])
+
+const isLumaUrl = (value: string): boolean => {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && LUMA_HOSTS.has(url.hostname)
+  } catch {
+    return false
+  }
+}
+
 export const LumaEmbed: React.FC<{
   embedUrl?: string | null
   eventUrl?: string | null
   className?: string
 }> = ({ embedUrl, eventUrl, className }) => {
-  if (embedUrl) {
+  if (embedUrl && isLumaUrl(embedUrl)) {
     return (
       <div className={className}>
         <iframe
@@ -23,7 +36,7 @@ export const LumaEmbed: React.FC<{
     )
   }
 
-  if (eventUrl) {
+  if (eventUrl && isSafeHref(eventUrl)) {
     return (
       <div className={className}>
         <Button asChild size="lg">

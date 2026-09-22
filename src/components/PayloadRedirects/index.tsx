@@ -14,8 +14,6 @@ interface Props {
 export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }) => {
   const redirects = await getCachedRedirects()()
 
-  // Normalized on both sides: rows saved before the beforeValidate hook existed can still
-  // hold an origin, a trailing slash, or mixed case.
   const requestedPath = normalizeRedirectPath(url)
   const redirectItem = redirects.find(
     (redirect) => normalizeRedirectPath(redirect.from) === requestedPath,
