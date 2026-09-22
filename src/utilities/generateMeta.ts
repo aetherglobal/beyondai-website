@@ -68,6 +68,6 @@ export const generateMeta = async (args: {
       title,
       url: canonical,
     }),
-    title: title ? { absolute: title } : undefined,
+    ...(title ? { title: { absolute: title } } : {}),
   }
 }

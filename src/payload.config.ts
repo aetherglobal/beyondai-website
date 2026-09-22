@@ -31,6 +31,15 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const databaseUrl = process.env.DATABASE_URL || ''
+const isLocalDatabase = /^(localhost|127\.0\.0\.1|::1|postgres|host\.docker\.internal)$/.test(
+  (() => {
+    try {
+      return new URL(databaseUrl).hostname
+    } catch {
+      return ''
+    }
+  })(),
+)
 const dbCaCert = process.env.DATABASE_CA_CERT
 const dbConnectionString =
   dbCaCert && databaseUrl
@@ -85,7 +94,7 @@ export default buildConfig({
       max: 3,
       ...(dbCaCert ? { ssl: { ca: dbCaCert, rejectUnauthorized: true } } : {}),
     },
-    push: process.env.NODE_ENV !== 'production',
+    push: process.env.NODE_ENV !== 'production' && isLocalDatabase,
   }),
   collections: [Pages, Posts, Events, People, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
