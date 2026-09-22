@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -10,6 +11,7 @@ import { Events } from './collections/Events'
 import { GalleryImages } from './collections/GalleryImages'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
+import { People } from './collections/People'
 import { Posts } from './collections/Posts'
 import { Sponsors } from './collections/Sponsors'
 import { Users } from './collections/Users'
@@ -21,14 +23,23 @@ import { SiteSettings } from './globals/SiteSettings/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { assertEnv } from './utilities/requireEnv'
+
+assertEnv()
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// `sslmode` must be stripped when DATABASE_CA_CERT is set: pg maps `sslmode=require` to
-// `verify-full` and lets it override the explicit `ssl` object, which fails against RDS's
-// private CA. Without the cert var, RDS needs `?sslmode=no-verify` in the URL instead.
 const databaseUrl = process.env.DATABASE_URL || ''
+const isLocalDatabase = /^(localhost|127\.0\.0\.1|::1|postgres|host\.docker\.internal)$/.test(
+  (() => {
+    try {
+      return new URL(databaseUrl).hostname
+    } catch {
+      return ''
+    }
+  })(),
+)
 const dbCaCert = process.env.DATABASE_CA_CERT
 const dbConnectionString =
   dbCaCert && databaseUrl
@@ -49,10 +60,6 @@ export default buildConfig({
     payload.db.bulkOperationsSingleTransaction = true
   },
   admin: {
-    components: {
-      beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard'],
-    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -84,19 +91,18 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: dbConnectionString,
-      max: 10,
+      max: 3,
       ...(dbCaCert ? { ssl: { ca: dbCaCert, rejectUnauthorized: true } } : {}),
     },
-    push: process.env.NODE_ENV !== 'production',
+    push: process.env.NODE_ENV !== 'production' && isLocalDatabase,
   }),
-  collections: [Pages, Posts, Events, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
+  collections: [Pages, Posts, Events, People, Media, Categories, Sponsors, GalleryImages, Volunteers, ContactSubmissions, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  // Do not remove: this seeds Payload's CSRF allowlist, and an empty allowlist makes
-  // `extractJWT` accept the session cookie from any Origin.
+  maxDepth: 3,
   serverURL: getServerSideURL(),
   upload: {
     limits: {
-      fileSize: 20 * 1024 * 1024, // 20 MB
+      fileSize: 20 * 1024 * 1024,
     },
     abortOnLimit: true,
   },
@@ -104,6 +110,21 @@ export default buildConfig({
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
+  email: process.env.SMTP_HOST
+    ? nodemailerAdapter({
+        defaultFromAddress: process.env.SMTP_FROM_ADDRESS || 'info@beyondai.africa',
+        defaultFromName: process.env.SMTP_FROM_NAME || 'Beyond AI',
+        transportOptions: {
+          host: process.env.SMTP_HOST,
+          port: Number(process.env.SMTP_PORT || 587),
+          secure: Number(process.env.SMTP_PORT || 587) === 465,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        },
+      })
+    : undefined,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

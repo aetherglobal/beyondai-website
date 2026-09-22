@@ -1,13 +1,5 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-/**
- * Adds the `heroCarousel` hero type and its `slides` array (each slide holds a
- * nested `ctas` array), mirrored on the `_pages_v` versions tables.
- *
- * Every statement is guarded so the migration is idempotent: it is correct
- * whether or not `push: true` has already created the tables/enum values in
- * development.
- */
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     DO $$ BEGIN
@@ -115,11 +107,6 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     CREATE INDEX IF NOT EXISTS "_pages_v_version_hero_slides_media_idx" ON "_pages_v_version_hero_slides" USING btree ("media_id");`)
 }
 
-/**
- * Reverting removes the slides tables and the `heroCarousel` enum value.
- * Any page still set to `heroCarousel` must be switched to another hero type
- * before running this down migration, or the enum recreation will fail.
- */
 export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
     DROP TABLE IF EXISTS "pages_hero_slides_ctas" CASCADE;

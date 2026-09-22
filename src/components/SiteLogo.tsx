@@ -9,6 +9,8 @@ interface SiteLogoProps {
   fetchPriority?: 'auto' | 'high' | 'low'
 }
 
+const LOGO_ASPECT_RATIO = 3.2
+
 export const SiteLogo: React.FC<SiteLogoProps> = ({
   src,
   alt = 'Beyond AI',
@@ -23,10 +25,11 @@ export const SiteLogo: React.FC<SiteLogoProps> = ({
   const style = { '--logo-h': `${logoHeight}px` } as CSSProperties
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={resolvedSrc}
       alt={alt}
+      width={Math.round(logoHeight * LOGO_ASPECT_RATIO)}
+      height={logoHeight}
       style={style}
       className={`site-logo ${className}`.trim()}
       loading={loading}

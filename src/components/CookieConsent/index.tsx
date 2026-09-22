@@ -6,6 +6,12 @@ import { Button } from '@/components/ui/button'
 
 const STORAGE_KEY = 'ba-cookie-consent'
 
+export const REOPEN_EVENT = 'ba:reopen-cookie-consent'
+
+export function reopenCookieConsent() {
+  window.dispatchEvent(new Event(REOPEN_EVENT))
+}
+
 type ConsentValue = 'granted' | 'denied'
 
 function updateConsent(value: ConsentValue) {
@@ -31,9 +37,14 @@ export function CookieConsent() {
     if (stored === 'granted') {
       updateConsent('granted')
     } else if (stored !== 'denied') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- banner visibility depends on a client-only localStorage read that must happen after mount
       setVisible(true)
     }
+  }, [])
+
+  useEffect(() => {
+    const reopen = () => setVisible(true)
+    window.addEventListener(REOPEN_EVENT, reopen)
+    return () => window.removeEventListener(REOPEN_EVENT, reopen)
   }, [])
 
   const choose = (value: ConsentValue) => {

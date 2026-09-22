@@ -9,7 +9,7 @@ import { AnimatedStats } from '@/components/AnimatedStats'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { FadeIn } from '@/components/FadeIn'
+import { Reveal } from '@/components/Reveal'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
@@ -111,7 +111,7 @@ export default async function NyansaFuturesPage() {
       {data?.description && (
         <section className="bg-white py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 <div className="lg:col-span-5">
                   {data?.heroImage && typeof data.heroImage !== 'number' ? (
@@ -134,7 +134,7 @@ export default async function NyansaFuturesPage() {
                   </div>
                 </div>
               </div>
-            </FadeIn>
+            </Reveal>
           </div>
         </section>
       )}
@@ -142,7 +142,7 @@ export default async function NyansaFuturesPage() {
       {data?.whyItMatters && (
         <section className="bg-primary py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
                 <div>
                   <p className="text-sm tracking-widest uppercase text-primary-foreground mb-4">
@@ -160,7 +160,7 @@ export default async function NyansaFuturesPage() {
                   </div>
                 </div>
               </div>
-            </FadeIn>
+            </Reveal>
           </div>
         </section>
       )}
@@ -168,22 +168,22 @@ export default async function NyansaFuturesPage() {
       {attendees.length > 0 && (
         <section className="bg-dark py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Audience]</p>
               <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Who Should Attend
               </h2>
-            </FadeIn>
+            </Reveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {attendees.map((item, i) => (
-                <FadeIn key={i} delay={i * 0.05}>
+                <Reveal key={i} delay={i * 50}>
                   <div className="group flex items-start gap-4 p-6 bg-card border-l-2 border-transparent hover:border-primary-deep transition-all duration-300">
                     <span className="text-primary-deep text-sm font-mono shrink-0 mt-0.5">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className="text-sm text-foreground leading-relaxed">{item.trim()}</span>
                   </div>
-                </FadeIn>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -193,22 +193,22 @@ export default async function NyansaFuturesPage() {
       {data?.format && (
         <section className="bg-white py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Format]</p>
               <h2 className="text-section font-bold uppercase tracking-tight leading-[1.1] mb-12 text-gray-900">
                 Conference Format
               </h2>
-            </FadeIn>
+            </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {formatBlocks.map((block, i) => (
-                <FadeIn key={i} delay={i * 0.1}>
+                <Reveal key={i} delay={i * 100}>
                   <div className="border-t-2 border-primary-deep pt-6">
                     <span className="text-3xl font-bold text-primary-deep font-mono">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <p className="text-gray-700 leading-relaxed mt-3 text-justify hyphens-auto">{block.trim()}</p>
                   </div>
-                </FadeIn>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -218,17 +218,20 @@ export default async function NyansaFuturesPage() {
       {data?.keyThemes && data.keyThemes.length > 0 && (
         <section className="bg-dark py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[Themes]</p>
               <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-12">
                 Key Themes
               </h2>
-            </FadeIn>
+            </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {data.keyThemes.map((item, i) => (
-                <FadeIn key={i} delay={i * 0.08}>
+                <Reveal key={i} delay={i * 80}>
                   <div className="group relative p-8 md:p-10 bg-card border-t-2 border-transparent hover:border-primary-deep transition-all duration-300">
-                    <span className="text-4xl font-bold text-primary-deep/40 group-hover:text-primary-deep transition-colors font-mono">
+                    <span
+                      aria-hidden="true"
+                      className="text-4xl font-bold text-primary-deep/40 group-hover:text-primary-deep transition-colors font-mono"
+                    >
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <h3 className="text-lg font-bold text-foreground mt-3 mb-2 tracking-tight">
@@ -240,7 +243,7 @@ export default async function NyansaFuturesPage() {
                       </p>
                     )}
                   </div>
-                </FadeIn>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -250,7 +253,7 @@ export default async function NyansaFuturesPage() {
       {data?.expectedOutcomes && data.expectedOutcomes.length > 0 && (
         <section className="bg-primary py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <div className="max-w-3xl">
                 <p className="text-sm tracking-widest uppercase text-primary-foreground mb-4">
                   [Outcomes]
@@ -259,15 +262,15 @@ export default async function NyansaFuturesPage() {
                   Expected Outcomes
                 </h2>
               </div>
-            </FadeIn>
+            </Reveal>
             <div className="max-w-3xl">
               {data.expectedOutcomes.map((item, i) => (
-                <FadeIn key={i} delay={i * 0.08}>
+                <Reveal key={i} delay={i * 80}>
                   <div className="flex items-start gap-4 py-5 border-b border-foreground/10 last:border-b-0">
                     <ArrowRight className="w-5 h-5 text-primary-foreground shrink-0 mt-0.5" />
                     <p className="text-primary-foreground leading-relaxed text-justify hyphens-auto">{item.outcome}</p>
                   </div>
-                </FadeIn>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -277,7 +280,7 @@ export default async function NyansaFuturesPage() {
       {faqItems.length > 0 && (
         <section className="bg-white py-16 md:py-20">
           <div className="container">
-            <FadeIn>
+            <Reveal>
               <div className="max-w-3xl mx-auto">
                 <p className="text-sm tracking-widest uppercase text-primary-deep mb-4">[FAQ]</p>
                 <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-8 text-gray-900">
@@ -288,14 +291,14 @@ export default async function NyansaFuturesPage() {
                   className="[&_button>span:first-child]:text-gray-900 [&_button>span:last-child]:text-gray-500 [&>div>div>div]:text-gray-600 divide-gray-200"
                 />
               </div>
-            </FadeIn>
+            </Reveal>
           </div>
         </section>
       )}
 
       <section className="bg-dark py-16 md:py-20">
         <div className="container text-center max-w-2xl mx-auto">
-          <FadeIn>
+          <Reveal>
             <h2 className="text-section text-foreground font-bold uppercase tracking-tight leading-[1.1] mb-4">
               Be Part of Africa&apos;s AI Future
             </h2>
@@ -321,7 +324,7 @@ export default async function NyansaFuturesPage() {
                 Become a Sponsor
               </Link>
             </div>
-          </FadeIn>
+          </Reveal>
         </div>
       </section>
     </article>

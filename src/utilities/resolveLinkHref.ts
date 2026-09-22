@@ -16,6 +16,15 @@ type LinkLike = {
     | undefined
 } | null | undefined
 
+export function isSafeHref(url: string): boolean {
+  const value = url.trim()
+  if (!value) return false
+
+  if (/^[/#?]/.test(value)) return true
+
+  return /^(https?:\/\/|mailto:|tel:)/i.test(value)
+}
+
 export function resolveLinkHref(link: LinkLike): string {
   if (!link) return '#'
 
@@ -26,5 +35,7 @@ export function resolveLinkHref(link: LinkLike): string {
     return `${prefix}/${slug}`
   }
 
-  return link.url || '#'
+  if (link.url && isSafeHref(link.url)) return link.url
+
+  return '#'
 }

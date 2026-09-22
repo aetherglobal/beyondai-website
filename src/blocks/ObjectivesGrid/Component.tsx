@@ -20,7 +20,10 @@ export const ObjectivesGridBlock: React.FC<Props> = ({ eyebrow, heading, items }
           {items.map((item, i) => (
             <Reveal key={i} delay={i * 70} className="h-full">
               <div className="group flex h-full flex-col border border-border bg-secondary/30 p-8 transition-colors hover:border-primary-deep">
-                <p className="text-5xl md:text-6xl font-bold leading-none text-primary-deep/25 tabular-nums transition-colors group-hover:text-primary-deep/40">
+                <p
+                  aria-hidden="true"
+                  className="text-5xl md:text-6xl font-bold leading-none text-primary-deep/25 tabular-nums transition-colors group-hover:text-primary-deep/40"
+                >
                   {item.number}
                 </p>
                 <h3 className="mt-6 text-lg font-bold tracking-tight">{item.title}</h3>

@@ -97,7 +97,7 @@ export const SiteSettings: GlobalConfig = {
         },
         {
           label: 'Theme',
-          description: 'Colors, typography, and layout tokens. Changes apply site-wide.',
+          description: 'Colors and layout tokens. Changes apply site-wide.',
           fields: [
             {
               name: 'theme',
@@ -131,36 +131,6 @@ export const SiteSettings: GlobalConfig = {
                     colorField('border', 'Border', 'oklch(92% 0.005 260deg)'),
                     colorField('input', 'Input border', 'oklch(92% 0.005 260deg)'),
                     colorField('ring', 'Focus ring', 'oklch(82% 0.17 85deg)'),
-                  ],
-                },
-                {
-                  name: 'typography',
-                  type: 'group',
-                  label: 'Typography',
-                  fields: [
-                    {
-                      name: 'fontSans',
-                      type: 'select',
-                      defaultValue: 'sora',
-                      options: [
-                        { label: 'Sora', value: 'sora' },
-                        { label: 'Inter', value: 'inter' },
-                        { label: 'Manrope', value: 'manrope' },
-                        { label: 'DM Sans', value: 'dm-sans' },
-                        { label: 'Space Grotesk', value: 'space-grotesk' },
-                        { label: 'IBM Plex Sans', value: 'ibm-plex-sans' },
-                      ],
-                    },
-                    {
-                      name: 'fontMono',
-                      type: 'select',
-                      defaultValue: 'space-mono',
-                      options: [
-                        { label: 'Space Mono', value: 'space-mono' },
-                        { label: 'JetBrains Mono', value: 'jetbrains-mono' },
-                        { label: 'IBM Plex Mono', value: 'ibm-plex-mono' },
-                      ],
-                    },
                   ],
                 },
                 {

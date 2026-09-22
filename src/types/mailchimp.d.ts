@@ -13,6 +13,7 @@ declare module '@mailchimp/mailchimp_marketing' {
 
   interface Lists {
     addListMember(listId: string, body: MemberBody): Promise<unknown>
+    deleteListMemberPermanent(listId: string, subscriberHash: string): Promise<unknown>
   }
 
   const mailchimp: {

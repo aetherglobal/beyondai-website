@@ -15,7 +15,6 @@ const clashGrotesk = localFont({
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
-import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
@@ -26,8 +25,11 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { SiteSetting } from '@/payload-types'
 import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { AnalyticsPageView } from '@/components/Analytics/AnalyticsPageView'
 import { CookieConsent } from '@/components/CookieConsent'
+import { StructuredData, organizationSchema } from '@/components/StructuredData'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -55,23 +57,28 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         )}
       </head>
       <body>
+        <StructuredData data={organizationSchema(settings)} />
         {gaId ? (
           <Script id="ga-consent-default" strategy="beforeInteractive">
             {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});`}
           </Script>
         ) : null}
-        <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
+        <AdminBar
+          adminBarProps={{
+            preview: isEnabled,
+          }}
+        />
 
-          <Header />
-          {children}
-          <Footer />
-          {gaId ? <CookieConsent /> : null}
-        </Providers>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:outline focus:outline-2 focus:outline-primary-deep"
+        >
+          Skip to content
+        </a>
+        <Header />
+        <main id="main-content">{children}</main>
+        <Footer />
+        {gaId ? <CookieConsent /> : null}
         {gaId ? (
           <>
             <Suspense fallback={null}>
@@ -80,6 +87,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <GoogleAnalytics gaId={gaId} />
           </>
         ) : null}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

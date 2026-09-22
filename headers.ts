@@ -5,10 +5,16 @@ const baselineHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains',
+  },
+  {
+    key: 'Reporting-Endpoints',
+    value: 'csp-endpoint="/api/csp-report"',
+  },
 ]
 
-// Report-only: enforcing blind risks breaking /admin, which needs inline scripts and styles.
-// Promote once the console is clean there, adding `upgrade-insecure-requests` at that point.
 const buildContentSecurityPolicy = () => {
   const mediaOrigin = process.env.S3_PUBLIC_URL ? new URL(process.env.S3_PUBLIC_URL).origin : ''
 
@@ -24,6 +30,8 @@ const buildContentSecurityPolicy = () => {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'self'",
+    'report-uri /api/csp-report',
+    "report-to 'csp-endpoint'",
   ]
     .filter(Boolean)
     .join('; ')

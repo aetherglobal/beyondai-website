@@ -10,9 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Verify PR comes from staging branch
+        # Passed through `env` rather than interpolated directly into the script: GitHub
+        # substitutes `${{ }}` before the shell parses it, and ref names may contain
+        # shell metacharacters (CWE-94 script injection).
+        env:
+          HEAD_REF: ${{ github.head_ref }}
         run: |
-          if [ "${{ github.head_ref }}" != "staging" ]; then
-            echo "::error::PRs to main must come from the 'staging' branch. Got '${{ github.head_ref }}' instead."
+          if [ "$HEAD_REF" != "staging" ]; then
+            echo "::error::PRs to main must come from the 'staging' branch. Got '$HEAD_REF' instead."
             echo ""
             echo "Follow the branching workflow: dev → staging → main"
             exit 1

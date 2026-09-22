@@ -1,36 +1,42 @@
 import type { CollectionAfterReadHook } from 'payload'
-import { User } from 'src/payload-types'
 
 const DEFAULT_AUTHOR_NAME = 'Beyond AI'
 
-export const populateAuthors: CollectionAfterReadHook = async ({ doc, req: { payload } }) => {
+export const populateAuthors: CollectionAfterReadHook = async ({ doc, req }) => {
   if (doc?.authorName) {
     doc.populatedAuthors = [{ id: 'manual', name: doc.authorName }]
     return doc
   }
 
-  if (doc?.authors && doc?.authors?.length > 0) {
-    const authorDocs: User[] = []
+  if (Array.isArray(doc?.authors) && doc.authors.length > 0) {
+    const ids = doc.authors
+      .map((author: unknown) =>
+        typeof author === 'object' && author ? (author as { id?: unknown }).id : author,
+      )
+      .filter((id: unknown) => id !== undefined && id !== null)
 
-    for (const author of doc.authors) {
-      try {
-        const authorDoc = await payload.findByID({
-          id: typeof author === 'object' ? author?.id : author,
-          collection: 'users',
-          depth: 0,
-        })
+    if (ids.length > 0) {
+      const { docs } = await req.payload.find({
+        collection: 'users',
+        where: { id: { in: ids } },
+        depth: 0,
+        limit: ids.length,
+        pagination: false,
+        req,
+      })
 
-        if (authorDoc) {
-          authorDocs.push(authorDoc)
-        }
+      type FoundUser = (typeof docs)[number]
+      const byId = new Map<string, FoundUser>(docs.map((user: FoundUser) => [String(user.id), user]))
+      const ordered = ids
+        .map((id: unknown) => byId.get(String(id)))
+        .filter((user: FoundUser | undefined): user is FoundUser => Boolean(user))
 
-        if (authorDocs.length > 0) {
-          doc.populatedAuthors = authorDocs.map((authorDoc) => ({
-            id: authorDoc.id,
-            name: authorDoc.name,
-          }))
-        }
-      } catch {}
+      if (ordered.length > 0) {
+        doc.populatedAuthors = ordered.map((user: FoundUser) => ({
+          id: user.id,
+          name: user.name,
+        }))
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react'
 import { Media } from '@/components/Media'
 
 import type { Event } from '@/payload-types'
+import { eventDateParts } from '@/utilities/formatEventDate'
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   'ai-watch': 'AI Watch',
@@ -18,10 +19,7 @@ export const EventCard: React.FC<{
 }> = ({ event, className }) => {
   const { title, slug, date, location, isVirtual, flyerImage, lumaEventUrl, eventStatus, eventType } = event
 
-  const d = new Date(date)
-  const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
-  const day = d.getDate()
-  const formattedTime = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+  const { month, day, time: formattedTime } = eventDateParts(date)
 
   return (
     <article
@@ -47,7 +45,7 @@ export const EventCard: React.FC<{
                 Cancelled
               </span>
             )}
-            <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-primary-deep/80 border border-primary-deep/20 mb-2">
+            <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-primary-deep border border-primary-deep/20 mb-2">
               {EVENT_TYPE_LABELS[eventType] || eventType}
             </span>
 

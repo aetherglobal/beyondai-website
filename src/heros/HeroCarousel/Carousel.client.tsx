@@ -2,14 +2,16 @@
 
 import React from 'react'
 import Link from 'next/link'
+import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { useReducedMotion } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 
 import type { Media as MediaType } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
-import { Carousel, CarouselContent, CarouselItem, useCarousel } from '@/components/ui/carousel'
+
+type EmblaApi = NonNullable<ReturnType<typeof useEmblaCarousel>[1]>
 
 export type CarouselCta = {
   label: string
@@ -98,9 +100,13 @@ const HeroSlide: React.FC<{ slide: CarouselSlide; first: boolean }> = ({ slide, 
   )
 }
 
-const SlideControls: React.FC<{ count: number }> = ({ count }) => {
-  const { api, scrollPrev, scrollNext } = useCarousel()
+const SlideControls: React.FC<{
+  api: EmblaApi | undefined
+  count: number
+  autoplays: boolean
+}> = ({ api, count, autoplays }) => {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const [isPlaying, setIsPlaying] = React.useState(autoplays)
 
   React.useEffect(() => {
     if (!api) return
@@ -114,12 +120,30 @@ const SlideControls: React.FC<{ count: number }> = ({ count }) => {
     }
   }, [api])
 
+  const toggleAutoplay = React.useCallback(() => {
+    const autoplay = api?.plugins()?.autoplay as { play: () => void; stop: () => void } | undefined
+    if (!autoplay) return
+
+    if (isPlaying) {
+      autoplay.stop()
+      setIsPlaying(false)
+    } else {
+      autoplay.play()
+      setIsPlaying(true)
+    }
+  }, [api, isPlaying])
+
   const arrowClasses =
     'flex size-9 items-center justify-center bg-primary text-dark transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80'
 
   return (
     <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-4">
-      <button type="button" aria-label="Previous slide" onClick={scrollPrev} className={arrowClasses}>
+      <button
+        type="button"
+        aria-label="Previous slide"
+        onClick={() => api?.scrollPrev()}
+        className={arrowClasses}
+      >
         <ChevronLeft className="size-5" />
       </button>
 
@@ -132,19 +156,39 @@ const SlideControls: React.FC<{ count: number }> = ({ count }) => {
             aria-label={`Go to slide ${i + 1}`}
             aria-selected={i === selectedIndex}
             onClick={() => api?.scrollTo(i)}
-            className={cn(
-              'h-1.5 transition-all duration-300',
-              i === selectedIndex
-                ? 'w-8 bg-primary'
-                : 'w-2.5 bg-foreground/40 hover:bg-foreground/70',
-            )}
-          />
+            className="group flex size-6 items-center justify-center"
+          >
+            <span
+              className={cn(
+                'block h-1.5 transition-all duration-300',
+                i === selectedIndex
+                  ? 'w-8 bg-primary'
+                  : 'w-2.5 bg-foreground/40 group-hover:bg-foreground/70',
+              )}
+            />
+          </button>
         ))}
       </div>
 
-      <button type="button" aria-label="Next slide" onClick={scrollNext} className={arrowClasses}>
+      <button
+        type="button"
+        aria-label="Next slide"
+        onClick={() => api?.scrollNext()}
+        className={arrowClasses}
+      >
         <ChevronRight className="size-5" />
       </button>
+
+      {autoplays && (
+        <button
+          type="button"
+          aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+          onClick={toggleAutoplay}
+          className={arrowClasses}
+        >
+          {isPlaying ? <Pause className="size-4" /> : <Play className="size-4" />}
+        </button>
+      )}
     </div>
   )
 }
@@ -156,27 +200,49 @@ export const HeroCarouselClient: React.FC<{ slides: CarouselSlide[] }> = ({ slid
   const plugins = React.useMemo(
     () =>
       hasMultiple && !reduceMotion
-        ? [Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true })]
+        ? [Autoplay({ delay: 6000, stopOnInteraction: true, stopOnMouseEnter: true })]
         : [],
     [hasMultiple, reduceMotion],
   )
 
-  return (
-    <Carousel
-      className="bg-dark"
-      opts={{ loop: true, align: 'start' }}
-      plugins={plugins}
-      aria-label="Featured highlights"
-    >
-      <CarouselContent className="ml-0">
-        {slides.map((slide, i) => (
-          <CarouselItem key={i} className="pl-0">
-            <HeroSlide slide={slide} first={i === 0} />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
+  const [emblaRef, api] = useEmblaCarousel({ loop: true, align: 'start' }, plugins)
 
-      {hasMultiple && <SlideControls count={slides.length} />}
-    </Carousel>
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      api?.scrollPrev()
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      api?.scrollNext()
+    }
+  }
+
+  return (
+    <div
+      className="relative bg-dark"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Featured highlights"
+      onKeyDownCapture={onKeyDown}
+    >
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {slides.map((slide, i) => (
+            <div
+              key={i}
+              role="group"
+              aria-roledescription="slide"
+              className="min-w-0 shrink-0 grow-0 basis-full"
+            >
+              <HeroSlide slide={slide} first={i === 0} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {hasMultiple && (
+        <SlideControls api={api} count={slides.length} autoplays={plugins.length > 0} />
+      )}
+    </div>
   )
 }

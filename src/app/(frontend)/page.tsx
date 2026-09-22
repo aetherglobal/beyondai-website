@@ -9,7 +9,6 @@ import React, { cache } from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 export const revalidate = 3600
@@ -27,11 +26,9 @@ export default async function HomePage() {
 
   return (
     <article>
-      <PageClient />
+      {' '}
       <PayloadRedirects disableNotFound url="/" />
-
       {draft && <LivePreviewListener />}
-
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
     </article>
@@ -43,22 +40,20 @@ export async function generateMetadata(): Promise<Metadata> {
   return generateMeta({ doc: page, path: '/' })
 }
 
-const queryHomePage = cache(
-  async (): Promise<RequiredDataFromCollectionSlug<'pages'> | null> => {
-    const { isEnabled: draft } = await draftMode()
-    const payload = await getPayload({ config: configPromise })
+const queryHomePage = cache(async (): Promise<RequiredDataFromCollectionSlug<'pages'> | null> => {
+  const { isEnabled: draft } = await draftMode()
+  const payload = await getPayload({ config: configPromise })
 
-    const result = await payload.find({
-      collection: 'pages',
-      draft,
-      limit: 1,
-      pagination: false,
-      overrideAccess: draft,
-      where: {
-        slug: { equals: 'home' },
-      },
-    })
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    pagination: false,
+    overrideAccess: draft,
+    where: {
+      slug: { equals: 'home' },
+    },
+  })
 
-    return result.docs?.[0] || null
-  },
-)
+  return result.docs?.[0] || null
+})

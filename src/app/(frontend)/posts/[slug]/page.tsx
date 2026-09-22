@@ -16,27 +16,13 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { ArticleClientComponents } from './page.client'
 import { AuthorBio } from '@/components/AuthorBio'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { StructuredData, articleSchema } from '@/components/StructuredData'
+import { collectSlugs } from '@/utilities/staticParams'
 
 export const revalidate = 3600
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const posts = await payload.find({
-    collection: 'posts',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  })
-
-  const params = posts.docs.map(({ slug }) => {
-    return { slug }
-  })
-
-  return params
+  return collectSlugs('posts')
 }
 
 type Args = {
@@ -56,6 +42,14 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   return (
     <article className="pt-16 pb-16 bg-white text-black">
+      <StructuredData
+        data={articleSchema(
+          post,
+          (post.populatedAuthors ?? [])
+            .map((a) => a?.name)
+            .filter((n): n is string => Boolean(n)),
+        )}
+      />
       <ArticleClientComponents title={post.title} url={getServerSideURL() + url} />
 
       <PayloadRedirects disableNotFound url={url} />

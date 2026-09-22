@@ -65,7 +65,7 @@ export default function NotFound() {
                 name="q"
                 type="search"
                 placeholder="Search articles and events…"
-                className="h-12 w-full border border-input bg-background pl-12 pr-4 text-base outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary-deep"
+                className="h-12 w-full border border-input bg-background pl-12 pr-4 text-base transition-colors placeholder:text-muted-foreground focus-visible:border-primary-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-deep"
               />
             </div>
             <Button type="submit" size="lg" className="h-12 shrink-0">

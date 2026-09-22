@@ -6,6 +6,7 @@ import { getPayload } from 'payload'
 import type { Event, Page } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { CountdownTimer } from '@/components/CountdownTimer'
+import { eventDateRange } from '@/utilities/formatEventDate'
 
 type HeroProps = NonNullable<Page['hero']>
 
@@ -146,20 +147,7 @@ export const FeaturedEventHero: React.FC<HeroProps> = async (props) => {
                   Next event
                 </p>
                 <p className="text-foreground text-lg font-medium">
-                  {new Date(nextEvent.date).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                  {nextEvent.endDate && (
-                    <>
-                      {' - '}
-                      {new Date(nextEvent.endDate).toLocaleDateString('en-US', {
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </>
-                  )}
-                  {!nextEvent.endDate && <>, {new Date(nextEvent.date).getFullYear()}</>}
+                  {eventDateRange(nextEvent.date, nextEvent.endDate)}
                   {nextEvent.location && (
                     <span className="text-muted-foreground"> · {nextEvent.location}</span>
                   )}

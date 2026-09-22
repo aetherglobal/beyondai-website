@@ -84,7 +84,7 @@ export const SplitContentBlock: React.FC<Props> = ({
                       'radial-gradient(ellipse 80% 70% at 50% 35%, oklch(82% 0.17 85 / 0.18) 0%, oklch(96.5% 0.005 260) 70%)',
                   }}
                 >
-                  <span className="text-sm tracking-[0.3em] uppercase text-primary-deep/60 font-mono">
+                  <span className="text-sm tracking-[0.3em] uppercase text-primary-deep font-mono">
                     Beyond AI
                   </span>
                 </div>

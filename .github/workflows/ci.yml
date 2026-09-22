@@ -10,27 +10,24 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Third-party actions are pinned to a commit SHA rather than a mutable tag: a tag can be
+# repointed at new code by whoever controls the repo (OWASP Top 10:2025 A08 / SLSA).
+# Update these deliberately — Dependabot's github-actions ecosystem raises the PRs.
+env:
+  # Pinned rather than `latest` so a build is reproducible from the lockfile alone.
+  BUN_VERSION: 1.4.2
+
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
-          restore-keys: ${{ runner.os }}-bun-
-
+          bun-version: ${{ env.BUN_VERSION }}
       - name: Install dependencies
         run: bun install --frozen-lockfile
-
       - name: Lint
         run: bun lint
 
@@ -38,27 +35,43 @@ jobs:
     name: Typecheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
-          restore-keys: ${{ runner.os }}-bun-
-
+          bun-version: ${{ env.BUN_VERSION }}
       - name: Install dependencies
         run: bun install --frozen-lockfile
-
       - name: Typecheck
         run: npx tsc --noEmit
 
-  integration-tests:
-    name: Integration Tests
+  audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      # Fails the build on high/critical advisories. Without this, 46 distinct
+      # critical/high advisories accumulated with nothing to surface them.
+      #
+      # The two nodemailer advisories are ignored rather than the gate being lowered.
+      # @payloadcms/email-nodemailer pins nodemailer to an exact 7.0.12, so neither is
+      # fixable without forcing a two-major jump on someone else's exact pin. Neither is
+      # reachable here: we only ever call payload.sendEmail with {to, subject, text},
+      # where `to` comes from an env var and the text is constructed in
+      # src/utilities/notifySubmission.ts. The `raw` message option is never used, and no
+      # user-supplied address is parsed. Re-check when Payload bumps its pin.
+      - name: Audit dependencies
+        run: |
+          bun audit --audit-level=high \
+            --ignore=GHSA-p6gq-j5cr-w38f \
+            --ignore=GHSA-2x7j-588g-ccc2
+
+  test:
+    name: Build & Test
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -77,22 +90,42 @@ jobs:
     env:
       DATABASE_URL: postgresql://test:test@localhost:5432/beyond_ai_test
       PAYLOAD_SECRET: ci-test-secret-not-for-production
+      PREVIEW_SECRET: ci-preview-secret-not-for-production
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3000
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
-          restore-keys: ${{ runner.os }}-bun-
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # The migration chain cannot build a database from empty: the initial schema was
+      # created by dev `push: true` and never captured in a migration, so the oldest
+      # migration assumes tables nothing creates. Until a baseline migration exists,
+      # CI gets its schema the same way development does. See ARCHITECTURE.md.
+      - name: Create schema
+        run: NODE_ENV=development npx tsx scripts/push-schema.ts
+
       - name: Run integration tests
         run: bun run test:int
+
+      # A broken production build used to be discovered by Vercel at deploy time rather
+      # than on the pull request.
+      - name: Build
+        run: bun run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: bun run test:e2e
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

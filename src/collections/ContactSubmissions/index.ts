@@ -1,15 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
+import { isAdmin } from '../../access/isAdmin'
 import { anyone } from '../../access/anyone'
 
 export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
   slug: 'contact-submissions',
   access: {
     create: anyone,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    delete: isAdmin,
+    read: isAdmin,
+    update: isAdmin,
   },
   admin: {
     defaultColumns: ['name', 'email', 'source', 'subject', 'createdAt'],
@@ -32,6 +32,7 @@ export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
       name: 'name',
       type: 'text',
       required: true,
+      maxLength: 120,
     },
     {
       name: 'email',
@@ -41,15 +42,18 @@ export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
     {
       name: 'subject',
       type: 'text',
+      maxLength: 200,
     },
     {
       name: 'message',
       type: 'textarea',
       required: true,
+      maxLength: 5000,
     },
     {
       name: 'organization',
       type: 'text',
+      maxLength: 200,
       admin: {
         condition: (_, siblingData) => siblingData?.source === 'sponsor-inquiry',
       },
@@ -58,6 +62,7 @@ export const ContactSubmissions: CollectionConfig<'contact-submissions'> = {
       name: 'jobTitle',
       type: 'text',
       label: 'Job Title',
+      maxLength: 150,
       admin: {
         condition: (_, siblingData) => siblingData?.source === 'sponsor-inquiry',
       },

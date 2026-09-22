@@ -8,14 +8,12 @@ import { getServerSideURL } from './getURL'
 const SITE_NAME = 'Beyond AI'
 
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
-  if (image && typeof image === 'object' && 'url' in image) {
-    const serverUrl = getServerSideURL()
-    const ogUrl = image.sizes?.og?.url
+  if (!image || typeof image !== 'object' || !('url' in image)) return undefined
 
-    return ogUrl ? serverUrl + ogUrl : serverUrl + image.url
-  }
+  const raw = image.sizes?.og?.url || image.url
+  if (!raw) return undefined
 
-  return undefined
+  return /^https?:\/\//i.test(raw) ? raw : getServerSideURL() + raw
 }
 
 export const buildTitle = (value?: string | null): string | undefined => {
@@ -43,7 +41,6 @@ export const generateMeta = async (args: {
     description?: string | null
     image?: Media | Config['db']['defaultIDType'] | null
   }
-  /** Must be passed: a doc's slug alone does not imply its URL, as posts and events nest. */
   path?: string | null
 }): Promise<Metadata> => {
   const { doc, fallback, path } = args
@@ -71,6 +68,6 @@ export const generateMeta = async (args: {
       title,
       url: canonical,
     }),
-    title: title ? { absolute: title } : undefined,
+    ...(title ? { title: { absolute: title } } : {}),
   }
 }

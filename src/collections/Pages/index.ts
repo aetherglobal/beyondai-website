@@ -5,7 +5,6 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
-import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { SplitContent } from '../../blocks/SplitContent/config'
 import { StatementSection } from '../../blocks/StatementSection/config'
@@ -94,7 +93,6 @@ export const Pages: CollectionConfig<'pages'> = {
                 Content,
                 MediaBlock,
                 Archive,
-                FormBlock,
                 SplitContent,
                 StatementSection,
                 ObjectivesGrid,
@@ -167,7 +165,7 @@ export const Pages: CollectionConfig<'pages'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 1000,
       },
       schedulePublish: true,
     },

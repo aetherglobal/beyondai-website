@@ -1,13 +1,6 @@
 import type { Field } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
-import { linkGroup } from '@/fields/linkGroup'
+import { validateUrlField } from '@/fields/validateUrlField'
 
 const ctaFields: Field[] = [
   {
@@ -19,6 +12,7 @@ const ctaFields: Field[] = [
     name: 'href',
     type: 'text',
     admin: { description: 'Internal path (e.g. /events) or external URL.' },
+    validate: validateUrlField,
   },
   {
     name: 'variant',
@@ -48,13 +42,10 @@ export const hero: Field = {
     {
       name: 'type',
       type: 'select',
-      defaultValue: 'lowImpact',
+      defaultValue: 'pageHero',
       label: 'Type',
       options: [
         { label: 'None', value: 'none' },
-        { label: 'High Impact', value: 'highImpact' },
-        { label: 'Medium Impact', value: 'mediumImpact' },
-        { label: 'Low Impact', value: 'lowImpact' },
         { label: 'Featured Event', value: 'featuredEvent' },
         { label: 'Hero Carousel', value: 'heroCarousel' },
         { label: 'Page Hero', value: 'pageHero' },
@@ -62,39 +53,10 @@ export const hero: Field = {
       required: true,
     },
     {
-      name: 'richText',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
-      label: false,
-      admin: {
-        condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'lowImpact'].includes(type),
-      },
-    },
-    linkGroup({
-      overrides: {
-        maxRows: 2,
-        admin: {
-          condition: (_, { type } = {}) =>
-            ['highImpact', 'mediumImpact', 'lowImpact'].includes(type),
-        },
-      },
-    }),
-    {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'pageHero', 'featuredEvent'].includes(type),
+        condition: (_, { type } = {}) => ['pageHero', 'featuredEvent'].includes(type),
         description: 'Hero background image.',
       },
       relationTo: 'media',

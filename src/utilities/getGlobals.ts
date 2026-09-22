@@ -4,6 +4,8 @@ import configPromise from '@payload-config'
 import { type DataFromGlobalSlug, getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
 
+import { CACHE_TTL_SECONDS } from '@/blocks/_data/cache'
+
 type Global = keyof Config['globals']
 
 async function getGlobal<T extends Global>(slug: T, depth = 0): Promise<DataFromGlobalSlug<T>> {
@@ -18,6 +20,7 @@ async function getGlobal<T extends Global>(slug: T, depth = 0): Promise<DataFrom
 }
 
 export const getCachedGlobal = <T extends Global>(slug: T, depth = 0) =>
-  unstable_cache(async () => getGlobal<T>(slug, depth), [slug], {
+  unstable_cache(async () => getGlobal<T>(slug, depth), [slug, String(depth)], {
     tags: [`global_${slug}`],
+    revalidate: CACHE_TTL_SECONDS,
   })
