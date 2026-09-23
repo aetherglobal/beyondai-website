@@ -44,12 +44,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   ALTER TABLE "pages" ALTER COLUMN "hero_type" SET DATA TYPE text;
   ALTER TABLE "pages" ALTER COLUMN "hero_type" SET DEFAULT 'pageHero'::text;
+  UPDATE "pages" SET "hero_type" = 'pageHero'
+    WHERE "hero_type" NOT IN ('none', 'featuredEvent', 'heroCarousel', 'pageHero');
   DROP TYPE IF EXISTS "public"."enum_pages_hero_type";
   CREATE TYPE "public"."enum_pages_hero_type" AS ENUM('none', 'featuredEvent', 'heroCarousel', 'pageHero');
   ALTER TABLE "pages" ALTER COLUMN "hero_type" SET DEFAULT 'pageHero'::"public"."enum_pages_hero_type";
   ALTER TABLE "pages" ALTER COLUMN "hero_type" SET DATA TYPE "public"."enum_pages_hero_type" USING "hero_type"::"public"."enum_pages_hero_type";
   ALTER TABLE "_pages_v" ALTER COLUMN "version_hero_type" SET DATA TYPE text;
   ALTER TABLE "_pages_v" ALTER COLUMN "version_hero_type" SET DEFAULT 'pageHero'::text;
+  UPDATE "_pages_v" SET "version_hero_type" = 'pageHero'
+    WHERE "version_hero_type" NOT IN ('none', 'featuredEvent', 'heroCarousel', 'pageHero');
   DROP TYPE IF EXISTS "public"."enum__pages_v_version_hero_type";
   CREATE TYPE "public"."enum__pages_v_version_hero_type" AS ENUM('none', 'featuredEvent', 'heroCarousel', 'pageHero');
   ALTER TABLE "_pages_v" ALTER COLUMN "version_hero_type" SET DEFAULT 'pageHero'::"public"."enum__pages_v_version_hero_type";
